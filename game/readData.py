@@ -51,5 +51,5 @@ class board(car):
         for el in grid:
             print(" ".join(map(str, el)))
 
-test = board("../data/game7.csv")
+test = board("../data/game1.csv")
 test.visualize()
