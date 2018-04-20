@@ -1,10 +1,8 @@
 import csv
 import numpy as np
 
-class game:
-    def __init__(self, gridSize, puzzle):
-        self.gridSize = gridSize
-
+class car:
+    def __init__(self, puzzle):
         self.changeable = []
         self.fixed = []
         self.richting = []
@@ -13,6 +11,8 @@ class game:
         with open(puzzle) as csvfile:
             readcsv = csv.reader(csvfile, delimiter = ",")
 
+            self.gridSize = int(next(readcsv)[0])
+            
             for row in readcsv:
                 if row[2] == "h":
                     self.changeable.append(int(row[0]))
@@ -23,25 +23,33 @@ class game:
 
                 self.richting.append(row[2])
                 self.lengte.append(int(row[3]))
-        
+
+class board(car):
     def visualize(self):
         grid = [["-" for x in range(self.gridSize)] for y in range(self.gridSize)]
 
-
         for j in range(self.lengte[0]):
             grid[self.fixed[0]][self.changeable[0] + j] = "*"
-            
+
         for i in range(len(self.changeable)):
             if i > 0:
-                if self.richting[i] == "v":
-                    for j in range(self.lengte[i]):
-                        grid[self.changeable[i] + j][self.fixed[i]] = chr(i + 97)
+                if i + 97 < 127:
+                    if self.richting[i] == "v":
+                        for j in range(self.lengte[i]):
+                            grid[self.changeable[i] + j][self.fixed[i]] = chr(i + 97)
+                    else:
+                        for j in range(self.lengte[i]):
+                            grid[self.fixed[i]][self.changeable[i] + j] = chr(i + 97)
                 else:
-                    for j in range(self.lengte[i]):
-                        grid[self.fixed[i]][self.changeable[i] + j] = chr(i + 97)
-
+                    if self.richting[i] == "v":
+                        for j in range(self.lengte[i]):
+                            grid[self.changeable[i] + j][self.fixed[i]] = chr(i + 35)
+                    else:
+                        for j in range(self.lengte[i]):
+                            grid[self.fixed[i]][self.changeable[i] + j] = chr(i + 35)
+                        
         for el in grid:
             print(" ".join(map(str, el)))
 
-test = game(6, "../data/game3.csv")
+test = board("../data/game7.csv")
 test.visualize()
