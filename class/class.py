@@ -1,7 +1,7 @@
 import csv
 import numpy as np
 
-class car:
+class Board:
     def __init__(self, puzzle):
         self.changeable = []
         self.fixed = []
@@ -24,22 +24,17 @@ class car:
                 self.direction.append(row[2])
                 self.length.append(int(row[3]))
 
+    def checkMove(self):
+        """
+        TODO
+        """
+
     def move(self, vehicle, change):
         """
         TODO
         """
         if self.changeable[vehicle] + change >= 0 or self.changeable[vehicle] + change <= self.gridSize - self.length[vehicle]:
             if self.direction[vehicle] == "v":
-
-    def checkMove(self):
-        """
-        TODO
-        """
-
-    def node(self):
-        """
-        TODO
-        """
 
     def visualize(self):
         grid = [["-" for x in range(self.gridSize)] for y in range(self.gridSize)]
