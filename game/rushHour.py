@@ -7,12 +7,12 @@ class car:
         self.fixed = []
         self.richting = []
         self.lengte = []
-        
+
         with open(puzzle) as csvfile:
             readcsv = csv.reader(csvfile, delimiter = ",")
 
             self.gridSize = int(next(readcsv)[0])
-            
+
             for row in readcsv:
                 if row[2] == "h":
                     self.changeable.append(int(row[0]))
@@ -24,7 +24,6 @@ class car:
                 self.richting.append(row[2])
                 self.lengte.append(int(row[3]))
 
-class board(car):
     def visualize(self):
         grid = [["-" for x in range(self.gridSize)] for y in range(self.gridSize)]
 
@@ -47,9 +46,9 @@ class board(car):
                     else:
                         for j in range(self.lengte[i]):
                             grid[self.fixed[i]][self.changeable[i] + j] = chr(i + 35)
-                        
+
         for el in grid:
             print(" ".join(map(str, el)))
 
-test = board("../data/game7.csv")
+test = car("../data/game7.csv")
 test.visualize()
