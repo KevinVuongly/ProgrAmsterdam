@@ -25,9 +25,21 @@ class car:
                 self.length.append(int(row[3]))
 
     def move(self, vehicle, change):
+        """
+        TODO
+        """
         if self.changeable[vehicle] + change >= 0 or self.changeable[vehicle] + change <= self.gridSize - self.length[vehicle]:
             if self.direction[vehicle] == "v":
-                    
+
+    def checkMove(self):
+        """
+        TODO
+        """
+
+    def node(self):
+        """
+        TODO
+        """
 
     def visualize(self):
         grid = [["-" for x in range(self.gridSize)] for y in range(self.gridSize)]
