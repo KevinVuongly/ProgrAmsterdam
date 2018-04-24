@@ -1,7 +1,10 @@
 import csv
 import numpy as np
 
-class Board:
+"""
+Read the csv-file. The very first row is the gridsize of the given game.
+"""
+class ReadBoard:
     def __init__(self, puzzle):
         self.changeable = []
         self.fixed = []
@@ -13,20 +16,37 @@ class Board:
 
             self.gridSize = int(next(readcsv)[0])
 
-            for row in readcsv:
-                if row[2] == "h":
-                    self.changeable.append(int(row[0]))
-                    self.fixed.append(int(row[1]))
-                else:
-                    self.changeable.append(int(row[1]))
-                    self.fixed.append(int(row[0]))
+            next(readcsv)
 
-                self.direction.append(row[2])
-                self.length.append(int(row[3]))
+            for row in readcsv:
+                xCar = row[0]
+                yCar = row[1]
+                directionCar = row[2]
+                lengthCar = row[3]
+
+                if directionCar == "h":
+                    self.changeable.append(int(xCar))
+                    self.fixed.append(int(yCar))
+                else:
+                    self.changeable.append(int(yCar))
+                    self.fixed.append(int(xCar))
+
+                self.direction.append(directionCar)
+                self.length.append(int(lengthCar))
+
+class Board:
+    def __init__(self, gridSize, changeable, fixed, direction, length):
+        self.gridSize = gridSize
+        self.changeable = changeable
+        self.fixed = fixed
+        self.direction = direction
+        self.length = length
 
     def checkMove(self, vehicle, change):
-
         newPos = self.changeable[vehicle] + change
+
+        if not isinstance(change, int):
+            return 1
 
         if newPos < 0 or newPos > self.gridSize - self.length[vehicle]:
             return 1
@@ -40,27 +60,31 @@ class Board:
                 else:
                     usedElement[self.changeable[i] + j][self.fixed[i]] = 1
 
+        for el in usedElement:
+            print(" ".join(map(str, el)))
+
         if change > 0:
             for i in range(change):
                 if self.direction[vehicle] == "h":
-                    if usedElement[self.fixed[vehicle]][self.changable[vehicle] + self.length[vehicle] + i] == 1:
+                    if usedElement[self.fixed[vehicle]][self.changeable[vehicle] + self.length[vehicle] + i] == 1:
                         return 1
                 else:
-                    if usedElement[self.changable[vehicle] + self.length[vehicle] + i][self.fixed[vehicle]] == 1:
+                    if usedElement[self.changeable[vehicle] + self.length[vehicle] + i][self.fixed[vehicle]] == 1:
                         return 1
         else:
             for i in range(abs(change)):
-                if self.direction[vehicle] == "h"
-                    if usedElement[self.fixed[vehicle]][self.changable[vehicle] + self.length[vehicle] - 1 - i] == 1:
+                if self.direction[vehicle] == "h":
+                    if usedElement[self.fixed[vehicle]][self.changeable[vehicle] - 1 - i] == 1:
                         return 1
                 else:
-                    if usedElement[self.changable[vehicle] + self.length[vehicle] - 1 - i][self.fixed[vehicle]] == 1:
+                    if usedElement[self.changeable[vehicle] - 1 - i][self.fixed[vehicle]] == 1:
                         return 1
-
         return 0
 
     def move(self, vehicle, change):
-        if checkMove(vehicle, change) == 0:
+        check = checkMove(vehicle, change)
+
+        if check == 0:
             self.changeable[vehicle] = self.changeable[vehicle] + change
         else:
             print("Move is illegal!")
@@ -88,9 +112,9 @@ class Board:
                         for j in range(self.length[i]):
                             grid[self.changeable[i] + j][self.fixed[i]] = chr(i + 35)
 
-
         for el in grid:
             print(" ".join(map(str, el)))
 
-test = Board("../data/game1.csv")
-test.checkMove()
+data = ReadBoard("../data/game1.csv")
+game = Board(data.gridSize, data.changeable, data.fixed, data.direction, data.length)
+print(game.checkMove(1,2))
