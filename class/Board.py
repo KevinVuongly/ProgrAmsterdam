@@ -1,11 +1,6 @@
 import csv
 import numpy as np
 
-
-"""
-A class that describes the orietntation of the board and allows and checks moves.
-"""
-
 class Board:
     def __init__(self, gridSize, changeable, fixed, direction, length):
         self.gridSize = gridSize
@@ -86,6 +81,10 @@ class Board:
 
         for el in grid:
             print(" ".join(map(str, el)))
+
+"""
+A class that describes the orientation of the board and allows and checks moves.
+"""
 
 data = ReadBoard("../data/game1.csv")
 game = Board(data.gridSize, data.changeable, data.fixed, data.direction, data.length)
