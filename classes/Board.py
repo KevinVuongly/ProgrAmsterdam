@@ -1,5 +1,12 @@
 import csv
 import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import colors
+
+"""
+A class that describes the orietntation of the board and allows and checks moves.
+"""
+
 
 class Board:
     def __init__(self, gridSize, changeable, fixed, direction, length):
@@ -8,6 +15,7 @@ class Board:
         self.fixed = fixed
         self.direction = direction
         self.length = length
+
 
     def checkMove(self, vehicle, change):
         newPos = self.changeable[vehicle] + change
@@ -48,8 +56,22 @@ class Board:
                         return 1
         return 0
 
+    def checkPossibleMoves(self)
+        minimalChange = - self.length - 1
+        maximalChange = self.legth - 1 
+        nrOfCars = len(self.changeable)
+
+        for j in range(nrOfCars):
+            for i in range(minimalChange,maximalChange):
+                if checkMove(j, i) == 0
+                    append(possiblemovesarray)
+
+
+
+
     def move(self, vehicle, change):
         check = checkMove(vehicle, change)
+
 
         if check == 0:
             self.changeable[vehicle] = self.changeable[vehicle] + change
@@ -78,13 +100,33 @@ class Board:
                     else:
                         for j in range(self.length[i]):
                             grid[self.changeable[i] + j][self.fixed[i]] = chr(i + 35)
+        """
+        Als we de waardes hiervoor (a,b en c veranderen naar waardes (dus chr en 97 en 35 weghalen,
+            dan krijgen we 0 1 2 etc voor alle auto'tjes. Deze kunnnen we dan omzetten naar een gridmap,
+            zodat we een hele checke visualisatie krijgen zoals op deze site: 
+            https://stackoverflow.com/questions/518021/getting-the-length-of-an-array-in-python.
+            of google naar gridmap python, dan krijg je andere voorbeelden.))
+
+
+        # create discrete colormap
+        cmap = colors.ListedColormap(['red', 'blue'])
+        bounds = [0,10,20]
+        norm = colors.BoundaryNorm(bounds, cmap.N)
+
+        fig, ax = plt.subplots()
+        ax.imshow(data, cmap=cmap, norm=norm)
+
+        # draw gridlines
+        ax.grid(which='major', axis='both', linestyle='-', color='k', linewidth=2)
+        ax.set_xticks(np.arange(-.5, 10, 1));
+        ax.set_yticks(np.arange(-.5, 10, 1));
+
+        plt.show()
 
         for el in grid:
             print(" ".join(map(str, el)))
 
-"""
-A class that describes the orientation of the board and allows and checks moves.
-"""
+        """
 
 data = ReadBoard("../data/game1.csv")
 game = Board(data.gridSize, data.changeable, data.fixed, data.direction, data.length)
