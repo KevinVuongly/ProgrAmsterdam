@@ -68,19 +68,16 @@ class Board:
                         return 1
         return 0
 
-<<<<<<< HEAD
 
 
-    def PossibleMoves(self):
-=======
+
     def checkPossibleMoves(self):
->>>>>>> 71b2a766faa716228989c104db35fca6891978ce
         """
         Checks all possible moves of a given state.
         """
 
         if checkSolution == 0:
-            return = 0
+            return 0
             print("solved")
 
         possiblemovesarray = []
@@ -108,10 +105,6 @@ class Board:
         if self.checkMove(0,movesToEndblock) == 0:
             return 0
         return 1
-<<<<<<< HEAD
-
-=======
->>>>>>> 71b2a766faa716228989c104db35fca6891978ce
 
     def move(self, vehicle, change):
         check = self.checkMove(vehicle, change)
