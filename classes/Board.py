@@ -2,11 +2,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import colors
 
-"""
-A class that describes the orientation of the board and allows and checks moves.
-"""
+
 class Board:
+    """A class that describes the orientation of the board and allows and checks moves."""    
+
     def __init__(self, gridSize, changeable, fixed, direction, length):
+        """Initialisation of the board's parameters.
+
+        Args:
+            gridSize (int): An integer for the size of the grid.
+            changeable (int): An int for the variable position of the car.
+            fixed (int): An int for the fixed position of the car.
+            direction (str): a character for the direction the car is facing.
+            length (int): the length of a car.
+            nrOfCars (int): the number of cars on the grid.
+
+        """
+
         self.gridSize = gridSize
         self.changeable = changeable
         self.fixed = fixed
@@ -14,11 +26,13 @@ class Board:
         self.length = length
         self.nrOfCars = len(changeable)
 
+    
+    def checkMove(self, vehicle, change):
+        newPos = self.changeable[vehicle] + change
+
     """
     Checks if the move is feasible. Returns 0 if feasible, else 1.
     """
-    def checkMove(self, vehicle, change):
-        newPos = self.changeable[vehicle] + change
 
         if not isinstance(change, int):
             return 1
@@ -56,10 +70,12 @@ class Board:
                         return 1
         return 0
 
-    """
-    Checks all possible moves of a given state.
-    """
+    
     def checkPossibleMoves(self):
+        """Checks all possible moves of a given state.
+        
+        """
+
         minimalChange = - self.length - 1
         maximalChange = self.length - 1
 
