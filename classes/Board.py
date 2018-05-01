@@ -95,7 +95,12 @@ class Board:
 
         print(possiblemovesarray)
 
-    
+    def checkSolution(self):
+        movesToEndblock = self.gridSize - self.changeable[0] - 2
+        if self.checkMove(0,movesToEndblock) == 0:
+            return 0
+        return 1
+
 
     def move(self, vehicle, change):
         check = self.checkMove(vehicle, change)
