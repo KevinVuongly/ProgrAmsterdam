@@ -10,12 +10,11 @@ class Board:
 
         Args:
             gridSize (int): An integer for the size of the grid.
-            changeable (int): An int for the variable position of the car.
-            fixed (int): An int for the fixed position of the car.
-            direction (str): a character for the direction the car is facing.
-            length (int): the length of a car.
+            changeable (list of ints): An int for the variable position of car i.
+            fixed (list of ints): An int for the fixed position of car i.
+            direction (list of strings): a character for the direction the car i is facing.
+            length (list of ints): the length of car i.
             nrOfCars (int): the number of cars on the grid.
-
         """
 
         self.gridSize = gridSize
@@ -68,8 +67,6 @@ class Board:
                         return 1
         return 0
 
-
-
     def checkPossibleMoves(self):
         """
         Checks all possible moves of a given state.
@@ -98,15 +95,11 @@ class Board:
 
         print(possiblemovesarray)
 
-<<<<<<< HEAD
-=======
     def checkSolution(self):
         movesToEndblock = self.gridSize - self.changeable[0] - 2
         if self.checkMove(0,movesToEndblock) == 0:
             return 0
         return 1
->>>>>>> 04321467b576c9a297959674b7a0754441ba6ebc
-
 
     def move(self, vehicle, change):
         check = self.checkMove(vehicle, change)
