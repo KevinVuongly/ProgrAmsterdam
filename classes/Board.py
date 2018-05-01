@@ -28,12 +28,10 @@ class Board:
 
     
     def checkMove(self, vehicle, change):
+        """Checks if the move is feasible. Returns 0 if feasible, else 1.
+        """
+
         newPos = self.changeable[vehicle] + change
-
-    """
-    Checks if the move is feasible. Returns 0 if feasible, else 1.
-    """
-
         if not isinstance(change, int):
             return 1
 
@@ -73,7 +71,7 @@ class Board:
     
     def checkPossibleMoves(self):
         """Checks all possible moves of a given state.
-        
+
         """
 
         minimalChange = - self.length - 1
