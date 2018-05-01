@@ -12,9 +12,9 @@ class Board:
             gridSize (int): An integer for the size of the grid.
             changeable (list of ints): An int for the variable position of car i.
             fixed (list of ints): An int for the fixed position of car i.
-            direction (list of strings): a character for the direction the car i is facing.
-            length (list of ints): the length of car i.
-            nrOfCars (int): the number of cars on the grid.
+            direction (list of strings): A character for the direction the car i is facing.
+            length (list of ints): The length of car i.
+            nrOfCars (int): The number of cars on the grid.
         """
 
         self.gridSize = gridSize
@@ -28,8 +28,9 @@ class Board:
         """Checks if the move is feasible.
 
         Args:
-            vehicle (Int): The nr of the vehicle that is checked
-            change (Int): The nr of places you want the vehicle to move, negative or positive, depending on direction
+            vehicle (Int): The number of the vehicle that is checked.
+            change (Int): The number of places you want the vehicle to move,
+                          negative or positive, depending on direction.
         """
 
         newPos = self.changeable[vehicle] + change

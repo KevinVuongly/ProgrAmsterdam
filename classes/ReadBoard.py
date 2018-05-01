@@ -16,8 +16,6 @@ class ReadBoard:
             changeable (list of ints): An int for the variable position of car i.
             fixed (list of ints): An int for the fixed position of car i.
             length (list of ints): the length of car i.
-            nrOfCars (int): the number of cars on the grid.
-
         """
 
         self.changeable = []
