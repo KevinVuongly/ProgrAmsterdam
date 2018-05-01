@@ -94,7 +94,7 @@ class Board:
 
         print(possiblemovesarray)
 
-    
+
 
     def move(self, vehicle, change):
         check = self.checkMove(vehicle, change)
@@ -113,25 +113,21 @@ class Board:
         for j in range(self.length[0]):
             grid[self.fixed[0]][changeable[0] + j] = "*"
 
-        for i in range(len(self.changeable)):
-            if i > 0:
-                if i + 97 < 127:
-                    if self.direction[i] == "h":
-                        for j in range(self.length[i]):
-                            grid[self.fixed[i]][changeable[i] + j] = chr(i + 97)
-                    else:
-                        for j in range(self.length[i]):
-                            grid[changeable[i] + j][self.fixed[i]] = chr(i + 97)
+        for i in range(1, len(self.changeable)):
+            if i + 97 < 127:
+                if self.direction[i] == "h":
+                    for j in range(self.length[i]):
+                        grid[self.fixed[i]][changeable[i] + j] = chr(i + 97)
                 else:
-                    if self.direction[i] == "h":
-                        for j in range(self.length[i]):
-                            grid[self.fixed[i]][changeable[i] + j] = chr(i + 35)
-                    else:
-                        for j in range(self.length[i]):
-                            grid[changeable[i] + j][self.fixed[i]] = chr(i + 35)
-
-        for el in grid:
-            print(" ".join(map(str, el)))
+                    for j in range(self.length[i]):
+                        grid[changeable[i] + j][self.fixed[i]] = chr(i + 97)
+            else:
+                if self.direction[i] == "h":
+                    for j in range(self.length[i]):
+                        grid[self.fixed[i]][changeable[i] + j] = chr(i + 35)
+                else:
+                    for j in range(self.length[i]):
+                        grid[changeable[i] + j][self.fixed[i]] = chr(i + 35)
 
         image = np.zeros(self.gridSize * self.gridSize)
 
@@ -150,5 +146,3 @@ class Board:
         cmap = ListedColormap(colors)
         plt.matshow(image, cmap=cmap)
         plt.show()
-
-        
