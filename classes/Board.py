@@ -27,12 +27,14 @@ class Board:
 
 
     def checkMove(self, vehicle, change):
+        """Checks if the move is feasible.
+
+        Args:
+            vehicle (Int): The nr of the vehicle that is checked
+            change (Int): The nr of places you want the vehicle to move, negative or positive, depending on direction
+        """
+
         newPos = self.changeable[vehicle] + change
-
-        """
-        Checks if the move is feasible. Returns 0 if feasible, else 1.
-        """
-
         if not isinstance(change, int):
             return 1
 
@@ -134,20 +136,6 @@ class Board:
         plt.matshow(image, cmap=cmap)
         plt.show()
 
-        """
-        for i in range(self.gridSize):
-            for j in range(self.gridSize):
-                if grid[i][j] == "*":
-                    plt.plot([self.gridSize - j - 1, self.gridSize - j], [i - 1, i], "r")
-                elif grid[i][j] == "-":
-                    plt.plot([self.gridSize - j - 1, self.gridSize - j], [i - 1, i], "w")
-                else:
-                    plt.plot([self.gridSize - j - 1, self.gridSize - j], [i - 1, i], "g")
-
-        plt.ylabel('some numbers')
-        plt.grid(True)
-        plt.show()
-        """
         """
         Als we de waardes hiervoor (a,b en c veranderen naar waardes (dus chr en 97 en 35 weghalen,
             dan krijgen we 0 1 2 etc voor alle auto'tjes. Deze kunnnen we dan omzetten naar een gridmap,
