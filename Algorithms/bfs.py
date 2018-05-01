@@ -1,10 +1,16 @@
-from Board import Board
-from ReadBoard import ReadBoard
+from classes.Board import Board
+from classes.ReadBoard import ReadBoard
 import sys
 
-def get_breadth_first_nodes(root):
+data = ReadBoard("../data/game1.csv")
+game = Board(data.gridSize, data.changeable, data.fixed, data.direction, data.length)
+
+"""
+class Bfs()
+
+def get_breadth_first_nodes(Board):
     nodes = []
-    stack = [root]
+    stack = [Board]
     while stack:
         cur_node = stack[0]
         stack = stack[1:]
@@ -32,3 +38,4 @@ def get_breadth_first_nodes(root):
         children = self.children[:]
         children.reverse()
         return children  
+ """
