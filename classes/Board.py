@@ -4,10 +4,8 @@ import matplotlib.pyplot as plt
 from matplotlib import colors
 
 """
-A class that describes the orietntation of the board and allows and checks moves.
+A class that describes the orientation of the board and allows and checks moves.
 """
-
-
 class Board:
     def __init__(self, gridSize, changeable, fixed, direction, length):
         self.gridSize = gridSize
@@ -15,8 +13,11 @@ class Board:
         self.fixed = fixed
         self.direction = direction
         self.length = length
+        self.nrOfCars = len(changeable)
 
-
+    """
+    Checks if the move is feasible. Returns 0 if feasible, else 1.
+    """
     def checkMove(self, vehicle, change):
         newPos = self.changeable[vehicle] + change
 
@@ -56,22 +57,20 @@ class Board:
                         return 1
         return 0
 
-    def checkPossibleMoves(self)
+    """
+    Checks all possible moves of a given state.
+    """
+    def checkPossibleMoves(self):
         minimalChange = - self.length - 1
-        maximalChange = self.legth - 1 
-        nrOfCars = len(self.changeable)
+        maximalChange = self.length - 1
 
         for j in range(nrOfCars):
             for i in range(minimalChange,maximalChange):
-                if checkMove(j, i) == 0
+                if self.checkMove(j, i) == 0:
                     append(possiblemovesarray)
 
-
-
-
     def move(self, vehicle, change):
-        check = checkMove(vehicle, change)
-
+        check = self.checkMove(vehicle, change)
 
         if check == 0:
             self.changeable[vehicle] = self.changeable[vehicle] + change
@@ -103,7 +102,7 @@ class Board:
         """
         Als we de waardes hiervoor (a,b en c veranderen naar waardes (dus chr en 97 en 35 weghalen,
             dan krijgen we 0 1 2 etc voor alle auto'tjes. Deze kunnnen we dan omzetten naar een gridmap,
-            zodat we een hele checke visualisatie krijgen zoals op deze site: 
+            zodat we een hele checke visualisatie krijgen zoals op deze site:
             https://stackoverflow.com/questions/518021/getting-the-length-of-an-array-in-python.
             of google naar gridmap python, dan krijg je andere voorbeelden.))
 

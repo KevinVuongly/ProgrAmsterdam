@@ -2,6 +2,7 @@ import numpy as np
 
 """
 Read the csv-file. The very first row is the gridsize of the given game.
+Check game1.csv in the data folder to see how the csv-files are constructed.
 """
 class ReadBoard:
     def __init__(self, puzzle):
