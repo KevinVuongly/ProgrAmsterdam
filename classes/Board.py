@@ -126,7 +126,3 @@ class Board:
             print(" ".join(map(str, el)))
 
         """
-
-data = ReadBoard("../data/game1.csv")
-game = Board(data.gridSize, data.changeable, data.fixed, data.direction, data.length)
-print(game.checkMove(1,2))
