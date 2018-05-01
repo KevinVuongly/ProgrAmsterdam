@@ -10,12 +10,11 @@ class Board:
 
         Args:
             gridSize (int): An integer for the size of the grid.
-            changeable (int): An int for the variable position of the car.
-            fixed (int): An int for the fixed position of the car.
-            direction (str): a character for the direction the car is facing.
-            length (int): the length of a car.
-            nrOfCars (int): the number of cars on the grid.
-
+            changeable (list of ints): An int for the variable position of car i.
+            fixed (list of ints): An int for the fixed position of car i.
+            direction (list of strings): A character for the direction the car i is facing.
+            length (list of ints): The length of car i.
+            nrOfCars (int): The number of cars on the grid.
         """
 
         self.gridSize = gridSize
@@ -29,8 +28,9 @@ class Board:
         """Checks if the move is feasible.
 
         Args:
-            vehicle (Int): The nr of the vehicle that is checked
-            change (Int): The nr of places you want the vehicle to move, negative or positive, depending on direction
+            vehicle (Int): The number of the vehicle that is checked.
+            change (Int): The number of places you want the vehicle to move,
+                          negative or positive, depending on direction.
         """
 
         newPos = self.changeable[vehicle] + change
@@ -68,9 +68,13 @@ class Board:
                         return 1
         return 0
 
+<<<<<<< HEAD
 
 
     def PossibleMoves(self):
+=======
+    def checkPossibleMoves(self):
+>>>>>>> 71b2a766faa716228989c104db35fca6891978ce
         """
         Checks all possible moves of a given state.
         """
@@ -104,7 +108,10 @@ class Board:
         if self.checkMove(0,movesToEndblock) == 0:
             return 0
         return 1
+<<<<<<< HEAD
 
+=======
+>>>>>>> 71b2a766faa716228989c104db35fca6891978ce
 
     def move(self, vehicle, change):
         check = self.checkMove(vehicle, change)
