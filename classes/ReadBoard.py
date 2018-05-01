@@ -47,5 +47,5 @@ class ReadBoard:
                 self.length.append(int(lengthCar))
 
         self.colors = ["r", "w"]
-        for i in range(len(self.changeable) - 1):
+        for i in range(len(self.changeable)):
             self.colors.append((random.random(), 1, random.random()))
