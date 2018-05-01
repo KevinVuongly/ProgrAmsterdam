@@ -1,4 +1,5 @@
 import numpy as np
+import csv
 
 """
 Read the csv-file. The very first row is the gridsize of the given game.
