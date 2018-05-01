@@ -25,7 +25,6 @@ class Board:
         self.length = length
         self.nrOfCars = len(changeable)
 
-
     def checkMove(self, vehicle, change):
         """Checks if the move is feasible.
 
@@ -93,46 +92,50 @@ class Board:
         else:
             print("Move is illegal!")
 
-    def visualize(self):
+    """
+    Visualizes the current state of the board.
+    """
+    def visualize(self, changeable, colors):
         grid = [["-" for x in range(self.gridSize)] for y in range(self.gridSize)]
 
         for j in range(self.length[0]):
-            grid[self.fixed[0]][self.changeable[0] + j] = "*"
+            grid[self.fixed[0]][changeable[0] + j] = "*"
 
         for i in range(len(self.changeable)):
             if i > 0:
                 if i + 97 < 127:
                     if self.direction[i] == "h":
                         for j in range(self.length[i]):
-                            grid[self.fixed[i]][self.changeable[i] + j] = chr(i + 97)
+                            grid[self.fixed[i]][changeable[i] + j] = chr(i + 97)
                     else:
                         for j in range(self.length[i]):
-                            grid[self.changeable[i] + j][self.fixed[i]] = chr(i + 97)
+                            grid[changeable[i] + j][self.fixed[i]] = chr(i + 97)
                 else:
                     if self.direction[i] == "h":
                         for j in range(self.length[i]):
-                            grid[self.fixed[i]][self.changeable[i] + j] = chr(i + 35)
+                            grid[self.fixed[i]][changeable[i] + j] = chr(i + 35)
                     else:
                         for j in range(self.length[i]):
-                            grid[self.changeable[i] + j][self.fixed[i]] = chr(i + 35)
+                            grid[changeable[i] + j][self.fixed[i]] = chr(i + 35)
 
         for el in grid:
             print(" ".join(map(str, el)))
 
         image = np.zeros(self.gridSize * self.gridSize)
 
-        for i in range(self.gridSize):
-            for j in range(self.gridSize):
-                if grid[i][j] == "*":
-                    image[self.gridSize * i + j] = 1
-                elif grid[i][j] == "-":
-                    image[self.gridSize * i + j] = 2
-                else:
-                    image[self.gridSize * i + j] = 3
+        for k in range(self.nrOfCars):
+            for i in range(self.gridSize):
+                for j in range(self.gridSize):
+                    if grid[i][j] == "*":
+                        image[self.gridSize * i + j] = 1
+                    elif grid[i][j] == "-":
+                        image[self.gridSize * i + j] = 2
+                    elif grid[i][j] == chr(k + 97) or grid[i][j] == chr(k + 35):
+                        image[self.gridSize * i + j] = 3 + k
 
         image = image.reshape((self.gridSize, self.gridSize))
 
-        cmap = ListedColormap(['r', 'w', 'g'])
+        cmap = ListedColormap(colors)
         plt.matshow(image, cmap=cmap)
         plt.show()
 

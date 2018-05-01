@@ -1,13 +1,13 @@
 import numpy as np
 import csv
-
+import random
 
 class ReadBoard:
     """
     Read the csv-file. The very first row is the gridsize of the given game.
     Check game1.csv in the data folder to see how the csv-files are constructed.
     """
-    
+
     def __init__(self, puzzle):
         """Initialisation of the board's parameters.
 
@@ -47,3 +47,7 @@ class ReadBoard:
 
                 self.direction.append(directionCar)
                 self.length.append(int(lengthCar))
+
+        self.colors = ["r", "w"]
+        for i in range(len(self.changeable) - 1):
+            self.colors.append((random.random(), 1, random.random()))

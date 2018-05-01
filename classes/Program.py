@@ -4,4 +4,4 @@ from ReadBoard import ReadBoard
 data = ReadBoard("../data/game1.csv")
 game = Board(data.gridSize, data.changeable, data.fixed, data.direction, data.length)
 
-game.visualize()
+game.visualize(data.changeable, data.colors)
