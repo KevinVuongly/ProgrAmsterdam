@@ -98,6 +98,21 @@ class Board:
                     else:
                         for j in range(self.length[i]):
                             grid[self.changeable[i] + j][self.fixed[i]] = chr(i + 35)
+
+        for el in grid:
+            print(" ".join(map(str, el)))
+
+        for i in range(self.gridSize):
+            for j in range(self.gridSize):
+                if grid[i][j] == "*":
+                    plt.plot([self.gridSize - j - 1, self.gridSize - j], [i - 1, i], "r")
+                elif grid[i][j] == "-":
+                    plt.plot([self.gridSize - j - 1, self.gridSize - j], [i - 1, i], "w")
+                else:
+                    plt.plot([self.gridSize - j - 1, self.gridSize - j], [i - 1, i], "g")
+
+        plt.ylabel('some numbers')
+        plt.show()
         """
         Als we de waardes hiervoor (a,b en c veranderen naar waardes (dus chr en 97 en 35 weghalen,
             dan krijgen we 0 1 2 etc voor alle auto'tjes. Deze kunnnen we dan omzetten naar een gridmap,

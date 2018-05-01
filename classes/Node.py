@@ -1,17 +1,16 @@
 from collections import deque
 
 class Node:
-	def __init__(self, parent=None)
+	def __init__(self, parent=None):
 		self.parent = parent
-
 
 	explored = []
 
-def nextMove
+def nextMove:
 	node - bfs(possible moves?)
 
 
-def children
+def children:
 	?
 
 """
