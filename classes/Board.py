@@ -76,6 +76,10 @@ class Board:
         Checks all possible moves of a given state.
         """
 
+        if checkSolution == 0:
+            return = 0
+            print("solved")
+
         possiblemovesarray = []
 
         for j in range(self.nrOfCars):
