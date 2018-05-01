@@ -1,10 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib import colors
-
+from matplotlib.colors import ListedColormap
 
 class Board:
-    """A class that describes the orientation of the board and allows and checks moves."""    
+    """A class that describes the orientation of the board and allows and checks moves."""
 
     def __init__(self, gridSize, changeable, fixed, direction, length):
         """Initialisation of the board's parameters.
@@ -26,13 +25,13 @@ class Board:
         self.length = length
         self.nrOfCars = len(changeable)
 
-    
+
     def checkMove(self, vehicle, change):
         newPos = self.changeable[vehicle] + change
 
-    """
-    Checks if the move is feasible. Returns 0 if feasible, else 1.
-    """
+        """
+        Checks if the move is feasible. Returns 0 if feasible, else 1.
+        """
 
         if not isinstance(change, int):
             return 1
@@ -70,10 +69,10 @@ class Board:
                         return 1
         return 0
 
-    
+
     def checkPossibleMoves(self):
-        """Checks all possible moves of a given state.
-        
+        """
+        Checks all possible moves of a given state.
         """
 
         minimalChange = - self.length - 1
@@ -118,6 +117,24 @@ class Board:
         for el in grid:
             print(" ".join(map(str, el)))
 
+        image = np.zeros(self.gridSize * self.gridSize)
+
+        for i in range(self.gridSize):
+            for j in range(self.gridSize):
+                if grid[i][j] == "*":
+                    image[self.gridSize * i + j] = 1
+                elif grid[i][j] == "-":
+                    image[self.gridSize * i + j] = 2
+                else:
+                    image[self.gridSize * i + j] = 3
+
+        image = image.reshape((self.gridSize, self.gridSize))
+
+        cmap = ListedColormap(['r', 'w', 'g'])
+        plt.matshow(image, cmap=cmap)
+        plt.show()
+
+        """
         for i in range(self.gridSize):
             for j in range(self.gridSize):
                 if grid[i][j] == "*":
@@ -128,7 +145,9 @@ class Board:
                     plt.plot([self.gridSize - j - 1, self.gridSize - j], [i - 1, i], "g")
 
         plt.ylabel('some numbers')
+        plt.grid(True)
         plt.show()
+        """
         """
         Als we de waardes hiervoor (a,b en c veranderen naar waardes (dus chr en 97 en 35 weghalen,
             dan krijgen we 0 1 2 etc voor alle auto'tjes. Deze kunnnen we dan omzetten naar een gridmap,
