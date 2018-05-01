@@ -1,26 +1,16 @@
-from classes.Board import Board
-from classes.ReadBoard import ReadBoard
+class BFS:
+    def get_breadth_first_nodes(Board):
+        nodes = []
+        stack = [Board]
+        while stack:
+            cur_node = stack[0]
+            stack = stack[1:]
+            nodes.append(cur_node)
+            for child in cur_node.get_children():
+                stack.append(child)
+        return nodes
 
-def main():
-    data = ReadBoard("../data/game1.csv")
-    game = Board(data.gridSize, data.changeable, data.fixed, data.direction, data.length)
-
-"""
-class Bfs()
-
-def get_breadth_first_nodes(Board):
-    nodes = []
-    stack = [Board]
-    while stack:
-        cur_node = stack[0]
-        stack = stack[1:]
-        nodes.append(cur_node)
-        for child in cur_node.get_children():
-            stack.append(child)
-    return nodes
-
-
-   class Node(object):
+class Node(object):
     def __init__(self, id_):
         self.id = id_
         self.children = []
@@ -38,7 +28,3 @@ def get_breadth_first_nodes(Board):
         children = self.children[:]
         children.reverse()
         return children
- """
-
-if __name__ == "__main__":
-    main()

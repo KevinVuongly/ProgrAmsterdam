@@ -1,13 +1,21 @@
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from classes.Board import Board
 from classes.ReadBoard import ReadBoard
+from algorithms.BFS import BFS
 
-import sys
+def main(algorithm, data):
 
-def main():
-	
+	data = "data/game" + data + ".csv"
+
+	beginState = ReadBoard(data)
+
+	if algorithm == "BFS":
+		BFS = BFS()
+	else:
+		raise ValueError("Algorithm not available!")
 
 if __name__ == "__main__":
-	main()
+	main(sys.argv[1], sys.argv[2])
