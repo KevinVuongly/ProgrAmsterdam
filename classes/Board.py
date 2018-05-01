@@ -28,7 +28,14 @@ class Board:
 
     
     def checkMove(self, vehicle, change):
-        """Checks if the move is feasible. Returns 0 if feasible, else 1.
+        """Checks if the move is feasible.
+
+        Args:
+            vehicle (Int): The nr of the vehicle that is checked
+            change (Int): The nr of places you wan't the vehicle to move, negative or positive, depending on direction
+
+        Returns:
+            bool: The return value. True for if the move is possible, False otherwise.
         """
 
         newPos = self.changeable[vehicle] + change
