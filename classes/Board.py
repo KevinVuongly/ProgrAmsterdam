@@ -69,18 +69,13 @@ class Board:
                         return 1
         return 0
 
-<<<<<<< HEAD
-    
-    def checkPossibleMoves(self):
-        """Checks all possible moves of a given state."""
-=======
+
 
     def checkPossibleMoves(self):
         """
         Checks all possible moves of a given state.
         """
->>>>>>> 0b0d9b4a7d664bed7daf8401a2e3a3aea366716c
-
+        
         possiblemovesarray = []
 
         for j in range(self.nrOfCars):
