@@ -1,9 +1,9 @@
 from classes.Board import Board
 from classes.ReadBoard import ReadBoard
-import sys
 
-data = ReadBoard("../data/game1.csv")
-game = Board(data.gridSize, data.changeable, data.fixed, data.direction, data.length)
+def main():
+    data = ReadBoard("../data/game1.csv")
+    game = Board(data.gridSize, data.changeable, data.fixed, data.direction, data.length)
 
 """
 class Bfs()
@@ -24,18 +24,21 @@ def get_breadth_first_nodes(Board):
     def __init__(self, id_):
         self.id = id_
         self.children = []
-        
+
     def __repr__(self):
         return "Node: [%s]" % self.id
-    
+
     def add_child(self, node):
-        self.children.append(node) 
-    
+        self.children.append(node)
+
     def get_children(self):
-        return self.children         
-    
+        return self.children
+
     def get_rev_children(self):
         children = self.children[:]
         children.reverse()
-        return children  
+        return children
  """
+
+if __name__ == "__main__":
+    main()
