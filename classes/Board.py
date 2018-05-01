@@ -54,8 +54,6 @@ class Board:
                 else:
                     usedElement[self.changeable[i] + j][self.fixed[i]] = 1
 
-        for el in usedElement:
-            print(" ".join(map(str, el)))
 
         if change > 0:
             for i in range(change):
@@ -77,17 +75,30 @@ class Board:
 
     
     def checkPossibleMoves(self):
-        """Checks all possible moves of a given state.
+        """Checks all possible moves of a given state."""
 
-        """
+        possiblemovesarray = []
 
-        minimalChange = - self.length - 1
-        maximalChange = self.length - 1
-
-        for j in range(nrOfCars):
-            for i in range(minimalChange,maximalChange):
+        for j in range(self.nrOfCars):
+            minMaxChange = self.gridSize - self.length[j] + 1
+            possibleMoves = []
+            for i in range(1,minMaxChange):
                 if self.checkMove(j, i) == 0:
-                    append(possiblemovesarray)
+                    possibleMoves.append(i)
+                else:
+                    break
+            for i in range(1,minMaxChange):
+                if self.checkMove(j, -i) == 0:
+                    possibleMoves.append(-i)
+                else:
+                    break
+            possiblemovesarray.append(possibleMoves)
+
+        print(possiblemovesarray)
+
+    
+
+
 
     def move(self, vehicle, change):
         check = self.checkMove(vehicle, change)
