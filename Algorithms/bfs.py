@@ -1,5 +1,5 @@
-from classes.Board import Board
-from classes.ReadBoard import ReadBoard
+from Board import Board
+from ReadBoard import ReadBoard
 import sys
 
 data = ReadBoard("../data/game1.csv")
