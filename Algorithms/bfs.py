@@ -24,7 +24,7 @@ class Bfs:
 
 
 
-    def get_breadth_first_nodes(self):
+    def breadFS(self):
         nodes = []
         beginState = self.changeable
         posMoves = checkPossibleMoves(beginState)
