@@ -33,7 +33,10 @@ def main():
 
 	game = Board(beginState.gridSize, beginState.changeable, beginState.fixed, beginState.direction, beginState.length)
 	
-	game.visualize(beginState.changeable, beginState.colors)
+	bfs = Bfs(game)
+	solvedgame = bfs.randomSelection()
+	solvedgame.visualize(solvedgame.changeable, beginState.colors)
+
 
 	"""
 	Overbodig?
