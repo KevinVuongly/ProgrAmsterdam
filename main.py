@@ -32,13 +32,17 @@ def main():
 	beginState = ReadBoard(data)
 
 	game = Board(beginState.gridSize, beginState.changeable, beginState.fixed, beginState.direction, beginState.length)
-
+	
 	game.visualize(beginState.changeable, beginState.colors)
+
+	"""
+	Overbodig?
 
 	if algorithm == "BFS":
 		print("correct")
 	else:
 		raise ValueError("Algorithm not available!")
+	"""
 
 if __name__ == "__main__":
 	main()

@@ -1,5 +1,5 @@
 class Bfs:
-    def get_breadth_first_nodes(Board):
+    def get_breadth_first_nodes(self, changeable):
         nodes = []
         stack = [Board]
         while stack:
@@ -11,9 +11,6 @@ class Bfs:
         return nodes
 
 
-def bfs(self):
-	data = ReadBoard("../data/game1.csv")
-	game = Board(data.gridSize, data.changeable, data.fixed, data.direction, data.length)
 
 """
 class Bfs()
