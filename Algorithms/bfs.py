@@ -10,7 +10,7 @@ class BFS:
                 stack.append(child)
         return nodes
 
-<<<<<<< HEAD
+
 def bfs
 	data = ReadBoard("../data/game1.csv")
 	game = Board(data.gridSize, data.changeable, data.fixed, data.direction, data.length)
@@ -30,10 +30,10 @@ def get_breadth_first_nodes(Board):
     return nodes
 
 
-   class Node(object):
-=======
+
+
 class Node(object):
->>>>>>> cd7eb4e24b2d41443a497804f1dce2dfd64618d3
+
     def __init__(self, id_):
         self.id = id_
         self.children = []
