@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from classes.Board import Board
 from classes.ReadBoard import ReadBoard
-from algorithms.BFS import BFS
+from algorithms.Bfs import Bfs
 
 def main():
 

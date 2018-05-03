@@ -1,4 +1,4 @@
-class BFS:
+class Bfs:
     def get_breadth_first_nodes(Board):
         nodes = []
         stack = [Board]
@@ -11,7 +11,7 @@ class BFS:
         return nodes
 
 
-def bfs
+def bfs(self):
 	data = ReadBoard("../data/game1.csv")
 	game = Board(data.gridSize, data.changeable, data.fixed, data.direction, data.length)
 
@@ -51,3 +51,4 @@ class Node(object):
         children = self.children[:]
         children.reverse()
         return children
+"""
