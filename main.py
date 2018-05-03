@@ -34,7 +34,7 @@ def main():
 	game = Board(beginState.gridSize, beginState.changeable, beginState.fixed, beginState.direction, beginState.length)
 	
 	bfs = Bfs(game)
-	solvedgame = bfs.randomSelection()
+	solvedgame = bfs.semiRandomSelection()
 	solvedgame.visualize(solvedgame.changeable, beginState.colors)
 
 

@@ -35,13 +35,19 @@ class Bfs:
                 self.board.changeable = random.choice(children)
         return self.board
 
-        def semiRandomSelection(self):
-        """ Looks for all moves possible and randomly choses one until solved, without
-        back to board configurations visited before. This code can crash if the only way 
-        back is an older configuration """
+    def semiRandomSelection(self):
+        """
+        Looks for all moves possible and randomly choses one until solved, without
+        back to board configurations visited before. If it can't find a move to 
+        go to a board configuarion that it has been before it goes to a random visited 
+        (Later added if a configuration has no non-visited options, skip that one. 
+            i hoped the code would find a solution faster )
+        """
+        beginState = copy.deepcopy(self.board.changeable)
         counter = 0
         child = []
-        visited = [] 
+        visited = []
+        noOptions = []
         while self.board.checkSolution != 0:
             counter += 1
             children = []
@@ -63,12 +69,23 @@ class Bfs:
             else:
                 self.board.changeable = random.choice(children)
                 j = 0
-                while self.board.changeable in visited
-                    self.board.changeable = random.choice(children)
-                    j += 1
-                    if j > 20
-                        return ValueError('The code has led itself into a corner')
-                visited.append = self.board.changeable
+                if self.board.changeable not in visited:
+                    visited.append(self.board.changeable)
+                else:
+                    while self.board.changeable in visited:
+
+                        self.board.changeable = random.choice(children)
+                        j += 1
+                        if j > 20:
+                            if self.board.changeable not in noOptions:
+                                noOptions.append(self.board.changeable)
+                            for element in visited:
+                                if element not in noOptions:
+                                    self.board.changeable = element
+                                break
+                        break
+        print(counter)
+        print("WE HAVE FOUND IT!")
         return self.board
 
 
