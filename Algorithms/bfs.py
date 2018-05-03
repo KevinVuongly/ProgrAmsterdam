@@ -2,8 +2,9 @@ from Board import Board
 from ReadBoard import ReadBoard
 import sys
 
-data = ReadBoard("../data/game1.csv")
-game = Board(data.gridSize, data.changeable, data.fixed, data.direction, data.length)
+def bfs
+	data = ReadBoard("../data/game1.csv")
+	game = Board(data.gridSize, data.changeable, data.fixed, data.direction, data.length)
 
 """
 class Bfs()
