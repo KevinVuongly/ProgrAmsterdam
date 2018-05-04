@@ -1,6 +1,7 @@
 from classes.Board import Board
 from classes.ReadBoard import ReadBoard
 from algorithms.random import Random
+from algorithms.bfs import BFS
 
 def main():
 
@@ -19,22 +20,25 @@ def main():
 				break
 
 	while True:
-		algorithm = input("Pick which algorithm you want to use(random): ")
-		if algorithm != "random":
+		algorithm = input("Pick which algorithm you want to use(random, BFS): ")
+		if algorithm != "random" and algorithm != "BFS":
 			print("Please pick a correct algorithm.")
 		else:
+			data = "data/game" + str(data) + ".csv"
+
+			beginState = ReadBoard(data)
+
+			game = Board(beginState.gridSize, beginState.changeable, beginState.fixed, beginState.direction, beginState.length)
+
 			break
 
-	data = "data/game" + str(data) + ".csv"
+	if algorithm == "random":
+		random = Random(game)
 
-	beginState = ReadBoard(data)
-
-	game = Board(beginState.gridSize, beginState.changeable, beginState.fixed, beginState.direction, beginState.length)
-
-	random = Random(game)
-
-	solvedgame = random.semiRandomSelection()
-	solvedgame.visualize(solvedgame.changeable, beginState.colors)
+		solvedgame = random.randomSelection()
+		solvedgame.visualize(solvedgame.changeable, beginState.colors)
+	elif algorithm == "BFS":
+		print("TODO")
 
 if __name__ == "__main__":
 	main()

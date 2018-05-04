@@ -10,10 +10,10 @@ class Board:
 
         Args:
             gridSize (int): An integer for the size of the grid.
-            changeable (list of ints): An int for the variable position of car i.
-            fixed (list of ints): An int for the fixed position of car i.
-            direction (list of strings): A character for the direction the car i is facing.
-            length (list of ints): The length of car i.
+            changeable (array of ints): An int for the variable position of car i.
+            fixed (array of ints): An int for the fixed position of car i.
+            direction (array of strings): A character for the direction the car i is facing.
+            length (array of ints): The length of car i.
             nrOfCars (int): The number of cars on the grid.
         """
 
@@ -28,8 +28,8 @@ class Board:
         """Checks if the move is feasible.
 
         Args:
-            vehicle (Int): The number of the vehicle that is checked.
-            change (Int): The number of places you want the vehicle to move,
+            vehicle (int): The number of the vehicle that is checked.
+            change (int): The number of places you want the vehicle to move,
                           negative or positive, depending on direction.
         """
 
