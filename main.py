@@ -30,8 +30,16 @@ def main():
 	beginState = ReadBoard(data)
 
 	game = Board(beginState.gridSize, beginState.changeable, beginState.fixed, beginState.direction, beginState.length)
+<<<<<<< HEAD
 
 	game.visualize(beginState.changeable, beginState.colors)
+=======
+	
+	bfs = Bfs(game)
+	solvedgame = bfs.semiRandomSelection()
+	solvedgame.visualize(solvedgame.changeable, beginState.colors)
+
+>>>>>>> 9c3f96a1628957abf412e40ba102e6262199e2c4
 
 	"""
 	Overbodig?

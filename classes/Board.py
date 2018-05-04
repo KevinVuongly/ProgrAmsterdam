@@ -76,10 +76,6 @@ class Board:
         Checks all possible moves of a given state.
         """
 
-        if checkSolution == 0:
-            return 0
-            print("solved")
-
         possiblemovesarray = []
 
         for j in range(self.nrOfCars):
@@ -101,6 +97,7 @@ class Board:
 
 
     def checkSolution(self):
+        """ Checks if board is solved and returns 0 if so """
         movesToEndblock = self.gridSize - self.changeable[0] - 2
         if self.checkMove(0,movesToEndblock) == 0:
             return 0
