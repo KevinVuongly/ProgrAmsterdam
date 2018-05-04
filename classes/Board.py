@@ -51,7 +51,6 @@ class Board:
                 else:
                     usedElement[self.changeable[i] + j][self.fixed[i]] = 1
 
-
         if change > 0:
             for i in range(change):
                 if self.direction[vehicle] == "h":
@@ -116,16 +115,50 @@ class Board:
             return 0
         return 1
 
-    """
-    Visualizes the current state of the board.
-    """
     def visualize(self, changeable, colors, typeAlgorithm, game, move):
+        """
+        Visualizes the current state of the board.
+        """
+        boardGrid = self.createGrid(changeable)
+
+        image = np.zeros(self.gridSize * self.gridSize)
+
+        for k in range(self.nrOfCars):
+            for i in range(self.gridSize):
+                for j in range(self.gridSize):
+                    if boardGrid[i][j] == "*":
+                        image[self.gridSize * i + j] = 1
+                    elif boardGrid[i][j] == "-":
+                        image[self.gridSize * i + j] = 2
+                    elif boardGrid[i][j] == chr(k + 97) or boardGrid[i][j] == chr(k + 35):
+                        image[self.gridSize * i + j] = 3 + k
+
+        image = image.reshape((self.gridSize, self.gridSize))
+
+        cmap = ListedColormap(colors)
+        plt.matshow(image, cmap=cmap)
+
+        folder = "solutions/" + str(typeAlgorithm) + "/" + str(game)
+
+        if not os.path.exists(folder):
+            os.makedirs(folder)
+
+        figname = folder + "/Move" + str(move) + ".png"
+        plt.savefig(figname)
+
+        print("Move {} saved.".format(move))
+        plt.close()
+
+    def createGrid(self, changeable):
+        """
+        Creates a matrix representation of the board
+        """
         grid = [["-" for x in range(self.gridSize)] for y in range(self.gridSize)]
 
         for j in range(self.length[0]):
             grid[self.fixed[0]][changeable[0] + j] = "*"
 
-        for i in range(1, len(self.changeable)):
+        for i in range(1, self.nrOfCars):
             if i + 97 < 127:
                 if self.direction[i] == "h":
                     for j in range(self.length[i]):
@@ -141,28 +174,4 @@ class Board:
                     for j in range(self.length[i]):
                         grid[changeable[i] + j][self.fixed[i]] = chr(i + 35)
 
-        image = np.zeros(self.gridSize * self.gridSize)
-
-        for k in range(self.nrOfCars):
-            for i in range(self.gridSize):
-                for j in range(self.gridSize):
-                    if grid[i][j] == "*":
-                        image[self.gridSize * i + j] = 1
-                    elif grid[i][j] == "-":
-                        image[self.gridSize * i + j] = 2
-                    elif grid[i][j] == chr(k + 97) or grid[i][j] == chr(k + 35):
-                        image[self.gridSize * i + j] = 3 + k
-
-        image = image.reshape((self.gridSize, self.gridSize))
-
-        cmap = ListedColormap(colors)
-        plt.matshow(image, cmap=cmap)
-
-        folder = "solutions/" + str(typeAlgorithm) + "/" + str(game)
-
-        if not os.path.exists(folder):
-            os.makedirs(folder)
-
-        figname = folder + "/Move" + str(move) + ".png"
-        plt.savefig(figname)
-        plt.close()
+        return grid

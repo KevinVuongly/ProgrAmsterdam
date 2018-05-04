@@ -16,12 +16,10 @@ class BFS:
             it finds a solution e.g. a state which the red car can move to the end.
             """
 
-            stack = [self.board.changeable]
+            self.queue = [self.board.changeable]
 
             self.archive = {}
             self.archive[str(self.board.changeable)] = "beginning!"
-
-            iterations = 0
 
             while self.board.checkSolution() != 0:
 
@@ -31,25 +29,42 @@ class BFS:
                 childToCheck = 0
 
                 while childToCheck != amountOfChildren:
-                    if str(children[childToCheck]) in self.archive.keys():
-                        children.pop(childToCheck)
-                        amountOfChildren -= 1
-                    else:
-                        childToCheck += 1
+                    children, childToCheck, amountOfChildren = self.removeRedundantChild(children, childToCheck, amountOfChildren)
 
                 if len(children) > 0:
-                    for i in range(len(children)):
-                        stack.append(children[i])
-                        self.archive[str(children[i])] = self.board.changeable
+                    self.addToArchive(children)
 
-                stack.pop(0)
-                self.board.changeable = stack[0]
+                self.queue.pop(0)
+                self.board.changeable = self.queue[0]
+
+            print("Solution found.")
 
             self.pathSolution(self.board.changeable)
 
-            print("WE HAVE FOUND IT!")
+        def addToArchive(self, childrenOfState):
+            """
+            Add's child as key, with the parent as the value to the archive dictionary.
+            """
+            for i in range(len(childrenOfState)):
+                self.queue.append(childrenOfState[i])
+                self.archive[str(childrenOfState[i])] = self.board.changeable
+
+        def removeRedundantChild(self, children, child, childrenLeft):
+            """
+            Removes duplicate state e.g. child that is already listed in the archive
+            """
+            if str(children[child]) in self.archive.keys():
+                children.pop(child)
+                childrenLeft -= 1
+            else:
+                child += 1
+
+            return children, child, childrenLeft
 
         def pathSolution(self, solutionState):
+            """
+            Visualizes the path found through breadth first search.
+            """
             path = [solutionState]
 
             child = solutionState

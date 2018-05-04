@@ -6,7 +6,11 @@ from algorithms.bfs import BFS
 def main():
 
 	while True:
-		data = input("Pick the game you want to solve for (1, 2, 3,... , 7): ")
+
+		firstgame = 1
+		lastgame = 7
+
+		data = input("Pick the game you want to solve for (1, 2, 3,... , {}): ".format(lastgame))
 
 		try:
 			data = int(data)
@@ -14,8 +18,6 @@ def main():
 			print("Please pick an existing game.")
 
 		if isinstance(data, int):
-			firstgame = 1
-			lastgame = 7
 
 			if data < firstgame or data > lastgame:
 				print("Please pick an existing game.")
