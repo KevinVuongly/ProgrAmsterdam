@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from copy import copy, deepcopy
+import os
 
 class Board:
     """A class that describes the orientation of the board and allows and checks moves."""
@@ -157,6 +158,11 @@ class Board:
         cmap = ListedColormap(colors)
         plt.matshow(image, cmap=cmap)
 
-        figname = "solutions/" + str(typeAlgorithm) + "/" + str(game) + "/Move" + str(move) + ".png"
+        folder = "solutions/" + str(typeAlgorithm) + "/" + str(game)
+
+        if not os.path.exists(folder):
+            os.makedirs(folder)
+
+        figname = folder + "/Move" + str(move) + ".png"
         plt.savefig(figname)
         plt.close()

@@ -14,7 +14,10 @@ def main():
 			print("Please pick an existing game.")
 
 		if isinstance(data, int):
-			if data < 1 or data > 7:
+			firstgame = 1
+			lastgame = 7
+
+			if data < firstgame or data > lastgame:
 				print("Please pick an existing game.")
 			else:
 				break
