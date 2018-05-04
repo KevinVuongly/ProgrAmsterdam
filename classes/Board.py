@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
+from copy import copy, deepcopy
 
 class Board:
     """A class that describes the orientation of the board and allows and checks moves."""
@@ -91,6 +92,21 @@ class Board:
             possiblemovesarray.append(possibleMoves)
 
         return possiblemovesarray
+
+    def createChildren(self):
+        """ Creates the children for given board"""
+        children = []
+        posMoves = self.checkPossibleMoves()
+
+        for i in range(self.nrOfCars):
+            if len(posMoves[i]) > 0:
+                for j in range(len(posMoves[i])):
+                    child = copy(self.changeable)
+                    child[i] = child[i] + posMoves[i][j]
+                    children.append(child)
+
+        return children
+
 
     def checkSolution(self):
         """ Checks if board is solved and returns 0 if so """

@@ -38,7 +38,8 @@ def main():
 		solvedgame = random.randomSelection()
 		solvedgame.visualize(solvedgame.changeable, beginState.colors)
 	elif algorithm == "BFS":
-		print("TODO")
+		bfs = BFS(game)
+		bfs.bfs()
 
 if __name__ == "__main__":
 	main()
