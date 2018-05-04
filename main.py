@@ -1,6 +1,6 @@
 from classes.Board import Board
 from classes.ReadBoard import ReadBoard
-from algorithms.bfs import Bfs
+from algorithms.random import Random
 
 def main():
 
@@ -19,8 +19,8 @@ def main():
 				break
 
 	while True:
-		algorithm = input("Pick which algorithm you want to use(BFS): ")
-		if algorithm != "BFS":
+		algorithm = input("Pick which algorithm you want to use(random): ")
+		if algorithm != "random":
 			print("Please pick a correct algorithm.")
 		else:
 			break
@@ -30,25 +30,11 @@ def main():
 	beginState = ReadBoard(data)
 
 	game = Board(beginState.gridSize, beginState.changeable, beginState.fixed, beginState.direction, beginState.length)
-<<<<<<< HEAD
 
-	game.visualize(beginState.changeable, beginState.colors)
-=======
-	
-	bfs = Bfs(game)
-	solvedgame = bfs.semiRandomSelection()
+	random = Random(game)
+
+	solvedgame = random.semiRandomSelection()
 	solvedgame.visualize(solvedgame.changeable, beginState.colors)
-
->>>>>>> 9c3f96a1628957abf412e40ba102e6262199e2c4
-
-	"""
-	Overbodig?
-
-	if algorithm == "BFS":
-		print("correct")
-	else:
-		raise ValueError("Algorithm not available!")
-	"""
 
 if __name__ == "__main__":
 	main()
