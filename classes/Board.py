@@ -68,9 +68,6 @@ class Board:
                         return 1
         return 0
 
-
-
-
     def checkPossibleMoves(self):
         """
         Checks all possible moves of a given state.
@@ -95,21 +92,12 @@ class Board:
 
         return possiblemovesarray
 
-
     def checkSolution(self):
         """ Checks if board is solved and returns 0 if so """
         movesToEndblock = self.gridSize - self.changeable[0] - 2
         if self.checkMove(0,movesToEndblock) == 0:
             return 0
         return 1
-
-    def move(self, vehicle, change):
-        check = self.checkMove(vehicle, change)
-
-        if check == 0:
-            self.changeable[vehicle] = self.changeable[vehicle] + change
-        else:
-            print("Move is illegal!")
 
     """
     Visualizes the current state of the board.
