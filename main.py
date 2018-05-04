@@ -5,7 +5,7 @@ from algorithms.random import Random
 def main():
 
 	while True:
-		data = input("Pick the game you want to solve for (1, 2, 3,..., 7): ")
+		data = input("Pick the game you want to solve for (1, 2, 3,... , 7): ")
 
 		try:
 			data = int(data)

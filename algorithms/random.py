@@ -1,5 +1,5 @@
 from classes.Board import Board
-import copy
+from copy import copy, deepcopy
 import random
 
 class Random:
@@ -24,7 +24,7 @@ class Random:
                     if not move:
                         continue
                     else:
-                        child = copy.deepcopy(self.board.changeable)
+                        child = deepcopy(self.board.changeable)
                         child[i] = child[i] + posMoves[i][j]
                         children.append(child)
                     j += 1
@@ -44,8 +44,6 @@ class Random:
         (Later added if a configuration has no non-visited options, skip that one.
             i hoped the code would find a solution faster )
         """
-        beginState = copy.deepcopy(self.board.changeable)
-
         counter = 0
         child = []
         visited = {}
@@ -60,7 +58,7 @@ class Random:
             for i in range(self.board.nrOfCars):
                 if len(posMoves[i]) > 0:
                     for j in range(len(posMoves[i])):
-                        child = copy.copy(self.board.changeable)
+                        child = copy(self.board.changeable)
                         child[i] = child[i] + posMoves[i][j]
                         children.append(child)
 
