@@ -1,8 +1,6 @@
-import matplotlib.pyplot as plt
-from matplotlib.colors import ListedColormap
 from classes.Board import Board
 from classes.ReadBoard import ReadBoard
-from algorithms.Bfs import Bfs
+from algorithms.bfs import Bfs
 
 def main():
 
@@ -32,7 +30,7 @@ def main():
 	beginState = ReadBoard(data)
 
 	game = Board(beginState.gridSize, beginState.changeable, beginState.fixed, beginState.direction, beginState.length)
-	
+
 	game.visualize(beginState.changeable, beginState.colors)
 
 	"""
