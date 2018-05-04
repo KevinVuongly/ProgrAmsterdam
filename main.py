@@ -24,22 +24,22 @@ def main():
 		if algorithm != "random" and algorithm != "BFS":
 			print("Please pick a correct algorithm.")
 		else:
-			data = "data/game" + str(data) + ".csv"
+			file = "data/game" + str(data) + ".csv"
 
-			beginState = ReadBoard(data)
+			beginState = ReadBoard(file)
 
 			game = Board(beginState.gridSize, beginState.changeable, beginState.fixed, beginState.direction, beginState.length)
 
 			break
 
 	if algorithm == "random":
-		random = Random(game)
+		loadGame = Random(game)
 
-		solvedgame = random.randomSelection()
+		solvedgame = loadGame.randomSelection()
 		solvedgame.visualize(solvedgame.changeable, beginState.colors)
 	elif algorithm == "BFS":
-		bfs = BFS(game)
-		bfs.bfs()
+		loadGame = BFS(data, game, beginState.colors)
+		solvedgame = loadGame.bfs()
 
 if __name__ == "__main__":
 	main()

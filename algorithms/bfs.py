@@ -2,11 +2,13 @@ from classes.Board import Board
 from copy import copy, deepcopy
 
 class BFS:
-        def __init__(self, board):
+        def __init__(self, game, board, colors):
             """
             Takes all information of the board with it's state as the beginning of the game.
             """
+            self.game = game
             self.board = board
+            self.colors = colors
 
         def bfs(self):
             """
@@ -14,26 +16,50 @@ class BFS:
             it finds a solution e.g. a state which the red car can move to the end.
             """
 
+            stack = [self.board.changeable]
+
+            self.archive = {}
+            self.archive[str(self.board.changeable)] = "beginning!"
+
             iterations = 0
 
-            archive = {}
-            archive[0] = self.board.changeable
+            while self.board.checkSolution() != 0:
 
-            while self.board.checkSolution != 0:
                 children = self.board.createChildren()
 
-                initialArchiveLength = len(archive)
                 amountOfChildren = len(children)
+                childToCheck = 0
 
-                for i in range(amountOfChildren):
-                    for j in range(initialArchiveLength):
-                        if archive[j] == children[i]:
-                            children.pop(i)
-                            break
+                while childToCheck != amountOfChildren:
+                    if str(children[childToCheck]) in self.archive.keys():
+                        children.pop(childToCheck)
+                        amountOfChildren -= 1
+                    else:
+                        childToCheck += 1
 
-                for i in range(len(children)):
-                    archive[initialArchiveLength + 1 + i] = children[i]
+                if len(children) > 0:
+                    for i in range(len(children)):
+                        stack.append(children[i])
+                        self.archive[str(children[i])] = self.board.changeable
 
-                iterations += 1
+                stack.pop(0)
+                self.board.changeable = stack[0]
 
-                self.board.changeable = archive[iterations]
+            self.pathSolution(self.board.changeable)
+
+            print("WE HAVE FOUND IT!")
+
+        def pathSolution(self, solutionState):
+            path = [solutionState]
+
+            child = solutionState
+            parent = self.archive[str(solutionState)]
+
+            while self.archive[str(child)] != "beginning!":
+                path.insert(0, parent)
+
+                child = parent
+                parent = self.archive[str(child)]
+
+            for i in range(len(path)):
+                self.board.visualize(path[i], self.colors, "BFS", self.game, i)

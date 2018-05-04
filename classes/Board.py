@@ -118,7 +118,7 @@ class Board:
     """
     Visualizes the current state of the board.
     """
-    def visualize(self, changeable, colors):
+    def visualize(self, changeable, colors, typeAlgorithm, game, move):
         grid = [["-" for x in range(self.gridSize)] for y in range(self.gridSize)]
 
         for j in range(self.length[0]):
@@ -156,4 +156,7 @@ class Board:
 
         cmap = ListedColormap(colors)
         plt.matshow(image, cmap=cmap)
-        plt.show()
+
+        figname = "solutions/" + str(typeAlgorithm) + "/" + str(game) + "/Move" + str(move) + ".png"
+        plt.savefig(figname)
+        plt.close()
