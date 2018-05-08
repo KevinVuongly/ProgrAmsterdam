@@ -21,7 +21,7 @@ class BFS:
             self.archive = {}
             self.archive[str(self.board.changeable)] = "beginning!"
 
-            while self.board.checkSolution() != 0 and len(self.archive) < 1000000:
+            while self.board.checkSolution() != 0:
 
                 children = self.board.createChildren()
 
@@ -31,11 +31,13 @@ class BFS:
                 while childToCheck != amountOfChildren:
                     children, childToCheck, amountOfChildren = self.removeRedundantChild(children, childToCheck, amountOfChildren)
 
-                if len(children) > 0:
+                if amountOfChildren > 0:
                     self.addToArchive(children)
 
                 self.queue.pop(0)
                 self.board.changeable = self.queue[0]
+
+            print(len(self.archive))
 
             self.pathSolution(self.board.changeable)
 
