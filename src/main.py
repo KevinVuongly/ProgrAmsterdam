@@ -41,24 +41,29 @@ def main():
 			break
 
 	if algorithm == "random":
-<<<<<<< HEAD:main.py
 		random = Random(game)
 		radom2 = Random(game)
 
-		solvedgame = random.semiRandomSelection()
+		solvedSteps = 1000000000
+		solvedGame = []
+		for i in range(1000):
+			solvedGameTemp, solvedStepsTemp = random.semiRandomSelection()
+			if solvedStepsTemp < solvedSteps:
+				solvedSteps = solvedStepsTemp
+				solvedGame = solvedGameTemp
+				print(solvedSteps)
+		
+
 		solvedgame2 = random.randomSelection()
+
+
+
+
+
 		print("length of path {}".format(len(solvedgame)))
 
 
 
-
-
-=======
-		loadGame = Random(game)
-
-		solvedgame = loadGame.randomSelection()
-		solvedgame.visualize(solvedgame.changeable, beginState.colors)
->>>>>>> 172c3adfd60221bdcfd5f2c8e7d4a2e8daf8081d:src/main.py
 	elif algorithm == "BFS":
 		loadGame = BFS(data, game, beginState.colors)
 		solvedgame = loadGame.bfs()
