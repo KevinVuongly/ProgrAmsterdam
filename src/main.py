@@ -2,6 +2,7 @@ import time
 
 from classes.Board import Board
 from classes.ReadBoard import ReadBoard
+from classes.Archive import Archive
 from algorithms.random import Random
 from algorithms.bfs import BFS
 from copy import copy, deepcopy
@@ -41,6 +42,8 @@ def main():
 			print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Running algorithm...")
 			break
 
+	archive = Archive()
+
 	if algorithm == "random":
 		random = Random(game)
 
@@ -56,6 +59,7 @@ def main():
 				solvedSteps = solvedStepsTemp
 				solvedGame = solvedGameTemp
 				print(solvedSteps)
+
 		
 		if solvedSteps < 1000:
 			print(solvedGame)
@@ -65,12 +69,10 @@ def main():
 			game.visualize(solvedGame[-1], beginState.colors, "random", data, 1182)
 
 
-
-
-
+		
 
 	elif algorithm == "BFS":
-		loadGame = BFS(data, game, beginState.colors)
+		loadGame = BFS(data, game, archive, beginState.colors)
 		solvedgame = loadGame.bfs()
 
 	print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")
