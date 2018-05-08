@@ -34,9 +34,16 @@ def main():
 
 	if algorithm == "random":
 		random = Random(game)
+		radom2 = Random(game)
 
-		solvedgame = random.randomSelection()
-		solvedgame.visualize(solvedgame.changeable, beginState.colors)
+		solvedgame = random.semiRandomSelection()
+		solvedgame2 = random.randomSelection()
+		print("length of path {}".format(len(solvedgame)))
+
+
+
+
+
 	elif algorithm == "BFS":
 		bfs = BFS(game)
 		bfs.bfs()
