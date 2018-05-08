@@ -63,10 +63,8 @@ def main():
 		
 		if solvedSteps < 1000:
 			print(solvedGame)
-			i = 0
-			for game in solvedGame:
+			for i in range(len(solvedGame))`:
 				game.visualize(solvedGame[i], beginState.colors, "random", data, i)
-			game.visualize(solvedGame[-1], beginState.colors, "random", data, 1182)
 
 
 		

@@ -51,41 +51,29 @@ class Random:
         while self.board.checkSolution() != 0 and len(path) < maxMoves:
             steps += 1
             children = []
-            j = 0
             posMoves = self.board.checkPossibleMoves()
 
-            for i in range(self.board.nrOfCars):
-                for move in posMoves[i]:
-                    if not move:
-                        continue
-                    else:
-                        child = copy(self.board.changeable)
-                        child[i] = child[i] + posMoves[i][j]
-                        children.append(child)
-                    j += 1
-                j = 0
-            if not children:
-                continue
-            else:
-                self.board.changeable = random.choice(children)
-                j = 0
-                if self.board.changeable not in visited:
-                    visited.append(self.board.changeable)
-                    path.append(self.board.changeable)
-                else:
-                    while self.board.changeable in visited:
+            children = self.board.createChildren()
 
-                        self.board.changeable = random.choice(children)
-                        j += 1
-                        if j > 20:
-                            path = []
-                            print("we have made a jump")
-                            if self.board.changeable not in noOptions:
-                                noOptions.append(self.board.changeable)
-                            for element in visited:
-                                path.append(element)
-                                if element not in noOptions:
-                                    self.board.changeable = element
-                                break
-                        break
+            self.board.changeable = random.choice(children)
+            if self.board.changeable not in visited:
+                visited.append(self.board.changeable)
+                path.append(self.board.changeable)
+            else:
+                j = 0
+                while self.board.changeable in visited:
+                    self.board.changeable = random.choice(children)
+                    j += 1
+                    if j > 20:
+                        path = []
+                        print("we have made a jump")
+                        if self.board.changeable not in noOptions:
+                            noOptions.append(self.board.changeable)
+                        for element in visited:
+                            path.append(element)
+                            if element not in noOptions:
+                                self.board.changeable = element
+                            break
+                    break
+                path.append(self.board.changeable)
         return path
