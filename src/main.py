@@ -47,10 +47,29 @@ def main():
 		random = Random(game)
 		radom2 = Random(game)
 
-		solvedgame = random.semiRandomSelection()
+		solvedSteps = 1000000000
+		solvedGame = []
+		for i in range(1000):
+			solvedGameTemp, solvedStepsTemp = random.semiRandomSelection()
+			if solvedStepsTemp < solvedSteps:
+				solvedSteps = solvedStepsTemp
+				solvedGame = solvedGameTemp
+				print(solvedSteps)
+		
+
 		solvedgame2 = random.randomSelection()
+
+<<<<<<< HEAD
+=======
+
+
+
+
 		print("length of path {}".format(len(solvedgame)))
 
+
+
+>>>>>>> a5de003b110a74797c73680183c1e7153eb55d9d
 	elif algorithm == "BFS":
 		loadGame = BFS(data, game, archive, beginState.colors)
 		solvedgame = loadGame.bfs()
