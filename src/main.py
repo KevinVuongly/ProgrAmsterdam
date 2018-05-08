@@ -55,21 +55,10 @@ def main():
 				solvedSteps = solvedStepsTemp
 				solvedGame = solvedGameTemp
 				print(solvedSteps)
-		
+
 
 		solvedgame2 = random.randomSelection()
-
-<<<<<<< HEAD
-=======
-
-
-
-
-		print("length of path {}".format(len(solvedgame)))
-
-
-
->>>>>>> a5de003b110a74797c73680183c1e7153eb55d9d
+		
 	elif algorithm == "BFS":
 		loadGame = BFS(data, game, archive, beginState.colors)
 		solvedgame = loadGame.bfs()
