@@ -28,9 +28,9 @@ class Random:
             children = self.board.createChildren()
 
             self.board.changeable = random.choice(children)
+            visited.append(self.board.changeable)
 
-        print("WE HAVE FOUND IT!")
-        print(counter)
+        print("random we have found it in {} steps".format(len(visited)))
         return self.board
 
     def semiRandomSelection(self):
@@ -47,6 +47,7 @@ class Random:
         child = []
         visited = []
         noOptions = []
+        path = []
 
         while self.board.checkSolution() != 0:
             counter += 1
@@ -71,20 +72,24 @@ class Random:
                 j = 0
                 if self.board.changeable not in visited:
                     visited.append(self.board.changeable)
+                    path.append(self.board.changeable)
                 else:
                     while self.board.changeable in visited:
 
                         self.board.changeable = random.choice(children)
                         j += 1
                         if j > 20:
+                            path = []
+                            print("we have made a jump")
                             if self.board.changeable not in noOptions:
                                 noOptions.append(self.board.changeable)
                             for element in visited:
+                                path.append(element)
                                 if element not in noOptions:
                                     self.board.changeable = element
                                 break
                         break
-        print(counter)
+
+        print("semi random we have found it in {} steps ".format(len(visited)))
         print("WE HAVE FOUND IT!")
-        print(visited)
-        return self.board
+        return path
