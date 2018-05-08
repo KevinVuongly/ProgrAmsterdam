@@ -1,3 +1,5 @@
+import time
+
 from classes.Board import Board
 from classes.ReadBoard import ReadBoard
 from algorithms.random import Random
@@ -6,7 +8,11 @@ from algorithms.bfs import BFS
 def main():
 
 	while True:
-		data = input("Pick the game you want to solve for (1, 2, 3,... , 7): ")
+
+		firstgame = 1
+		lastgame = 7
+
+		data = input("Pick the game you want to solve for (1, 2, 3,... , {}): ".format(lastgame))
 
 		try:
 			data = int(data)
@@ -14,7 +20,8 @@ def main():
 			print("Please pick an existing game.")
 
 		if isinstance(data, int):
-			if data < 1 or data > 7:
+
+			if data < firstgame or data > lastgame:
 				print("Please pick an existing game.")
 			else:
 				break
@@ -24,15 +31,17 @@ def main():
 		if algorithm != "random" and algorithm != "BFS":
 			print("Please pick a correct algorithm.")
 		else:
-			data = "data/game" + str(data) + ".csv"
+			file = "data/game" + str(data) + ".csv"
 
-			beginState = ReadBoard(data)
+			beginState = ReadBoard(file)
 
 			game = Board(beginState.gridSize, beginState.changeable, beginState.fixed, beginState.direction, beginState.length)
 
+			print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Running algorithm...")
 			break
 
 	if algorithm == "random":
+<<<<<<< HEAD:main.py
 		random = Random(game)
 		radom2 = Random(game)
 
@@ -44,9 +53,17 @@ def main():
 
 
 
+=======
+		loadGame = Random(game)
+
+		solvedgame = loadGame.randomSelection()
+		solvedgame.visualize(solvedgame.changeable, beginState.colors)
+>>>>>>> 172c3adfd60221bdcfd5f2c8e7d4a2e8daf8081d:src/main.py
 	elif algorithm == "BFS":
-		bfs = BFS(game)
-		bfs.bfs()
+		loadGame = BFS(data, game, beginState.colors)
+		solvedgame = loadGame.bfs()
+
+	print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")
 
 if __name__ == "__main__":
 	main()
