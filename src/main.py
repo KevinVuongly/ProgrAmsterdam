@@ -47,9 +47,9 @@ def main():
 	if algorithm == "random":
 		random = Random(game)
 
-		solvedSteps = 1003
+		solvedSteps = 1181
 		solvedGame = []
-		for i in range(100):
+		for i in range(10000):
 			print("Fastest solution found so far: {} moves".format(solvedSteps))
 			print("Try {}".format(i))
 			newBoard = deepcopy(random)
@@ -61,13 +61,13 @@ def main():
 				print(solvedSteps)
 
 		
-		if solvedSteps < 1000:
+		if solvedSteps < 1181:
 			print(solvedGame)
-			for i in range(len(solvedGame))`:
+			for i in range(len(solvedGame)):
 				game.visualize(solvedGame[i], beginState.colors, "random", data, i)
 
 
-		
+
 
 	elif algorithm == "BFS":
 		loadGame = BFS(data, game, archive, beginState.colors)
