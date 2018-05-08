@@ -9,7 +9,7 @@ class Random:
         """
         self.board = board
 
-    def randomSelection(self):
+    def randomSelection(self, maxMoves):
         """
         Looks for all moves possible and randomly choses one until solved, without
         back to board configurations visited before. If it can't find a move to
@@ -22,18 +22,17 @@ class Random:
         visited = []
         noOptions = []
 
-        while self.board.checkSolution() != 0:
+        while self.board.checkSolution() != 0 and len(visited) < maxMoves:
 
-            counter += 1
             children = self.board.createChildren()
 
             self.board.changeable = random.choice(children)
             visited.append(self.board.changeable)
 
         print("random we have found it in {} steps".format(len(visited)))
-        return self.board
+        return visited
 
-    def semiRandomSelection(self):
+    def semiRandomSelection(self, maxMoves):
         """
         Looks for all moves possible and randomly choses one until solved, without
         back to board configurations visited before. If it can't find a move to
@@ -43,14 +42,14 @@ class Random:
         """
         beginState = deepcopy(self.board.changeable)
 
-        counter = 0
+        steps = 0
         child = []
         visited = []
         noOptions = []
         path = []
 
-        while self.board.checkSolution() != 0:
-            counter += 1
+        while self.board.checkSolution() != 0 and len(path) < maxMoves:
+            steps += 1
             children = []
             j = 0
             posMoves = self.board.checkPossibleMoves()
@@ -89,7 +88,4 @@ class Random:
                                     self.board.changeable = element
                                 break
                         break
-
-        print("semi random we have found it in {} steps ".format(len(visited)))
-        print("WE HAVE FOUND IT!")
         return path

@@ -4,6 +4,7 @@ from classes.Board import Board
 from classes.ReadBoard import ReadBoard
 from algorithms.random import Random
 from algorithms.bfs import BFS
+from copy import copy, deepcopy
 
 def main():
 
@@ -42,25 +43,29 @@ def main():
 
 	if algorithm == "random":
 		random = Random(game)
-		radom2 = Random(game)
 
-		solvedSteps = 1000000000
+		solvedSteps = 1003
 		solvedGame = []
-		for i in range(1000):
-			solvedGameTemp, solvedStepsTemp = random.semiRandomSelection()
+		for i in range(100):
+			print("Fastest solution found so far: {} moves".format(solvedSteps))
+			print("Try {}".format(i))
+			newBoard = deepcopy(random)
+			solvedGameTemp = newBoard.semiRandomSelection(solvedSteps)
+			solvedStepsTemp = len(solvedGameTemp)
 			if solvedStepsTemp < solvedSteps:
 				solvedSteps = solvedStepsTemp
 				solvedGame = solvedGameTemp
 				print(solvedSteps)
 		
+		if solvedSteps < 1000:
+			print(solvedGame)
+			i = 0
+			for game in solvedGame:
+				game.visualize(solvedGame[i], beginState.colors, "random", data, i)
+			game.visualize(solvedGame[-1], beginState.colors, "random", data, 1182)
 
-		solvedgame2 = random.randomSelection()
 
 
-
-
-
-		print("length of path {}".format(len(solvedgame)))
 
 
 
