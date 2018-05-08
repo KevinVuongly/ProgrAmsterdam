@@ -2,6 +2,7 @@ import time
 
 from classes.Board import Board
 from classes.ReadBoard import ReadBoard
+from classes.Archive import Archive
 from algorithms.random import Random
 from algorithms.bfs import BFS
 
@@ -40,8 +41,9 @@ def main():
 			print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Running algorithm...")
 			break
 
+	archive = Archive()
+
 	if algorithm == "random":
-<<<<<<< HEAD:main.py
 		random = Random(game)
 		radom2 = Random(game)
 
@@ -49,18 +51,8 @@ def main():
 		solvedgame2 = random.randomSelection()
 		print("length of path {}".format(len(solvedgame)))
 
-
-
-
-
-=======
-		loadGame = Random(game)
-
-		solvedgame = loadGame.randomSelection()
-		solvedgame.visualize(solvedgame.changeable, beginState.colors)
->>>>>>> 172c3adfd60221bdcfd5f2c8e7d4a2e8daf8081d:src/main.py
 	elif algorithm == "BFS":
-		loadGame = BFS(data, game, beginState.colors)
+		loadGame = BFS(data, game, archive, beginState.colors)
 		solvedgame = loadGame.bfs()
 
 	print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")

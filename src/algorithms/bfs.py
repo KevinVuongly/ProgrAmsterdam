@@ -2,12 +2,13 @@ from classes.Board import Board
 from copy import copy, deepcopy
 
 class BFS:
-        def __init__(self, game, board, colors):
+        def __init__(self, game, board, archive, colors):
             """
             Takes all information of the board with it's state as the beginning of the game.
             """
             self.game = game
             self.board = board
+            self.archive = archive
             self.colors = colors
 
         def bfs(self):
@@ -16,10 +17,9 @@ class BFS:
             it finds a solution e.g. a state which the red car can move to the end.
             """
 
-            self.queue = [self.board.changeable]
+            queue = [self.board.changeable]
 
-            self.archive = {}
-            self.archive[str(self.board.changeable)] = "beginning!"
+            self.archive.visitedStates[str(self.board.changeable)] = "beginning!"
 
             while self.board.checkSolution() != 0:
 
@@ -29,37 +29,15 @@ class BFS:
                 childToCheck = 0
 
                 while childToCheck != amountOfChildren:
-                    children, childToCheck, amountOfChildren = self.removeRedundantChild(children, childToCheck, amountOfChildren)
+                    children, childToCheck, amountOfChildren = self.archive.removeRedundantChild(children, childToCheck, amountOfChildren)
 
                 if amountOfChildren > 0:
-                    self.addToArchive(children)
+                    self.archive.addChild(self.board.changeable, queue, children)
 
-                self.queue.pop(0)
-                self.board.changeable = self.queue[0]
-
-            print(len(self.archive))
+                queue.pop(0)
+                self.board.changeable = queue[0]
 
             self.pathSolution(self.board.changeable)
-
-        def removeRedundantChild(self, children, childPos, childrenLeft):
-            """
-            Removes duplicate state e.g. child that is already listed in the archive
-            """
-            if str(children[childPos]) in self.archive.keys():
-                children.pop(childPos)
-                childrenLeft -= 1
-            else:
-                childPos += 1
-
-            return children, childPos, childrenLeft
-
-        def addToArchive(self, childrenOfState):
-            """
-            Add's child as key, with the parent as the value to the archive dictionary.
-            """
-            for i in range(len(childrenOfState)):
-                self.queue.append(childrenOfState[i])
-                self.archive[str(childrenOfState[i])] = self.board.changeable
 
         def pathSolution(self, solutionState):
             """
@@ -68,13 +46,13 @@ class BFS:
             path = [solutionState]
 
             child = solutionState
-            parent = self.archive[str(solutionState)]
+            parent = self.archive.visitedStates[str(solutionState)]
 
-            while self.archive[str(child)] != "beginning!":
+            while self.archive.visitedStates[str(child)] != "beginning!":
                 path.insert(0, parent)
 
                 child = parent
-                parent = self.archive[str(child)]
+                parent = self.archive.visitedStates[str(child)]
 
             for i in range(len(path)):
                 self.board.visualize(path[i], self.colors, "BFS", self.game, i)
