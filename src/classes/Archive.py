@@ -15,7 +15,7 @@ class Archive:
 
         return children, childPos, childrenLeft
 
-    def addChild(self, parent, queue, childrenOfState):
+    def addChildBFS(self, parent, queue, childrenOfState):
         """
         Add's child as key, with the parent as the value to the archive dictionary.
         """

@@ -20,7 +20,6 @@ class Random:
         counter = 0
         child = []
         visited = []
-        noOptions = []
 
         while self.board.checkSolution() != 0 and len(visited) < maxMoves:
 
@@ -40,7 +39,6 @@ class Random:
         (Later added if a configuration has no non-visited options, skip that one.
             i hoped the code would find a solution faster )
         """
-        beginState = deepcopy(self.board.changeable)
 
         steps = 0
         child = []

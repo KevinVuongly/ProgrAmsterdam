@@ -29,8 +29,8 @@ def main():
 				break
 
 	while True:
-		algorithm = input("Pick which algorithm you want to use(random, BFS): ")
-		if algorithm != "random" and algorithm != "BFS":
+		algorithm = input("Pick which algorithm you want to use(random, BFS, BFSheuristic): ")
+		if algorithm != "random" and algorithm != "BFS" and algorithm != "BFSheuristic":
 			print("Please pick a correct algorithm.")
 		else:
 			file = "data/game" + str(data) + ".csv"
@@ -47,11 +47,11 @@ def main():
 	if algorithm == "random":
 		random = Random(game)
 
-		solvedSteps = 1003
+		solvedSteps = 1500
+		upperbound = 1500
 		solvedGame = []
-		for i in range(100):
-			print("Fastest solution found so far: {} moves".format(solvedSteps))
-			print("Try {}".format(i))
+		for i in range(5000):
+			print(solvedSteps)
 			newBoard = deepcopy(random)
 			solvedGameTemp = newBoard.semiRandomSelection(solvedSteps)
 			solvedStepsTemp = len(solvedGameTemp)
@@ -60,20 +60,17 @@ def main():
 				solvedGame = solvedGameTemp
 				print(solvedSteps)
 
-		
-		if solvedSteps < 1000:
-			print(solvedGame)
-			i = 0
-			for game in solvedGame:
+		if solvedSteps < upperbound:
+			for i in range(len(solvedGame)):
 				game.visualize(solvedGame[i], beginState.colors, "random", data, i)
-			game.visualize(solvedGame[-1], beginState.colors, "random", data, 1182)
-
-
-		
 
 	elif algorithm == "BFS":
 		loadGame = BFS(data, game, archive, beginState.colors)
 		solvedgame = loadGame.bfs()
+
+	elif algorithm == "BFSheuristic":
+		loadGame = BFS(data, game, archive, beginState.colors)
+		solvedgame = loadGame.bfsHeuristic()
 
 	print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")
 
