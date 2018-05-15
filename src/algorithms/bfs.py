@@ -55,8 +55,15 @@ class BFS:
             blocksState = self.board.blockingCars(self.board.changeable)
             queue[blocksState].append(self.board.changeable)
 
+            visited = 100000
+
             while self.board.checkSolution() != 0:
+
                 children = self.board.createChildren()
+
+                if len(self.archive.visitedStates) > visited:
+                    print(len(self.archive.visitedStates))
+                    visited += 100000
 
                 amountOfChildren = len(children)
                 childToCheck = 0
@@ -67,7 +74,9 @@ class BFS:
                 if amountOfChildren > 0:
                     for i in range(amountOfChildren):
                         blocks = self.board.blockingCars(children[i])
-                        queue[blocks].append(children[i])
+
+                        if len(queue[blocks]) < 50000:
+                            queue[blocks].append(children[i])
 
                         self.archive.visitedStates[str(children[i])] = self.board.changeable
 

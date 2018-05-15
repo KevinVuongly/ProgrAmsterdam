@@ -47,19 +47,11 @@ def main():
 	if algorithm == "random":
 		random = Random(game)
 
-<<<<<<< HEAD
-		solvedSteps = 1500
-		upperbound = 1500
+		solvedSteps = 500
+		upperbound = 500
 		solvedGame = []
-		for i in range(5000):
+		for i in range(50000):
 			print(solvedSteps)
-=======
-		solvedSteps = 1181
-		solvedGame = []
-		for i in range(10000):
-			print("Fastest solution found so far: {} moves".format(solvedSteps))
-			print("Try {}".format(i))
->>>>>>> 3a6d6a90d33f0dc71b18cbe50fbf3d6210023e76
 			newBoard = deepcopy(random)
 			solvedGameTemp = newBoard.semiRandomSelection(solvedSteps)
 			solvedStepsTemp = len(solvedGameTemp)
@@ -68,20 +60,9 @@ def main():
 				solvedGame = solvedGameTemp
 				print(solvedSteps)
 
-<<<<<<< HEAD
 		if solvedSteps < upperbound:
 			for i in range(len(solvedGame)):
 				game.visualize(solvedGame[i], beginState.colors, "random", data, i)
-=======
-		
-		if solvedSteps < 1181:
-			print(solvedGame)
-			for i in range(len(solvedGame)):
-				game.visualize(solvedGame[i], beginState.colors, "random", data, i)
-
-
-
->>>>>>> 3a6d6a90d33f0dc71b18cbe50fbf3d6210023e76
 
 	elif algorithm == "BFS":
 		loadGame = BFS(data, game, archive, beginState.colors)
