@@ -42,14 +42,13 @@ def main():
 			print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Running algorithm...")
 			break
 
-	archive = Archive()
 
 	if algorithm == "random":
 		random = Random(game)
 
-		solvedSteps = 1181
+		solvedSteps = 180
 		solvedGame = []
-		for i in range(10000):
+		for i in range(150000):
 			print("Fastest solution found so far: {} moves".format(solvedSteps))
 			print("Try {}".format(i))
 			newBoard = deepcopy(random)
@@ -61,7 +60,7 @@ def main():
 				print(solvedSteps)
 
 		
-		if solvedSteps < 1181:
+		if solvedSteps < 180:
 			print(solvedGame)
 			for i in range(len(solvedGame)):
 				game.visualize(solvedGame[i], beginState.colors, "random", data, i)
