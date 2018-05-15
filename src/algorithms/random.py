@@ -20,7 +20,6 @@ class Random:
         counter = 0
         child = []
         visited = []
-        noOptions = []
 
         while self.board.checkSolution() != 0 and len(visited) < maxMoves:
 
@@ -40,7 +39,6 @@ class Random:
         (Later added if a configuration has no non-visited options, skip that one.
             i hoped the code would find a solution faster )
         """
-        beginState = deepcopy(self.board.changeable)
 
         steps = 0
         child = []
@@ -61,6 +59,28 @@ class Random:
                 path.append(self.board.changeable)
             else:
                 j = 0
+<<<<<<< HEAD
+                if self.board.changeable not in visited:
+                    visited.append(self.board.changeable)
+                    path.append(self.board.changeable)
+                else:
+                    while self.board.changeable in visited:
+
+                        self.board.changeable = random.choice(children)
+                        j += 1
+                        if j > 20:
+                            path = []
+                            print("we have made a jump")
+                            if self.board.changeable not in noOptions:
+                                noOptions.append(self.board.changeable)
+                            for element in visited:
+                                path.append(element)
+                                if element not in noOptions:
+                                    self.board.changeable = element
+                                break
+                        break
+        return path
+=======
                 while self.board.changeable in visited:
                     self.board.changeable = random.choice(children)
                     j += 1
@@ -77,3 +97,4 @@ class Random:
                     break
                 path.append(self.board.changeable)
         return path
+>>>>>>> 3a6d6a90d33f0dc71b18cbe50fbf3d6210023e76
