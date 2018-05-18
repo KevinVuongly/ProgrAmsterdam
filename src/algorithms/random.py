@@ -79,4 +79,8 @@ class Random:
                                     self.board.changeable = element
                                 break
                         break
+<<<<<<< HEAD
         return path
+=======
+        return path
+>>>>>>> c33f79da28ed2590c8246335df059093734fd2e5
