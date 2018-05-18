@@ -1,7 +1,11 @@
+from classes.Heuristics import Heuristic
+from queue import Queue, PriorityQueue
+
 class Archive:
 
-    def __init__(self):
+    def __init__(self, heuristic):
         self.visitedStates = {}
+        self.heuristic = heuristic
 
     def removeRedundantChild(self, children, childPos, childrenLeft):
         """
@@ -15,13 +19,32 @@ class Archive:
 
         return children, childPos, childrenLeft
 
+    def addToArchive(self, parent, childrenOfState):
+        for i in range(len(childrenOfState)):
+            self.visitedStates[str(childrenOfState[i])] = parent
+
     def addChildBFS(self, parent, queue, childrenOfState):
         """
         Add's child as key, with the parent as the value to the archive dictionary.
         """
 
         for i in range(len(childrenOfState)):
-            queue.append(childrenOfState[i])
-            self.visitedStates[str(childrenOfState[i])] = parent
+            queue.put(childrenOfState[i])
+
+        return queue
+
+    def addChildBeamSearch(self, width, parent, queue, childrenOfState, solution):
+
+        childrenScore = PriorityQueue()
+
+        for i in range(len(childrenOfState)):
+            score = self.heuristic.positionScore(childrenOfState[i], solution)
+            childrenScore.put((score, childrenOfState[i]))
+
+        if width > len(childrenOfState):
+            width = len(childrenOfState)
+
+        for i in range(width):
+            queue.put(list(childrenScore.get()[1]))
 
         return queue

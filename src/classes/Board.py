@@ -108,23 +108,6 @@ class Board:
                     children.append(child)
         return children
 
-    def blockingCars(self, stateChangeable):
-        """ Checks how many cars are blocking the way of the red car."""
-        blocks = 0
-        redCarSize = 2
-
-        posToCheck = self.gridSize - stateChangeable[0] - redCarSize
-
-        for i in range(1, self.nrOfCars):
-            if self.direction[i] == "v":
-                for j in range(posToCheck):
-                    for k in range(self.length[i]):
-                        if stateChangeable[i] == self.fixed[0] - k and self.fixed[i] == redCarSize + stateChangeable[0] + j:
-                            blocks += 1
-                            break
-
-        return blocks
-
     def checkSolution(self):
         """ Checks if board is solved and returns 0 if so """
         movesToEndblock = self.gridSize - self.changeable[0] - 2

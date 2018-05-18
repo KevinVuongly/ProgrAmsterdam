@@ -3,6 +3,7 @@ import time
 from classes.Board import Board
 from classes.ReadBoard import ReadBoard
 from classes.Archive import Archive
+from classes.Heuristics import Heuristic
 from algorithms.random import Random
 from algorithms.bfs import BFS
 from copy import copy, deepcopy
@@ -28,9 +29,11 @@ def main():
 			else:
 				break
 
+	algorithms = ["random", "bfs"]
+
 	while True:
-		algorithm = input("Pick which algorithm you want to use(random, BFS, BFSheuristic): ")
-		if algorithm != "random" and algorithm != "BFS" and algorithm != "BFSheuristic":
+		algorithm = input("Pick which algorithm you want to use(random, BFS): ")
+		if algorithm.lower() not in algorithms:
 			print("Please pick a correct algorithm.")
 		else:
 			file = "data/game" + str(data) + ".csv"
@@ -39,20 +42,15 @@ def main():
 
 			game = Board(beginState.gridSize, beginState.changeable, beginState.fixed, beginState.direction, beginState.length)
 
-			print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Running algorithm...")
 			break
 
-
-	if algorithm == "random":
+	if algorithm.lower() == algorithms[0]:
 		random = Random(game)
 
-		solvedSteps = 500
-		upperbound = 500
+		solvedSteps = 100
+		upperbound = 100
 		solvedGame = []
-		for i in range(50000):
-			print(solvedSteps)
-		solvedGame = []
-		for i in range(150000):
+		for i in range(5000):
 			print("Fastest solution found so far: {} moves".format(solvedSteps))
 			print("Try {}".format(i))
 			newBoard = deepcopy(random)
@@ -67,15 +65,59 @@ def main():
 			for i in range(len(solvedGame)):
 				game.visualize(solvedGame[i], beginState.colors, "random", data, i)
 
-	elif algorithm == "BFS":
-		loadGame = BFS(data, game, archive, beginState.colors)
-		solvedgame = loadGame.bfs()
+			saveSolution(solvedGame[len(solvedGame[i]) - 1], "random", data)
 
-	elif algorithm == "BFSheuristic":
-		loadGame = BFS(data, game, archive, beginState.colors)
-		solvedgame = loadGame.bfsHeuristic()
+	elif algorithm.lower() == algorithms[1]:
+		types = ["normal", "heuristic", "beamsearch"]
 
-	print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")
+		while True:
+			algoType = input("How do you want to use the breadth-first search algorithm?(normal, heuristic, beamSearch): ")
+
+			if algoType.lower() not in types:
+				print("Please pick a correct type.")
+			else:
+				heuristic = Heuristic(game)
+				archive = Archive(heuristic)
+
+				if algoType.lower() == types[0]:
+					loadGame = BFS(data, game, archive, beginState.colors)
+					solvedGame = loadGame.bfs()
+					saveSolution(solvedGame, "BFS", data)
+
+				elif algoType.lower() == types[1]:
+					loadGame = BFS(data, game, archive, beginState.colors)
+					solvedGame = loadGame.blockingRedCarHeuristic(Heuristic(game))
+					saveSolution(solvedGame, "BFSheuristic", data)
+
+				elif algoType.lower() == types[2]:
+					loadGame = BFS(data, game, archive, beginState.colors)
+
+					while True:
+
+						width = input("What's the width you want to use for the beamsearch?: ")
+
+						try:
+							width = int(width)
+						except:
+							print("Please pick a feasible width.")
+
+						if isinstance(width, int):
+
+							if width < 0:
+								print("Please pick a feasible width.")
+							else:
+								break
+
+					solvedGame = loadGame.beamSearch(width)
+					saveSolution(solvedGame, "BFSBeamSearch", data)
+
+				break
+
+def saveSolution(solutionState, gameType, game):
+    textfile = "solutions/" + str(gameType) + "/" + str(game) + ".txt"
+
+    with open(textfile, "w") as file:
+        file.write("{}".format(solutionState))
 
 if __name__ == "__main__":
 	main()
