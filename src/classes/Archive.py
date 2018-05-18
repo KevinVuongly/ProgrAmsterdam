@@ -25,3 +25,18 @@ class Archive:
             self.visitedStates[str(childrenOfState[i])] = parent
 
         return queue
+
+
+    def addChildDFS(self, parent, stack, childrenOfState):
+        """
+        Add's child as key, with the parent as the value to the archive dictionary.
+        """
+
+        for i in range(len(childrenOfState)):
+            if i not in self.visitedStates.keys():
+                stack.append(childrenOfState[i])
+                self.visitedStates[str(childrenOfState[i])] = parent
+                break   
+            stack.pop()
+
+        return stack

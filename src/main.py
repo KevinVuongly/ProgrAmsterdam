@@ -5,6 +5,7 @@ from classes.ReadBoard import ReadBoard
 from classes.Archive import Archive
 from algorithms.random import Random
 from algorithms.bfs import BFS
+from algorithms.dfs import DFS
 from copy import copy, deepcopy
 
 def main():
@@ -29,8 +30,8 @@ def main():
 				break
 
 	while True:
-		algorithm = input("Pick which algorithm you want to use(random, BFS, BFSheuristic): ")
-		if algorithm != "random" and algorithm != "BFS" and algorithm != "BFSheuristic":
+		algorithm = input("Pick which algorithm you want to use(random, BFS, BFSheuristic, DFS): ")
+		if algorithm != "random" and algorithm != "BFS" and algorithm != "BFSheuristic" and algorithm != "DFS":
 			print("Please pick a correct algorithm.")
 		else:
 			file = "data/game" + str(data) + ".csv"
@@ -42,27 +43,18 @@ def main():
 			print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Running algorithm...")
 			break
 
+	archive = Archive()
 
 	if algorithm == "random":
 		random = Random(game)
 
-<<<<<<< HEAD
+
 		solvedSteps = 180
-=======
-<<<<<<< HEAD
-		solvedSteps = 1500
-		upperbound = 1500
-		solvedGame = []
-		for i in range(5000):
-			print(solvedSteps)
-=======
-		solvedSteps = 1181
->>>>>>> d32f298a3fcb3b6b65600af3b100a807adb7046b
+
 		solvedGame = []
 		for i in range(150000):
 			print("Fastest solution found so far: {} moves".format(solvedSteps))
 			print("Try {}".format(i))
->>>>>>> 3a6d6a90d33f0dc71b18cbe50fbf3d6210023e76
 			newBoard = deepcopy(random)
 			solvedGameTemp = newBoard.semiRandomSelection(solvedSteps)
 			solvedStepsTemp = len(solvedGameTemp)
@@ -71,11 +63,6 @@ def main():
 				solvedGame = solvedGameTemp
 				print(solvedSteps)
 
-<<<<<<< HEAD
-		if solvedSteps < upperbound:
-			for i in range(len(solvedGame)):
-				game.visualize(solvedGame[i], beginState.colors, "random", data, i)
-=======
 		
 		if solvedSteps < 180:
 			print(solvedGame)
@@ -84,7 +71,10 @@ def main():
 
 
 
->>>>>>> 3a6d6a90d33f0dc71b18cbe50fbf3d6210023e76
+
+	elif algorithm == "DFS":
+		loadGame = DFS(data, game, archive, beginState.colors)
+		solvedgame = loadGame.dfs()
 
 	elif algorithm == "BFS":
 		loadGame = BFS(data, game, archive, beginState.colors)
