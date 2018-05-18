@@ -48,17 +48,10 @@ def main():
 	if algorithm == "random":
 		random = Random(game)
 
-<<<<<<< HEAD
 
-		solvedSteps = 180
-
-=======
 		solvedSteps = 500
-		upperbound = 500
-		solvedGame = []
-		for i in range(50000):
-			print(solvedSteps)
->>>>>>> c33f79da28ed2590c8246335df059093734fd2e5
+
+
 		solvedGame = []
 		for i in range(150000):
 			print("Fastest solution found so far: {} moves".format(solvedSteps))
@@ -71,7 +64,7 @@ def main():
 				solvedGame = solvedGameTemp
 				print(solvedSteps)
 
-<<<<<<< HEAD
+
 		
 		if solvedSteps < 180:
 			print(solvedGame)
@@ -84,11 +77,7 @@ def main():
 	elif algorithm == "DFS":
 		loadGame = DFS(data, game, archive, beginState.colors)
 		solvedgame = loadGame.dfs()
-=======
-		if solvedSteps < upperbound:
-			for i in range(len(solvedGame)):
-				game.visualize(solvedGame[i], beginState.colors, "random", data, i)
->>>>>>> c33f79da28ed2590c8246335df059093734fd2e5
+
 
 	elif algorithm == "BFS":
 		loadGame = BFS(data, game, archive, beginState.colors)
