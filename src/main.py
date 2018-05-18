@@ -6,6 +6,7 @@ from classes.Archive import Archive
 from classes.Heuristics import Heuristic
 from algorithms.random import Random
 from algorithms.bfs import BFS
+from algorithms.dfs import DFS
 from copy import copy, deepcopy
 
 def main():
@@ -61,7 +62,10 @@ def main():
 				solvedGame = solvedGameTemp
 				print(solvedSteps)
 
-		if solvedSteps < upperbound:
+
+
+		if solvedSteps < 180:
+			print(solvedGame)
 			for i in range(len(solvedGame)):
 				game.visualize(solvedGame[i], beginState.colors, "random", data, i)
 

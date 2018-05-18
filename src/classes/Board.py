@@ -149,6 +149,27 @@ class Board:
         print("Move {} saved.".format(move))
         plt.close()
 
+    # def makeVideo(self):
+        # import time
+
+        # from PIL import  ImageGrab
+
+        # x =0
+
+        # while True:
+        #     try:
+        #         x+= 1
+        #         ImageGrab().grab().save('img{}.png'.format(str(x))
+        #     except:
+        #         movie = #Idontknow
+        #         for _ in range(x):
+        #             movie.save("img{}.png".format(str(_)))
+
+        # movie.save()
+
+
+
+
     def createGrid(self, changeable):
         """
         Creates a matrix representation of the board
