@@ -1,6 +1,6 @@
 import time
 
-import numpy
+import csv
 from classes.Board import Board
 from classes.ReadBoard import ReadBoard
 from classes.Archive import Archive
@@ -49,10 +49,10 @@ def main():
 	if algorithm.lower() == algorithms[0]:
 		random = Random(game)
 
-		solvedSteps = 300
-		upperbound = 300
+		solvedSteps = 240
+		upperbound = 240
 		solvedGame = []
-		for i in range(10):
+		for i in range(100000):
 			print("Fastest solution found so far: {} moves".format(solvedSteps))
 			print("Try {}".format(i))
 			newBoard = deepcopy(random)
@@ -62,8 +62,7 @@ def main():
 			if solvedStepsTemp < solvedSteps:
 				solvedSteps = solvedStepsTemp
 				solvedGame = solvedGameTemp
-				
-			saveSolution(solvedGame, "random", data)
+				saveSolution(solvedGame, "random", data)
 
 		"""
 		if solvedSteps < 180:
@@ -89,8 +88,6 @@ def main():
 				if algoType.lower() == types[0]:
 					loadGame = BFS(data, game, archive, beginState.colors)
 					solvedGame = loadGame.bfs()
-					for move in solvedGame:
-						print(solvedGame)
 					saveSolution(solvedGame, "BFS", data)
 
 				elif algoType.lower() == types[1]:
@@ -124,11 +121,11 @@ def main():
 
 def saveSolution(solutionState, gameType, game):
     textfile = "solutions/" + str(gameType) + "/" + str(game) + ".csv"
-    numpy.savetxt(textfile, solutionState, delimiter =",")
-
 
     with open(textfile, "w") as file:
-        file.write("{}".format(solutionState))
+        writer = csv.writer(file, delimiter = ',')
+        for row in solutionState:
+        	writer.writerow(row)
 
 
 if __name__ == "__main__":
