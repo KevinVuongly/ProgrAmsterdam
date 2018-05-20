@@ -62,8 +62,6 @@ def main():
 				solvedGame = solvedGameTemp
 				print(solvedSteps)
 
-
-
 		if solvedSteps < 180:
 			print(solvedGame)
 			for i in range(len(solvedGame)):

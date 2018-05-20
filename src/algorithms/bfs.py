@@ -116,6 +116,8 @@ class BFS:
             queue = Queue()
             queue.put(self.board.changeable)
 
+            level = 0
+
             while self.board.checkSolution() != 0 and queue.qsize() > 0:
                 children = self.board.createChildren()
 
@@ -127,9 +129,12 @@ class BFS:
 
                 if amountOfChildren > 0:
                     self.archive.addToArchive(self.board.changeable, children)
-                    self.archive.addChildBeamSearch(width, self.board.changeable, queue, children, solution)
+                    self.archive.addChildBeamSearch(self.board.changeable, queue, children, solution, level)
 
                 self.board.changeable = queue.get()
+                
+                if self.board.changeable = "end":
+                    self.board.changeable = queue.get()
 
             if self.board.checkSolution() == 0:
                 self.pathSolution(self.board.changeable, "BFSBeamSearch")
