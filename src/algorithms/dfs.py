@@ -10,7 +10,7 @@ class DFS:
             self.board = board
 
             self.archive = archive
-            self.archive.visitedStates[str(self.board.changeable)] = "beginning!"
+            self.archive.visitedStates[str(self.board.changeable)] = ["beginning!",1]
 
             self.colors = colors
 
@@ -20,18 +20,55 @@ class DFS:
             it finds a solution e.g. a state which the red car can move to the end.
             """
 
-            maxDepth = 50
+            maxDepth = 300
             depth = 0
-
 
             stack = [self.board.changeable]
 
             while self.board.checkSolution() != 0:
 
+
+
                 children = self.board.createChildren()
 
+                childLevel = self.archive.visitedStates[str(self.board.changeable)][1] + 1
+                depth = childLevel
+
+
+
                 amountOfChildren = len(children)
-                childToCheck = 0
+
+                childrenAvailable = False
+
+                for child in children:
+                    if str(child) not in self.archive.visitedStates.keys():
+                        stack.append(child)
+                        self.archive.addToDfsArchive(self.board.changeable, childLevel, child)
+                        childrenAvailable = True
+                        break
+                    else:
+                        priorKeyLevel = self.archive.visitedStates[str(child)][1]
+                        if childLevel < priorKeyLevel:
+                            stack.append(child)
+                            self.archive.addToDfsArchive(self.board.changeable, childLevel, child)
+                            childrenAvailable = True
+                            break
+                        else:
+                            continue
+                
+                if childrenAvailable == False:
+                    stack.pop()
+
+                if depth > maxDepth:
+                    for i in range(0,200):
+                        stack.pop()
+
+                self.board.changeable = stack[-1]
+
+
+                """
+
+
                 while childToCheck != amountOfChildren:
                     children, childToCheck, amountOfChildren = self.archive.removeRedundantChild(children, childToCheck, amountOfChildren)
 
@@ -42,7 +79,7 @@ class DFS:
 
                 depth += 1
                 
-                """
+                
                 if depth >= maxDepth:
                     for i in range(0,10):
                         stack.pop    
@@ -50,51 +87,9 @@ class DFS:
                 """
 
 
-                self.board.changeable = stack[-1]
 
-            print(depth)
-            #self.pathSolution(self.board.changeable, "DFS")
-            self.board.visualize(self.board.changeable, self.colors, "DFS", self.game, 1)
+            self.pathSolution(self.board.changeable, "DFS")
 
-        def bfsHeuristic(self):
-            """
-            Runs breadth first search on the initialized board. The algorithm stops when
-            it finds a solution e.g. a state which the red car can move to the end.
-
-            Only now the queue is using a heuristic instead of first come first serve.
-            """
-            redCarSize = 2
-
-            blocksPossible = self.board.gridSize - redCarSize + 1
-            queue = [[] for i in range(blocksPossible)]
-
-            blocksState = self.board.blockingCars(self.board.changeable)
-            queue[blocksState].append(self.board.changeable)
-
-            while self.board.checkSolution() != 0:
-                children = self.board.createChildren()
-
-                amountOfChildren = len(children)
-                childToCheck = 0
-
-                while childToCheck != amountOfChildren:
-                    children, childToCheck, amountOfChildren = self.archive.removeRedundantChild(children, childToCheck, amountOfChildren)
-
-                if amountOfChildren > 0:
-                    for i in range(amountOfChildren):
-                        blocks = self.board.blockingCars(children[i])
-                        queue[blocks].append(children[i])
-
-                        self.archive.visitedStates[str(children[i])] = self.board.changeable
-
-                blocksState = self.board.blockingCars(self.board.changeable)
-
-                queue[blocksState].pop(0)
-
-                for i in range(blocksPossible):
-                    if len(queue[i]) > 0:
-                        self.board.changeable = queue[i][0]
-                        break
 
 
         def pathSolution(self, solutionState, gameType):
@@ -103,14 +98,18 @@ class DFS:
             """
             path = [solutionState]
 
-            child = solutionState
-            parent = self.archive.visitedStates[str(solutionState)]
+            child = copy(solutionState)
 
-            while self.archive.visitedStates[str(child)] != "beginning!":
+            parent = self.archive.visitedStates[str(solutionState)][0]
+
+            while self.archive.visitedStates[str(child)][0] != "beginning!":
                 path.insert(0, parent)
 
                 child = parent
-                parent = self.archive.visitedStates[str(child)]
+                parent = self.archive.visitedStates[str(child)][0]
 
             for i in range(len(path)):
                 self.board.visualize(path[i], self.colors, gameType, self.game, i)
+
+
+            return len(path)

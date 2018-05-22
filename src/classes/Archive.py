@@ -7,6 +7,7 @@ class Archive:
         self.visitedStates = {}
         self.heuristic = heuristic
 
+
     def removeRedundantChild(self, children, childPos, childrenLeft):
         """
         Removes duplicate state e.g. child that is already listed in the archive
@@ -22,6 +23,9 @@ class Archive:
     def addToArchive(self, parent, childrenOfState):
         for i in range(len(childrenOfState)):
             self.visitedStates[str(childrenOfState[i])] = parent
+
+    def addToDfsArchive(self, parent, level, child):
+        self.visitedStates[str(child)] = [parent, level]
 
     def addChildBFS(self, parent, queue, childrenOfState):
         """
@@ -55,11 +59,12 @@ class Archive:
         Add's child as key, with the parent as the value to the archive dictionary.
         """
 
+
         for i in range(len(childrenOfState)):
             if i not in self.visitedStates.keys():
                 stack.append(childrenOfState[i])
                 self.visitedStates[str(childrenOfState[i])] = parent
-                break   
+                break
             stack.pop()
 
         return stack

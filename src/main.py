@@ -31,10 +31,10 @@ def main():
 			else:
 				break
 
-	algorithms = ["random", "bfs"]
+	algorithms = ["random", "bfs", "dfs"]
 
 	while True:
-		algorithm = input("Pick which algorithm you want to use(random, BFS): ")
+		algorithm = input("Pick which algorithm you want to use(random, BFS, dfs): ")
 		if algorithm.lower() not in algorithms:
 			print("Please pick a correct algorithm.")
 		else:
@@ -72,6 +72,11 @@ def main():
 
 			saveSolution(solvedGame[len(solvedGame[i]) - 1], "random", data)
 		"""
+	elif algorithm.lower() == algorithms[2]:
+		heuristic = Heuristic(game)
+		archive = Archive(heuristic)
+		toDfs = DFS(data, game, archive, beginState.colors)
+		toDfs.dfs()
 
 	elif algorithm.lower() == algorithms[1]:
 		types = ["normal", "heuristic", "beamsearch"]
