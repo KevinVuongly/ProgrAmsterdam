@@ -18,11 +18,14 @@ class BFSBetweenStates:
 
             self.endState = endState 
 
-        def bfsBetweenStates(self):
+        def bfsBetweenStates(self, save):
             """
             Runs breadth first search on the initialized board. The algorithm stops when
             it finds a solution e.g. a state which the red car can move to the end.
             """
+
+            self.save = save
+            foldername = "betweenStates"
 
             queue = Queue()
             queue.put(self.board.changeable)
@@ -43,26 +46,6 @@ class BFSBetweenStates:
 
                 self.board.changeable = queue.get()
 
-            path = self.pathSolution(self.board.changeable, "betweenStates")
+            self.save.getPath(self.board.changeable, foldername)
+            self.save.saveSolution(self.board.changeable, foldername)
 
-
-            return path
-
-       
-        def pathSolution(self, solutionState, gameType):
-            """
-            Visualizes the path found through breadth first search.
-            """
-            path = [solutionState]
-
-            child = copy(solutionState)
-
-            parent = self.archive.visitedStates[str(child)]
-
-            while self.archive.visitedStates[str(child)] != "beginning!":
-                path.insert(0, parent)
-
-                child = parent
-                parent = self.archive.visitedStates[str(child)]
-
-            return path

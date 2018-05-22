@@ -109,6 +109,21 @@ class Save:
         for i in range(len(self.path)):
             self.visualize(self.path[i], i, folder)
 
+    def getPath(self, solutionState, foldername):
+        self.path = [solutionState]
+
+        child = copy(solutionState)
+        parent = self.archive.visitedStates[str(child)]
+
+        while self.archive.visitedStates[str(child)] != "beginning!":
+            self.path.insert(0, parent)
+
+            child = parent
+            parent = self.archive.visitedStates[str(child)]
+
+        return self.path
+
+
     def createPathSolution(self, child):
         """ Creates the path using the archive. """
         parent = self.archive.visitedStates[str(child)]

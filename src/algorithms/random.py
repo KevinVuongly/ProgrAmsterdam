@@ -39,5 +39,5 @@ class Random:
             else:
                 self.board.changeable = self.archive.visitedStates[str(self.board.changeable)]
 
-        self.save.pathSolution(self.board.changeable, foldername)
+        self.save.getPath(self.board.changeable, foldername)
         self.save.saveSolution(self.board.changeable, foldername)
