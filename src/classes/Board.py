@@ -1,8 +1,4 @@
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.colors import ListedColormap
 from copy import copy, deepcopy
-import os
 
 class Board:
     """A class that describes the orientation of the board and allows and checks moves."""
@@ -42,14 +38,7 @@ class Board:
         if newPos < 0 or newPos > self.gridSize - self.length[vehicle]:
             return 1
 
-        usedElement = [[0 for x in range(self.gridSize)] for y in range(self.gridSize)]
-
-        for i in range(len(self.changeable)):
-            for j in range(self.length[i]):
-                if self.direction[i] == "h":
-                    usedElement[self.fixed[i]][self.changeable[i] + j] = 1
-                else:
-                    usedElement[self.changeable[i] + j][self.fixed[i]] = 1
+        usedElement = self.occupiedElements()
 
         if change > 0:
             for i in range(change):
@@ -69,12 +58,26 @@ class Board:
                         return 1
         return 0
 
-    def checkPossibleMoves(self):
-        """
-        Checks all possible moves of a given state.
-        """
+    def occupiedElements(self):
+        """ Returns a grid that shows the occupation of an element.
 
-        possiblemovesarray = []
+        If an element is occupied it gets the value of 1. Else, 0.
+        """
+        occupiedMatrix = [[0 for x in range(self.gridSize)] for y in range(self.gridSize)]
+
+        for i in range(len(self.changeable)):
+            for j in range(self.length[i]):
+                if self.direction[i] == "h":
+                    occupiedMatrix[self.fixed[i]][self.changeable[i] + j] = 1
+                else:
+                    occupiedMatrix[self.changeable[i] + j][self.fixed[i]] = 1
+
+        return occupiedMatrix
+
+    def checkPossibleMoves(self):
+        """ Checks all possible moves of a given state. """
+        possibleMovesArray = []
+
 
         for j in range(self.nrOfCars):
             minMaxChange = self.gridSize - self.length[j] + 1
@@ -91,12 +94,12 @@ class Board:
                 else:
                     break
 
-            possiblemovesarray.append(possibleMoves)
+            possibleMovesArray.append(possibleMoves)
 
-        return possiblemovesarray
+        return possibleMovesArray
 
     def createChildren(self):
-        """ Creates the children for given board"""
+        """ Creates the children for given board. """
         children = []
         posMoves = self.checkPossibleMoves()
 
@@ -109,90 +112,8 @@ class Board:
         return children
 
     def checkSolution(self):
-        """ Checks if board is solved and returns 0 if so """
+        """ Checks if board is solved and returns 0 if so. """
         movesToEndblock = self.gridSize - self.changeable[0] - 2
         if self.checkMove(0,movesToEndblock) == 0:
             return 0
         return 1
-
-    def visualize(self, changeable, colors, typeAlgorithm, game, move):
-        """
-        Visualizes the current state of the board.
-        """
-        boardGrid = self.createGrid(changeable)
-
-        image = np.zeros(self.gridSize * self.gridSize)
-
-        for k in range(self.nrOfCars):
-            for i in range(self.gridSize):
-                for j in range(self.gridSize):
-                    if boardGrid[i][j] == "*":
-                        image[self.gridSize * i + j] = 1
-                    elif boardGrid[i][j] == "-":
-                        image[self.gridSize * i + j] = 2
-                    elif boardGrid[i][j] == chr(k + 97) or boardGrid[i][j] == chr(k + 35):
-                        image[self.gridSize * i + j] = 3 + k
-
-        image = image.reshape((self.gridSize, self.gridSize))
-
-        cmap = ListedColormap(colors)
-        plt.matshow(image, cmap=cmap)
-
-        folder = "solutions/" + str(typeAlgorithm) + "/" + str(game)
-
-        if not os.path.exists(folder):
-            os.makedirs(folder)
-
-        figname = folder + "/Move" + str(move) + ".png"
-        plt.savefig(figname)
-
-        print("Move {} saved.".format(move))
-        plt.close()
-
-    # def makeVideo(self):
-        # import time
-
-        # from PIL import  ImageGrab
-
-        # x =0
-
-        # while True:
-        #     try:
-        #         x+= 1
-        #         ImageGrab().grab().save('img{}.png'.format(str(x))
-        #     except:
-        #         movie = #Idontknow
-        #         for _ in range(x):
-        #             movie.save("img{}.png".format(str(_)))
-
-        # movie.save()
-
-
-
-
-    def createGrid(self, changeable):
-        """
-        Creates a matrix representation of the board
-        """
-        grid = [["-" for x in range(self.gridSize)] for y in range(self.gridSize)]
-
-        for j in range(self.length[0]):
-            grid[self.fixed[0]][changeable[0] + j] = "*"
-
-        for i in range(1, self.nrOfCars):
-            if i + 97 < 127:
-                if self.direction[i] == "h":
-                    for j in range(self.length[i]):
-                        grid[self.fixed[i]][changeable[i] + j] = chr(i + 97)
-                else:
-                    for j in range(self.length[i]):
-                        grid[changeable[i] + j][self.fixed[i]] = chr(i + 97)
-            else:
-                if self.direction[i] == "h":
-                    for j in range(self.length[i]):
-                        grid[self.fixed[i]][changeable[i] + j] = chr(i + 35)
-                else:
-                    for j in range(self.length[i]):
-                        grid[changeable[i] + j][self.fixed[i]] = chr(i + 35)
-
-        return grid

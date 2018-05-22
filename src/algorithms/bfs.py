@@ -1,165 +1,148 @@
-from classes.Board import Board
-from classes.Heuristics import Heuristic
 import ast
 import time
-from copy import copy, deepcopy
+from copy import copy
 from queue import Queue, PriorityQueue
 
 class BFS:
-        def __init__(self, game, board, archive, colors):
-            """
-            Takes all information of the board with it's state as the beginning of the game.
-            """
-            self.game = game
-            self.board = board
+    def __init__(self, board, archive):
+        """ Takes all information of the board with it's state as the beginning of the game. """
+        self.board = board
 
-            self.archive = archive
-            self.archive.visitedStates[str(self.board.changeable)] = "beginning!"
+        self.archive = archive
+        self.archive.visitedStates[str(self.board.changeable)] = "beginning!"
 
-            self.colors = colors
+    def bfs(self, type, save):
+        """ Runs breadth first search on the initialized board.
 
-        def bfs(self, heuristic=0):
-            """
-            Runs breadth first search on the initialized board. The algorithm stops when
-            it finds a solution e.g. a state which the red car can move to the end.
-            """
+        The algorithm stops when it finds a solution e.g. a state which the red car can move to the end.
 
-            self.heuristic = heuristic
+        if type = normal:
+            Runs breadth first search.
+        if type = heuristic:
+            Runs breadth first search with blocking red car heuristic. Checks the amount of cars
+            blocking the way of the red car. Also keeps track of the level e.g. the amount of steps
+            it took to get to the given board state.
+        if type = beamsearch:
+            Uses breadth first search "beam search" according to the "positionScore" heuristic
+            in the heuristic class. See Heuristics.py for more information about the used heuristic.
+        """
 
-            queue = Queue()
-            queue.put(self.board.changeable)
+        self.type = type
+        self.save = save
 
-            while self.board.checkSolution() != 0:
+        queue, standbyQueue = self.initQueue()
 
-                children = self.board.createChildren()
+        while self.board.checkSolution() != 0 and queue.qsize() > 0:
+            children = self.board.createChildren()
 
-                amountOfChildren = len(children)
-                childToCheck = 0
+            amountOfChildren = len(children)
+            childToCheck = 0
 
-                while childToCheck != amountOfChildren:
-                    children, childToCheck, amountOfChildren = self.archive.removeRedundantChild(children, childToCheck, amountOfChildren)
+            while childToCheck != amountOfChildren:
+                children, childToCheck, amountOfChildren = self.archive.removeRedundantChild(children, childToCheck, amountOfChildren)
 
-                if amountOfChildren > 0:
-                    self.archive.addToArchive(self.board.changeable, children)
-                    self.archive.addChildBFS(self.board.changeable, queue, children)
+            if amountOfChildren > 0:
+                self.archive.addToArchive(self.board.changeable, children)
 
-                self.board.changeable = queue.get()
+                if type == "normal":
+                    self.archive.addChildBFS(queue, children)
+                elif type == "heuristic":
+                    self.archive.addChildBFSheuristic(standbyQueue, children, level)
+                elif type == "beamsearch":
+                    self.archive.addChildBeamSearch(standbyQueue, children, self.solution)
 
-            self.pathSolution(self.board.changeable, "BFS")
+            self.board.changeable = queue.get()
 
-            print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")
+            if self.board.changeable == self.level:
+                self.level += 1
 
-            return self.board.changeable
+                self.activateQueue(type, queue, standbyQueue)
 
-        def blockingRedCarHeuristic(self, heuristic):
-            """
-            Runs breadth first search on the initialized board. The algorithm stops when
-            it finds a solution e.g. a state which the red car can move to the end.
+        self.finishedAlgorithm()
 
-            Only now the queue is using a heuristic instead of first come first serve.
-            """
-            self.heuristic = heuristic
+        return self.board.changeable
 
-            redCarSize = 2
+    def initQueue(self):
+        """ Initialize the queue for the provided algorithm. """
+        self.level = 0
 
-            blocksPossible = self.board.gridSize - redCarSize + 1
-            queue = [Queue() for i in range(blocksPossible)]
+        activeQueue = Queue()
+        activeQueue.put(self.board.changeable)
 
-            blocksState = self.heuristic.blockingRedCar(self.board.changeable)
-            queue[blocksState].put(self.board.changeable)
+        inactiveQueue = None
 
-            visited = 100000
+        if self.type == "heuristic" or self.type == "beamsearch":
+            activeQueue.put(self.level)
 
-            while self.board.checkSolution() != 0:
+            inactiveQueue = PriorityQueue()
 
-                children = self.board.createChildren()
+            if self.type == "beamsearch":
+                self.width, self.solution = self.beamSearchInput()
 
-                if len(self.archive.visitedStates) > visited:
-                    print(len(self.archive.visitedStates))
-                    visited += 100000
+        print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Running algorithm...")
 
-                amountOfChildren = len(children)
-                childToCheck = 0
+        return activeQueue, inactiveQueue
 
-                while childToCheck != amountOfChildren:
-                    children, childToCheck, amountOfChildren = self.archive.removeRedundantChild(children, childToCheck, amountOfChildren)
+    def beamSearchInput(self):
+        """ Get the input needed for the beam search to run. """
+        while True:
 
-                if amountOfChildren > 0:
-                    for i in range(amountOfChildren):
-                        blocks = self.heuristic.blockingRedCar(children[i])
-                        queue[blocks].put(children[i])
+            width = input("What's the width you want to use for the beamsearch?: ")
 
-                        self.archive.visitedStates[str(children[i])] = self.board.changeable
+            try:
+            	width = int(width)
+            except:
+            	print("Please pick a feasible width.")
 
-                blocksState = self.heuristic.blockingRedCar(self.board.changeable)
+            if isinstance(width, int):
 
-                for i in range(blocksPossible):
-                    if queue[i].qsize() > 0:
-                        self.board.changeable = queue[i].get()
-                        break
+            	if width < 0:
+            		print("Please pick a feasible width.")
+            	else:
+            		break
 
-            self.pathSolution(self.board.changeable, "BFSheuristic")
+        solution = input("Paste your solution state: ")
+        solution = ast.literal_eval(solution)
 
-            print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")
+        return width, solution
 
-            return self.board.changeable
+    def activateQueue(self, typeAlgo, activeQueue, inactiveQueue):
+        """ When the queue is empty, put the priorityQueue into the active queue. """
 
-        def beamSearch(self, width):
-            """
-            Runs BFS with beam search. Only adds the best x states according to our heuristic to the queue.
-            Other states get's pruned.
-            """
-
-            solution = input("Paste your solution state: ")
-            solution = ast.literal_eval(solution)
-
-            queue = Queue()
-            queue.put(self.board.changeable)
-
-            level = 0
-
-            while self.board.checkSolution() != 0 and queue.qsize() > 0:
-                children = self.board.createChildren()
-
-                amountOfChildren = len(children)
-                childToCheck = 0
-
-                while childToCheck != amountOfChildren:
-                    children, childToCheck, amountOfChildren = self.archive.removeRedundantChild(children, childToCheck, amountOfChildren)
-
-                if amountOfChildren > 0:
-                    self.archive.addToArchive(self.board.changeable, children)
-                    self.archive.addChildBeamSearch(self.board.changeable, queue, children, solution, level)
-
-                self.board.changeable = queue.get()
-                
-                if self.board.changeable = "end":
-                    self.board.changeable = queue.get()
-
-            if self.board.checkSolution() == 0:
-                self.pathSolution(self.board.changeable, "BFSBeamSearch")
-                print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")
-
+        if typeAlgo == "beamsearch":
+            if self.width > inactiveQueue.qsize():
+                nonPrunedNodes = inactiveQueue.qsize()
             else:
-                print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution not found.")
+                nonPrunedNodes = copy(self.width)
 
-            return self.board.changeable
+        elif typeAlgo == "heuristic":
+            nonPrunedNodes = inactiveQueue.qsize()
 
-        def pathSolution(self, solutionState, gameType):
-            """
-            Visualizes the path found through breadth first search.
-            """
-            path = [solutionState]
+        for i in range(nonPrunedNodes):
+            activeQueue.put(list(inactiveQueue.get()[1]))
 
-            child = copy(solutionState)
+        activeQueue.put(self.level)
 
-            parent = self.archive.visitedStates[str(child)]
+        self.board.changeable = activeQueue.get()
+        inactiveQueue = PriorityQueue()
 
-            while self.archive.visitedStates[str(child)] != "beginning!":
-                path.insert(0, parent)
+    def finishedAlgorithm(self):
+        """
+        When the algorithm is finished, save the path if the solution is found.
+        If not, nothing happens.
+        """
 
-                child = parent
-                parent = self.archive.visitedStates[str(child)]
+        if self.board.checkSolution() == 0:
+            if self.type == "normal":
+                foldername = "BFS"
+            elif self.type == "heuristic":
+                foldername = "BFSHeuristic"
+            elif self.type == "beamsearch":
+                foldername = "BFSBeamSearch"
 
-            for i in range(len(path)):
-                self.board.visualize(path[i], self.colors, gameType, self.game, i)
+            self.save.pathSolution(self.board.changeable, foldername)
+
+            print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")
+
+        else:
+            print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution not found.")

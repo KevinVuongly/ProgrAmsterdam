@@ -6,7 +6,7 @@ from copy import copy, deepcopy
 from queue import Queue, PriorityQueue
 
 class BFSBetweenStates:
-        def __init__(self, game, board, archive, colors, endState):
+        def __init__(self, board, archive, endState):
             """
             Takes all information of the board with it's state as the beginning of the game.
             """
@@ -16,7 +16,6 @@ class BFSBetweenStates:
             self.archive = archive
             self.archive.visitedStates[str(self.board.changeable)] = "beginning!"
 
-            self.colors = colors
             self.endState = endState 
 
         def bfsBetweenStates(self):
@@ -46,7 +45,6 @@ class BFSBetweenStates:
 
             path = self.pathSolution(self.board.changeable, "betweenStates")
 
-            #print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")
 
             return path
 

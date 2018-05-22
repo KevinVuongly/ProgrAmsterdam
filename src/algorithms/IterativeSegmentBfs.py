@@ -15,7 +15,7 @@ from copy import copy, deepcopy
 
 class IterativeBfs:
 
-    def __init__(self,gamejood):
+    def __init__(self,game):
 
 
     def iterativeBfs(self, gameNr, iterations, stepSize):

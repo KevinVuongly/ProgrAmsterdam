@@ -2,38 +2,36 @@ from classes.Board import Board
 from copy import copy, deepcopy
 
 class DFS:
-        def __init__(self, game, board, archive, colors):
+        def __init__(self, board, archive):
             """
             Takes all information of the board with it's state as the beginning of the game.
             """
-            self.game = game
             self.board = board
 
             self.archive = archive
             self.archive.visitedStates[str(self.board.changeable)] = ["beginning!",1]
 
-            self.colors = colors
 
-        def dfs(self):
+        def dfs(self, save, maxDepth, popAtMaxDepth):
             """
             Runs depth first search on the initialized board. The algorithm stops when
             it finds a solution e.g. a state which the red car can move to the end.
             """
 
-            maxDepth = 300
+            self.save = save
+            self.maxDepth = maxDepth
+            self.popAtMaxDepth = popAtMaxDepth
             depth = 0
+            foldername = "DFS"
 
             stack = [self.board.changeable]
 
             while self.board.checkSolution() != 0:
 
-
-
                 children = self.board.createChildren()
 
                 childLevel = self.archive.visitedStates[str(self.board.changeable)][1] + 1
                 depth = childLevel
-
 
 
                 amountOfChildren = len(children)
@@ -59,57 +57,17 @@ class DFS:
                 if childrenAvailable == False:
                     stack.pop()
 
-                if depth > maxDepth:
-                    for i in range(0,200):
+                if depth > self.maxDepth:
+                    for i in range(0,popAtMaxDepth):
                         stack.pop()
 
                 self.board.changeable = stack[-1]
 
-
-                """
-
-
-                while childToCheck != amountOfChildren:
-                    children, childToCheck, amountOfChildren = self.archive.removeRedundantChild(children, childToCheck, amountOfChildren)
-
-                if amountOfChildren > 0:
-                    self.archive.addChildDFS(self.board.changeable, stack, children)
-                else:
-                    stack.pop()
-
-                depth += 1
-                
-                
-                if depth >= maxDepth:
-                    for i in range(0,10):
-                        stack.pop    
-                    depth -= 10
-                """
+            self.save.pathSolutionDfs(self.board.changeable, foldername)
+            self.save.saveSolution(self.board.changeable, foldername)
 
 
 
-            self.pathSolution(self.board.changeable, "DFS")
 
 
 
-        def pathSolution(self, solutionState, gameType):
-            """
-            Visualizes the path found through breadth first search.
-            """
-            path = [solutionState]
-
-            child = copy(solutionState)
-
-            parent = self.archive.visitedStates[str(solutionState)][0]
-
-            while self.archive.visitedStates[str(child)][0] != "beginning!":
-                path.insert(0, parent)
-
-                child = parent
-                parent = self.archive.visitedStates[str(child)][0]
-
-            for i in range(len(path)):
-                self.board.visualize(path[i], self.colors, gameType, self.game, i)
-
-
-            return len(path)
