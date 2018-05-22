@@ -46,7 +46,7 @@ class BFS:
 
             self.pathSolution(self.board.changeable, "BFS")
 
-            print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")
+            #print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")
 
             return self.board.changeable
 
