@@ -45,8 +45,18 @@ def main():
 	endBoard = deepcopy(game)
 
 	lengthPath = len(boardStates)
+	newBoard = deepcopy(game)
+	newArchive = deepcopy(archive)
 
 
+	startingState = boardStates[10]
+	endBoardState = boardStates[20]
+	newBoard.changeable = startingState
+	search = BFSBetweenStates(gameNr, newBoard, newArchive, beginState.colors, endBoardState)
+	result = search.bfsBetweenStates()
+
+
+	"""
 	for j in range(0,5):
 		if j == 0:
 			newStates = deepcopy(boardStates)
@@ -99,15 +109,16 @@ def main():
 	#print("Before iterative BFS the game was solved in {} moves. After 3 iterations with BFS stepsize of 15, it was solved in just {} moves".format(lengthPath,len(newStates)))
 
 	saveSolution(newStates, "inbetweenstates", gameNr)
+	"""
 
 	
-	for i in range(len(newStates)):
-		game.visualize(newStates[i], beginState.colors, "improvedGame", game, i)
+	for i in range(len(result)):
+		game.visualize(result[i], beginState.colors, "improvedGame", game, i)
 
-	"""
+	
 	for i in range(len(boardStates)):
 		game.visualize(boardStates[i], beginState.colors, "oldGame", game, i)
-	"""
+
 
 
 

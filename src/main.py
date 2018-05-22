@@ -6,7 +6,7 @@ from classes.ReadBoard import ReadBoard
 from classes.Archive import Archive
 from classes.Heuristics import Heuristic
 from algorithms.random import Random
-from algorithms.bfs import BFS
+#from algorithms.bfs import BFS
 from algorithms.dfs import DFS
 from copy import copy, deepcopy
 
@@ -56,13 +56,16 @@ def main():
 			print("Fastest solution found so far: {} moves".format(solvedSteps))
 			print("Try {}".format(i))
 			newBoard = deepcopy(random)
-			solvedGameTemp = newBoard.semiRandomSelection(solvedSteps)
+			solvedGameTemp = newBoard.randomSelection(solvedSteps)
 			solvedStepsTemp = len(solvedGameTemp)
 
 			if solvedStepsTemp < solvedSteps:
 				solvedSteps = solvedStepsTemp
 				solvedGame = solvedGameTemp
-				saveSolution(solvedGame, "random", data)
+				#saveSolution(solvedGame, "random", data)
+				for i in range(len(solvedGame)):
+					game.visualize(solvedGame[i], beginState.colors, "random", data, i)
+				break
 
 		"""
 		if solvedSteps < 180:
