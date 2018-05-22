@@ -23,7 +23,7 @@ class Archive:
         for i in range(len(childrenOfState)):
             self.visitedStates[str(childrenOfState[i])] = parent
 
-    def addChildBFS(self, parent, queue, childrenOfState):
+    def addChildBFS(self, queue, childrenOfState):
         """
         Add's child as key, with the parent as the value to the archive dictionary.
         """
@@ -31,19 +31,17 @@ class Archive:
         for i in range(len(childrenOfState)):
             queue.put(childrenOfState[i])
 
-    def addChildBeamSearch(self, width, parent, queue, childrenOfState, solution, level):
+    def addChildBFSheuristic(self, prioQueue, childrenOfState, level):
 
-        childrenScore = PriorityQueue()
+        for i in range(len(childrenOfState)):
+            blocks = self.heuristic.blockingRedCar(childrenOfState[i])
+            prioQueue.put((level + blocks, childrenOfState[i]))
+
+    def addChildBeamSearch(self, prioQueue, childrenOfState, solution):
 
         for i in range(len(childrenOfState)):
             score = self.heuristic.positionScore(childrenOfState[i], solution)
-            childrenScore.put((score, childrenOfState[i]))
-
-        for i in len(childrenOfState):
-            queue.put(list(childrenScore.get()[1]))
-
-        if level == 0:
-            queue.put("end")
+            prioQueue.put((score, childrenOfState[i]))
 
     def addChildDFS(self, parent, stack, childrenOfState):
         """

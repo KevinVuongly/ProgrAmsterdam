@@ -1,4 +1,3 @@
-from classes.Board import Board
 from copy import copy, deepcopy
 import random
 
