@@ -40,6 +40,16 @@ class Save:
 
         return grid
 
+    def createFolder(self, gameType):
+        """ Creates a new folder for the solution to save in. """
+        folder = "solutions/" + str(gameType) + "/" + str(self.gameNumber)
+
+        if os.path.exists(folder):
+            shutil.rmtree(folder, ignore_errors=True)
+        os.makedirs(folder)
+
+        return folder
+
     def visualize(self, changeable, move, folder):
         """
         Visualizes the current state of the board.
@@ -69,34 +79,44 @@ class Save:
         print("Move {} saved.".format(move))
         plt.close()
 
-    def createFolder(self, gameType):
-        """ Creates a new folder for the solution to save in. """
-        folder = "solutions/" + str(gameType) + "/" + str(self.gameNumber)
-
-        if os.path.exists(folder):
-            shutil.rmtree(folder, ignore_errors=True)
-            os.makedirs(folder)
-
-        return folder
-
-    def pathSolution(self, solutionState, foldername):
-        """ Visualizes the path found through breadth first search. """
+    def pathSolution(self, solutionState, foldername, astar=False):
+        """ Visualizes the path. """
         self.path = [solutionState]
 
         child = copy(solutionState)
 
-        parent = self.archive.visitedStates[str(child)]
-
-        while self.archive.visitedStates[str(child)] != "beginning!":
-            self.path.insert(0, parent)
-
-            child = parent
-            parent = self.archive.visitedStates[str(child)]
+        if astar == True:
+            self.createPathSolutionAStar(child)
+        else:
+            self.createPathSolution(child)
 
         folder = self.createFolder(foldername)
 
         for i in range(len(self.path)):
             self.visualize(self.path[i], i, folder)
+
+    def createPathSolution(self, child):
+        """ Creates the path using the archive. """
+        parent = self.archive.visitedStates[str(child)]
+
+        while parent != "beginning!":
+            self.path.insert(0, parent)
+
+            child = parent
+            parent = self.archive.visitedStates[str(child)]
+
+    def createPathSolutionAStar(self, child):
+        """ Creates the path using the archive.
+
+        A*-search has it's own unique value layout for the archive.
+        """
+        parent = self.archive.visitedStates[str(child)][1]
+
+        while parent != "beginning!":
+            self.path.insert(0, parent)
+
+            child = parent
+            parent = self.archive.visitedStates[str(child)][1]
 
     def saveSolution(self, lastMove, gameType):
         """ Saves the found solution into a .csv and the end solutionstate in a .txt. """

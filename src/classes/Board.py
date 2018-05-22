@@ -76,7 +76,7 @@ class Board:
 
     def checkPossibleMoves(self):
         """ Checks all possible moves of a given state. """
-        possiblemovesarray = []
+        possibleMovesArray = []
 
 
         for j in range(self.nrOfCars):

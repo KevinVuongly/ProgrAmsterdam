@@ -6,8 +6,9 @@ from classes.Archive import Archive
 from classes.Heuristics import Heuristic
 from classes.Save import Save
 from algorithms.random import Random
-#from algorithms.bfs import BFS
+from algorithms.bfs import BFS
 from algorithms.dfs import DFS
+from algorithms.astar import Astar
 from copy import copy, deepcopy
 
 def main():
@@ -19,7 +20,7 @@ def main():
 	algorithm, game, beginState = pickAlgorithm(algorithms, data)
 
 	heuristic = Heuristic(game)
-	archive = Archive(heuristic)
+	archive = Archive(game, heuristic)
 	saveFile = Save(data, game, archive, beginState.colors)
 
 	if algorithm.lower() == algorithms[0]:
@@ -63,7 +64,11 @@ def main():
 				break
 
 	elif algorithm.lower() == algorithms[2]:
-		continue
+		loadGame = Astar(game, archive)
+
+		solvedGame = loadGame.astar(saveFile)
+
+		saveFile.saveSolution(solvedGame, "Astar")
 
 def pickGame():
 	while True:

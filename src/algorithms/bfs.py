@@ -32,26 +32,23 @@ class BFS:
 
         queue, standbyQueue = self.initQueue()
 
-        while self.board.checkSolution() != 0 and queue.qsize() > 0:
-            children = self.board.createChildren()
-
-            amountOfChildren = len(children)
-            childToCheck = 0
-
-            while childToCheck != amountOfChildren:
-                children, childToCheck, amountOfChildren = self.archive.removeRedundantChild(children, childToCheck, amountOfChildren)
+        while self.board.checkSolution() != 0 and self.everythingExplored == False:
+            children, amountOfChildren = self.archive.manipulateChildren()
 
             if amountOfChildren > 0:
                 self.archive.addToArchive(self.board.changeable, children)
 
-                if type == "normal":
-                    self.archive.addChildBFS(queue, children)
-                elif type == "heuristic":
-                    self.archive.addChildBFSheuristic(standbyQueue, children, level)
-                elif type == "beamsearch":
-                    self.archive.addChildBeamSearch(standbyQueue, children, self.solution)
+            if type == "normal":
+                self.archive.addChildBFS(queue, children)
+            elif type == "heuristic":
+                self.archive.addChildBFSheuristic(standbyQueue, children, self.level)
+            elif type == "beamsearch":
+                self.archive.addChildBeamSearch(standbyQueue, children, self.solution)
 
-            self.board.changeable = queue.get()
+            if not queue.empty():
+                self.board.changeable = queue.get()
+            else:
+                self.everythingExplored = True
 
             if self.board.changeable == self.level:
                 self.level += 1
@@ -65,6 +62,7 @@ class BFS:
     def initQueue(self):
         """ Initialize the queue for the provided algorithm. """
         self.level = 0
+        self.everythingExplored = False
 
         activeQueue = Queue()
         activeQueue.put(self.board.changeable)

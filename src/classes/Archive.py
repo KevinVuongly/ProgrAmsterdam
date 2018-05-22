@@ -1,12 +1,12 @@
-from classes.Heuristics import Heuristic
 from queue import Queue, PriorityQueue
 
 class Archive:
 
-    def __init__(self, heuristic):
+    def __init__(self, board, heuristic):
         self.visitedStates = {}
-        self.heuristic = heuristic
 
+        self.board = board
+        self.heuristic = heuristic
 
     def removeRedundantChild(self, children, childPos, childrenLeft):
         """
@@ -21,6 +21,10 @@ class Archive:
         return children, childPos, childrenLeft
 
     def addToArchive(self, parent, childrenOfState):
+        """
+        Add's child as key, with the parent as the value to the archive dictionary.
+        """
+
         for i in range(len(childrenOfState)):
             self.visitedStates[str(childrenOfState[i])] = parent
 
@@ -28,30 +32,38 @@ class Archive:
         self.visitedStates[str(child)] = [parent, level]
 
     def addChildBFS(self, queue, childrenOfState):
-        """
-        Add's child as key, with the parent as the value to the archive dictionary.
-        """
+        """ Puts the child into the queue. """
 
         for i in range(len(childrenOfState)):
             queue.put(childrenOfState[i])
 
     def addChildBFSheuristic(self, prioQueue, childrenOfState, level):
+        """ Puts the child into the priority queue according to the heuristic score. """
 
         for i in range(len(childrenOfState)):
             blocks = self.heuristic.blockingRedCar(childrenOfState[i])
             prioQueue.put((level + blocks, childrenOfState[i]))
 
     def addChildBeamSearch(self, prioQueue, childrenOfState, solution):
+        """ Puts the child into the priority queue according to the heuristic score. """
 
         for i in range(len(childrenOfState)):
             score = self.heuristic.positionScore(childrenOfState[i], solution)
             prioQueue.put((score, childrenOfState[i]))
 
+    def addChildAStar(self, weightMove, prioQueue, childrenOfState, solution):
+        """ Puts the child into the priority queue according to the heuristic score. """
+
+        for i in range(len(childrenOfState)):
+            moveScore = weightMove * self.visitedStates[str(self.board.changeable)][0]
+            heuristicScore = self.heuristic.positionScore(childrenOfState[i], solution)
+
+            prioQueue.put((moveScore + heuristicScore, [childrenOfState[i], self.board.changeable]))
+
     def addChildDFS(self, parent, stack, childrenOfState):
         """
         Add's child as key, with the parent as the value to the archive dictionary.
         """
-
 
         for i in range(len(childrenOfState)):
             if i not in self.visitedStates.keys():
@@ -61,3 +73,17 @@ class Archive:
             stack.pop()
 
         return stack
+
+    def manipulateChildren(self, algorithm=0):
+        """ Creates a list of all possible children of a state. If a child is already in the archive,
+            removes it from the list. If not, add it to the archive.
+        """
+        children = self.board.createChildren()
+
+        amountOfChildren = len(children)
+        childToCheck = 0
+
+        while childToCheck != amountOfChildren:
+            children, childToCheck, amountOfChildren = self.removeRedundantChild(children, childToCheck, amountOfChildren)
+
+        return children, amountOfChildren
