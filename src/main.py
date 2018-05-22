@@ -6,7 +6,7 @@ from classes.Archive import Archive
 from classes.Heuristics import Heuristic
 from classes.Save import Save
 from algorithms.random import Random
-from algorithms.bfs import BFS
+#from algorithms.bfs import BFS
 from algorithms.dfs import DFS
 from copy import copy, deepcopy
 
@@ -32,7 +32,7 @@ def main():
 			print("Fastest solution found so far: {} moves".format(solvedSteps))
 			print("Try {}".format(i))
 			newBoard = deepcopy(random)
-			solvedGameTemp = newBoard.semiRandomSelection(solvedSteps)
+			solvedGameTemp = newBoard.randomSelection(solvedSteps)
 			solvedStepsTemp = len(solvedGameTemp)
 
 			if solvedStepsTemp < solvedSteps:

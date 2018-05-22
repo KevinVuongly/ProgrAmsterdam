@@ -3,11 +3,14 @@ from copy import copy, deepcopy
 import random
 
 class Random:
-    def __init__(self, board):
+    def __init__(self, board, archive, colors):
         """
         Takes all information of the board with it's state as the beginning of the game.
         """
         self.board = board
+        self.archive = archive
+        self.archive.visitedStates[str(self.board.changeable)] = "beginning!"
+
 
     def randomSelection(self, maxMoves):
         """
@@ -25,58 +28,36 @@ class Random:
 
             children = self.board.createChildren()
 
-            self.board.changeable = random.choice(children)
-            visited.append(self.board.changeable)
+            while childToCheck != amountOfChildren:
+                children, childToCheck, amountOfChildren = self.archive.removeRedundantChild(children, childToCheck, amountOfChildren)
 
-        print("random we have found it in {} steps".format(len(visited)))
+            child  = random.choice(children)
+
+            if amountOfChildren > 0:
+                self.archive.addToArchive(self.board.changeable, child)
+
+            self.board.changeable = child
+
+        self.pathSolution()
+        
         return visited
 
-    def semiRandomSelection(self, maxMoves):
-        """
-        Looks for all moves possible and randomly choses one until solved, without
-        back to board configurations visited before. If it can't find a move to
-        go to a board configuarion that it has been before it goes to a random visited
-        (Later added if a configuration has no non-visited options, skip that one.
-            i hoped the code would find a solution faster )
-        """
+    def pathSolution(self, solutionState, gameType):
+            """
+            Visualizes the path found through breadth first search.
+            """
+            path = [solutionState]
 
-        steps = 0
-        child = []
-        visited = []
-        noOptions = []
-        path = []
+            child = copy(solutionState)
 
-        while self.board.checkSolution() != 0 and len(path) < maxMoves:
-            steps += 1
-            children = []
-            posMoves = self.board.checkPossibleMoves()
+            parent = self.archive.visitedStates[str(child)]
 
-            children = self.board.createChildren()
+            while self.archive.visitedStates[str(child)] != "beginning!":
+                path.insert(0, parent)
 
-            self.board.changeable = random.choice(children)
-            if self.board.changeable not in visited:
-                visited.append(self.board.changeable)
-                path.append(self.board.changeable)
-            else:
-                j = 0
+                child = parent
+                parent = self.archive.visitedStates[str(child)]
 
-                if self.board.changeable not in visited:
-                    visited.append(self.board.changeable)
-                    path.append(self.board.changeable)
-                else:
-                    while self.board.changeable in visited:
+            for i in range(len(path)):
+                self.board.visualize(path[i], self.colors, gameType, self.game, i)
 
-                        self.board.changeable = random.choice(children)
-                        j += 1
-                        if j > 20:
-                            path = []
-                            print("we have made a jump")
-                            if self.board.changeable not in noOptions:
-                                noOptions.append(self.board.changeable)
-                            for element in visited:
-                                path.append(element)
-                                if element not in noOptions:
-                                    self.board.changeable = element
-                                break
-                        break
-        return path
