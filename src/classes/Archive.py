@@ -35,9 +35,7 @@ class Archive:
         for i in range(len(childrenOfState)):
             queue.put(childrenOfState[i])
 
-        return queue
-
-    def addChildBeamSearch(self, width, parent, queue, childrenOfState, solution):
+    def addChildBeamSearch(self, width, parent, queue, childrenOfState, solution, level):
 
         childrenScore = PriorityQueue()
 
@@ -45,14 +43,11 @@ class Archive:
             score = self.heuristic.positionScore(childrenOfState[i], solution)
             childrenScore.put((score, childrenOfState[i]))
 
-        if width > len(childrenOfState):
-            width = len(childrenOfState)
-
-        for i in range(width):
+        for i in len(childrenOfState):
             queue.put(list(childrenScore.get()[1]))
 
-        return queue
-
+        if level == 0:
+            queue.put("end")
 
     def addChildDFS(self, parent, stack, childrenOfState):
         """

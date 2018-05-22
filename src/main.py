@@ -58,7 +58,7 @@ def main():
 			newBoard = deepcopy(random)
 			solvedGameTemp = newBoard.semiRandomSelection(solvedSteps)
 			solvedStepsTemp = len(solvedGameTemp)
-			
+
 			if solvedStepsTemp < solvedSteps:
 				solvedSteps = solvedStepsTemp
 				solvedGame = solvedGameTemp
