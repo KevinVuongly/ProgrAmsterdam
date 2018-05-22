@@ -1,3 +1,4 @@
+
 from classes.Board import Board
 from copy import copy, deepcopy
 import random
@@ -40,5 +41,3 @@ class Random:
 
         self.save.pathSolution(self.board.changeable, foldername)
         self.save.saveSolution(self.board.changeable, foldername)
-
-        
