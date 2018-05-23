@@ -62,31 +62,6 @@ def main():
 		maxDepth = checkPositive("How many steps deep would you like to search: ")
 		popAtMaxDepth = checkPositive("How much would you like to go back when that depth is reached: ")
 		depthfs.dfs(saveFile, maxDepth, popAtMaxDepth)
-		
-
-
-def pickGame():
-	while True:
-
-		firstgame = 1
-		lastgame = 7
-
-		gameNumber = input("Pick the game you want to solve for (1, 2, 3,... , {}): ".format(lastgame))
-
-		try:
-			gameNumber = int(gameNumber)
-		except:
-			print("Please pick an existing game.")
-
-		if isinstance(gameNumber, int):
-
-			if gameNumber < firstgame or gameNumber > lastgame:
-				print("Please pick an existing game.")
-			else:
-				break
-
-	return gameNumber
-
 
 def pickGame():
 	while True:
@@ -139,7 +114,6 @@ def checkPositive(text):
 			else:
 				break
 	return value
-
 
 if __name__ == "__main__":
 	main()

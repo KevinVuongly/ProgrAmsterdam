@@ -51,14 +51,13 @@ class Archive:
             score = self.heuristic.positionScore(childrenOfState[i], solution)
             prioQueue.put((score, childrenOfState[i]))
 
-    def addChildAStar(self, weightMove, prioQueue, childrenOfState, solution):
+    def addChildAStar(self, oldScore, weightMove, prioQueue, childrenOfState, solution):
         """ Puts the child into the priority queue according to the heuristic score. """
 
         for i in range(len(childrenOfState)):
-            moveScore = weightMove * self.visitedStates[str(self.board.changeable)][0]
             heuristicScore = self.heuristic.positionScore(childrenOfState[i], solution)
 
-            prioQueue.put((moveScore + heuristicScore, [childrenOfState[i], self.board.changeable]))
+            prioQueue.put((oldScore + weightMove + heuristicScore, [childrenOfState[i], self.board.changeable]))
 
     def addChildDFS(self, parent, stack, childrenOfState):
         """
