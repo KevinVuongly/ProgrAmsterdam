@@ -22,20 +22,22 @@ class Astar:
 
         self.save = save
 
-        weight, solution = self.initAStar()
+        weight, n, solution = self.initAStar()
         currentScore = 0
+
+        depth = 0
 
         queue = PriorityQueue()
 
-        while self.board.checkSolution() != 0:
-            if str(self.board.changeable) not in self.archive.visitedStates.keys():
+        while self.board.changeable != solution:
+            if str(self.board.changeable) not in self.archive.visitedStates.keys() or currentScore < self.archive.visitedStates[str(self.board.changeable)][0]:
                 self.archive.visitedStates[str(self.board.changeable)] = [currentScore, self.parent]
 
                 children, amountOfChildren = self.archive.manipulateChildren()
 
-                self.archive.addChildAStar(currentScore, weight, queue, children, solution)
+                self.archive.addChildAStar(n, depth + 1, weight, queue, children, solution)
 
-            [currentScore, [self.board.changeable, self.parent]] = list(queue.get())
+            [currentScore, [depth, self.board.changeable, self.parent]] = list(queue.get())
 
         self.archive.visitedStates[str(self.board.changeable)] = [currentScore, self.parent]
 
@@ -61,9 +63,11 @@ class Astar:
                 else:
                     break
 
+        n = self.archive.polynomial()
+
         solutionState = input("Paste your solution state: ")
         solutionState = ast.literal_eval(solutionState)
 
         print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Running algorithm...")
 
-        return weightOfMove, solutionState
+        return weightOfMove, n, solutionState
