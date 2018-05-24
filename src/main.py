@@ -64,7 +64,7 @@ def main():
 		depthfs = DFS(game, archive)
 
 		text = "How many steps deep would you like to search: "
-		errorText = "Please give a positive, non-zero integer"
+		errorText = "Please give a positive, non-zero integer."
 		min = 1
 		max = math.inf
 

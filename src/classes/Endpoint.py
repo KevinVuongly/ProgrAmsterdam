@@ -1,4 +1,5 @@
 from algorithms.random import Random
+import ast
 
 class EndPoint:
     def __init__(self, board, archive, save):
@@ -10,10 +11,10 @@ class EndPoint:
         """ Looks for an endpoint in the solution folder. If there is no endpoint found,
             creates a new endpoint through the random algorithm.
         """
-        
+
         try:
             print()
-            print("Trying to find the file containing the endpoint... ")
+            print("Trying to find the file containing the endpoint in solutions/endSolution/..  ...")
 
             with open(self.save.endStateFolder + str(self.save.gameNumber) + ".txt", "r") as textfile:
         	    solutionState = textfile.readline()
