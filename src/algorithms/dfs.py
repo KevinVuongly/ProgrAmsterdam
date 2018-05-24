@@ -1,5 +1,6 @@
 from classes.Board import Board
 from copy import copy, deepcopy
+import time
 
 class DFS:
         def __init__(self, board, archive):
@@ -26,13 +27,14 @@ class DFS:
 
             stack = [self.board.changeable]
 
+            print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Running algorithm...")
+
             while self.board.checkSolution() != 0:
 
                 children = self.board.createChildren()
 
                 childLevel = self.archive.visitedStates[str(self.board.changeable)][1] + 1
                 depth = childLevel
-
 
                 amountOfChildren = len(children)
 
@@ -53,7 +55,7 @@ class DFS:
                             break
                         else:
                             continue
-                
+
                 if childrenAvailable == False:
                     stack.pop()
 
@@ -66,8 +68,4 @@ class DFS:
             self.save.pathSolutionDfs(self.board.changeable, foldername)
             self.save.saveSolution(self.board.changeable, foldername)
 
-
-
-
-
-
+            print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")

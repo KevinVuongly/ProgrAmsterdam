@@ -2,28 +2,25 @@ from classes.Board import Board
 from classes.ReadBoard import ReadBoard
 
 class Pick:
-
-	def pickGame(self):
+	""" Contains all functions asking for input. """
+	def pickNumber(self, text, errortext, min, max):
 		while True:
 
-			firstgame = 1
-			lastgame = 7
-
-			gameNumber = input("Pick the game you want to solve for (1, 2, 3,... , {}): ".format(lastgame))
+			value = input(text)
 
 			try:
-				gameNumber = int(gameNumber)
+				value = int(value)
 			except:
-				print("Please pick an existing game.")
+				print(errortext)
 
-			if isinstance(gameNumber, int):
+			if isinstance(value, int):
 
-				if gameNumber < firstgame or gameNumber > lastgame:
-					print("Please pick an existing game.")
+				if not min <= value <= max:
+					print(errortext)
 				else:
 					break
 
-		return gameNumber
+		return value
 
 	def pickAlgorithm(self, algoList, gameNumber):
 		while True:
@@ -39,18 +36,3 @@ class Pick:
 				break
 
 		return algorithm, game, beginState
-
-	def checkPositive(self, text):
-		while True:
-			value = input(text)
-			try:
-				value = int(value)
-			except:
-				print("Please give a positive, non-zero integer")
-
-			if isinstance(value, int):
-				if value <= 0:
-					print("Please give a positive, non-zero integer")
-				else:
-					break
-		return value

@@ -66,7 +66,7 @@ class Astar:
         solutionState = self.endpoint.findEndPoint()
 
         self.endpoint = None
-        
+
         n = self.archive.polynomial()
 
         print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Running algorithm...")

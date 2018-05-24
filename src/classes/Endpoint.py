@@ -7,6 +7,10 @@ class EndPoint:
         self.save = save
 
     def findEndPoint(self):
+        """ Looks for an endpoint in the solution folder. If there is no endpoint found,
+            creates a new endpoint through the random algorithm.
+        """
+        
         try:
             print()
             print("Trying to find the file containing the endpoint... ")
