@@ -27,7 +27,7 @@ class Pick:
 
 	def pickAlgorithm(self, algoList, gameNumber):
 		while True:
-			algorithm = input("Pick which algorithm you want to use(random, BFS, Astar, DFS): ")
+			algorithm = input("Pick which algorithm you want to use(BFS, Astar, DFS): ")
 			if algorithm.lower() not in algoList:
 				print("Please pick a correct algorithm.")
 			else:

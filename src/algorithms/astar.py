@@ -1,26 +1,26 @@
+from algorithms.random import Random
 import ast
 import time
-from copy import copy
+from copy import copy, deepcopy
 from queue import Queue, PriorityQueue
 
 class Astar:
-    def __init__(self, board, archive):
+    def __init__(self, board, archive, endpoint, save):
         """
         Takes all information of the board with it's state as the beginning of the game.
         """
         self.board = board
-
         self.archive = archive
+        self.endpoint = endpoint
+        self.save = save
 
         self.parent = "beginning!"
 
-    def astar(self, save):
+    def astar(self):
         """ Runs A*-search on the initialized board.
 
         The algorithm stops when it finds a solution e.g. a state which the red car can move to the end.
         """
-
-        self.save = save
 
         weight, n, solution = self.initAStar()
         currentScore = 0
@@ -63,10 +63,11 @@ class Astar:
                 else:
                     break
 
-        n = self.archive.polynomial()
+        solutionState = self.endpoint.findEndPoint()
 
-        solutionState = input("Paste your solution state: ")
-        solutionState = ast.literal_eval(solutionState)
+        self.endpoint = None
+        
+        n = self.archive.polynomial()
 
         print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Running algorithm...")
 

@@ -4,7 +4,7 @@ from classes.Pick import Pick
 from classes.Archive import Archive
 from classes.Heuristics import Heuristic
 from classes.Save import Save
-from algorithms.random import Random
+from classes.Endpoint import EndPoint
 from algorithms.bfs import BFS
 from algorithms.dfs import DFS
 from algorithms.astar import Astar
@@ -14,7 +14,7 @@ def main():
 	pick = Pick()
 	data = pick.pickGame()
 
-	algorithms = ["random", "bfs", "astar", "dfs"]
+	algorithms = ["bfs", "astar", "dfs"]
 
 	algorithm, game, beginState = pick.pickAlgorithm(algorithms, data)
 
@@ -23,10 +23,6 @@ def main():
 	saveFile = Save(data, game, archive, beginState.colors)
 
 	if algorithm.lower() == algorithms[0]:
-		random = Random(game, archive)
-		random.semiRandomSelection(saveFile)
-
-	elif algorithm.lower() == algorithms[1]:
 		types = ["normal", "heuristic", "beamsearch"]
 
 		while True:
@@ -35,7 +31,8 @@ def main():
 			if algoType.lower() not in types:
 				print("Please pick a correct type.")
 			else:
-				loadGame = BFS(game, archive)
+				endPoint = EndPoint(deepcopy(game), deepcopy(archive), deepcopy(saveFile))
+				loadGame = BFS(game, archive, endPoint)
 
 				solvedGame = loadGame.bfs(algoType.lower(), saveFile)
 
@@ -48,14 +45,15 @@ def main():
 
 				break
 
-	elif algorithm.lower() == algorithms[2]:
-		loadGame = Astar(game, archive)
+	elif algorithm.lower() == algorithms[1]:
+		endPoint = EndPoint(deepcopy(game), deepcopy(archive), deepcopy(saveFile))
+		loadGame = Astar(game, archive, endPoint, saveFile)
 
-		solvedGame = loadGame.astar(saveFile)
+		solvedGame = loadGame.astar()
 
 		saveFile.saveSolution(solvedGame, "Astar")
 
-	elif algorithm.lower() == algorithms[3]:
+	elif algorithm.lower() == algorithms[2]:
 		depthfs = DFS(game, archive)
 		maxDepth = pick.checkPositive("How many steps deep would you like to search: ")
 		popAtMaxDepth = pick.checkPositive("How much would you like to go back when that depth is reached: ")
