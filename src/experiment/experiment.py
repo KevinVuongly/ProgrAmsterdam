@@ -10,10 +10,12 @@ from algorithms.bfs import BFS
 from algorithms.dfs import DFS
 from algorithms.astar import Astar
 from copy import copy, deepcopy
+from classes.Pick import *
 
 def main():
 
-	gameNumber = input("Which game: ")
+	game = Pick()
+	gameNumber = game.pickGame()
 
 	file = "data/game" + str(gameNumber) + ".csv"
 	beginState = ReadBoard(file)
