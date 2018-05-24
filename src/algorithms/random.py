@@ -14,12 +14,12 @@ class Random:
 
 
 
-    def semiRandomSelection(self, save):
+    def semiRandomSelection(self):
         """
         Looks for all moves possible and randomly choses a state that he hasn't visited each time,
         until solved. If al possible moves are visited states, it goes back one move.
         """
-        self.save = save
+
         foldername = "random"
 
 
@@ -39,5 +39,26 @@ class Random:
             else:
                 self.board.changeable = self.archive.visitedStates[str(self.board.changeable)]
 
-        self.save.getPath(self.board.changeable, foldername)
-        self.save.saveSolution(self.board.changeable, foldername)
+        path = self.pathSolution(self.board.changeable)
+        return len(path)
+
+    def pathSolution(self, solutionState):
+            """
+            Visualizes the path found through breadth first search.
+            """
+            path = [solutionState]
+
+            child = copy(solutionState)
+
+            parent = self.archive.visitedStates[str(child)]
+
+            while self.archive.visitedStates[str(child)] != "beginning!":
+                path.insert(0, parent)
+
+                child = parent
+                parent = self.archive.visitedStates[str(child)]
+
+            return path
+
+
+
