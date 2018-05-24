@@ -38,26 +38,48 @@ class Archive:
             queue.put(childrenOfState[i])
 
     def addChildBFSheuristic(self, prioQueue, childrenOfState, level):
-        """ Puts the child into the priority queue according to the heuristic score. """
+        """ Puts the child into the priority queue according to the heuristic score.
+
+        This uses the blockingRedCar heuristic.
+        """
 
         for i in range(len(childrenOfState)):
             blocks = self.heuristic.blockingRedCar(childrenOfState[i])
             prioQueue.put((level + blocks, childrenOfState[i]))
 
-    def addChildBeamSearch(self, prioQueue, childrenOfState, solution):
-        """ Puts the child into the priority queue according to the heuristic score. """
+    def addChildBeamSearch(self, n, prioQueue, childrenOfState, solution):
+        """ Puts the child into the priority queue according to the heuristic score.
+
+        This uses the positionScore heuristic.
+        """
 
         for i in range(len(childrenOfState)):
-            score = self.heuristic.positionScore(childrenOfState[i], solution)
+            score = self.heuristic.positionScore(n, childrenOfState[i], solution)
             prioQueue.put((score, childrenOfState[i]))
 
-    def addChildAStar(self, oldScore, weightMove, prioQueue, childrenOfState, solution):
-        """ Puts the child into the priority queue according to the heuristic score. """
+    def addChildAStar(self, n, level, weightMove, prioQueue, childrenOfState, solution):
+        """ Puts the child into the priority queue according to the heuristic score.
+
+        This uses the positionScore heuristic and the amount of steps made to get to the given state.
+        """
 
         for i in range(len(childrenOfState)):
-            heuristicScore = self.heuristic.positionScore(childrenOfState[i], solution)
+            heuristicScore = self.heuristic.positionScore(n, childrenOfState[i], solution)
 
-            prioQueue.put((oldScore + weightMove + heuristicScore, [childrenOfState[i], self.board.changeable]))
+            prioQueue.put((level * weightMove + heuristicScore, [level, childrenOfState[i], self.board.changeable]))
+
+    def polynomial(self):
+        while True:
+        	n = input("What degree do you want the polynomial heuristic be?: ")
+        	try:
+        		n = float(n)
+        	except:
+        		print("Please give a float.")
+
+        	if isinstance(n, float):
+        		break
+
+        return n
 
     def addChildDFS(self, parent, stack, childrenOfState):
         """

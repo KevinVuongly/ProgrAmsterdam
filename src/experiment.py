@@ -14,8 +14,8 @@ from classes.Pick import *
 
 def main():
 
-	game = Pick
-	gameNumber = game.PickGame()
+	game = Pick()
+	gameNumber = game.pickGame()
 
 	file = "data/game" + str(gameNumber) + ".csv"
 	beginState = ReadBoard(file)

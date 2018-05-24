@@ -1,7 +1,9 @@
+from classes.Board import Board
+from classes.ReadBoard import ReadBoard
 
 class Pick:
 
-	def PickGame():
+	def pickGame(self):
 		while True:
 
 			firstgame = 1
@@ -23,7 +25,7 @@ class Pick:
 
 		return gameNumber
 
-	def pickAlgorithm(algoList, gameNumber):
+	def pickAlgorithm(self, algoList, gameNumber):
 		while True:
 			algorithm = input("Pick which algorithm you want to use(random, BFS, Astar, DFS): ")
 			if algorithm.lower() not in algoList:
@@ -38,7 +40,7 @@ class Pick:
 
 		return algorithm, game, beginState
 
-	def checkPositive(text):
+	def checkPositive(self, text):
 		while True:
 			value = input(text)
 			try:

@@ -151,13 +151,18 @@ class Save:
 
     def saveSolution(self, lastMove, gameType):
         """ Saves the found solution into a .csv and the end solutionstate in a .txt. """
-        textfile = "solutions/" + str(gameType) + "/" + str(self.gameNumber)
+        filename = "solutions/" + str(gameType) + "/" + str(self.gameNumber)
 
-        with open(textfile + ".csv", "w") as csvfile:
+        with open(filename + ".csv", "w") as csvfile:
             writer = csv.writer(csvfile, delimiter = ",")
 
             for row in self.path:
                 writer.writerow(row)
 
-        with open(textfile + ".txt", "w") as textfile:
+        endStateFolder = "solutions/endSolution/"
+
+        if not os.path.exists(endStateFolder):
+            os.makedirs(endStateFolder)
+
+        with open(endStateFolder + str(self.gameNumber) + ".txt", "w") as textfile:
     	    textfile.write("{}".format(lastMove))

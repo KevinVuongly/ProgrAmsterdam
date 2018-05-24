@@ -6,8 +6,8 @@ import numpy
 
 def main():
 
-	game = Pick
-	gameNumber = game.PickGame()
+	game = Pick()
+	gameNumber = game.pickGame()
 
 
 	file = "data/game" + str(gameNumber) + ".csv"

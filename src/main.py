@@ -1,7 +1,6 @@
 import time
 
-from classes.Board import Board
-from classes.ReadBoard import ReadBoard
+from classes.Pick import Pick
 from classes.Archive import Archive
 from classes.Heuristics import Heuristic
 from classes.Save import Save
@@ -12,12 +11,12 @@ from algorithms.astar import Astar
 from copy import copy, deepcopy
 
 def main():
-
-	data = pickGame()
+	pick = Pick()
+	data = pick.pickGame()
 
 	algorithms = ["random", "bfs", "astar", "dfs"]
 
-	algorithm, game, beginState = pickAlgorithm(algorithms, data)
+	algorithm, game, beginState = pick.pickAlgorithm(algorithms, data)
 
 	heuristic = Heuristic(game)
 	archive = Archive(game, heuristic)
@@ -26,7 +25,6 @@ def main():
 	if algorithm.lower() == algorithms[0]:
 		random = Random(game, archive)
 		random.semiRandomSelection(saveFile)
-
 
 	elif algorithm.lower() == algorithms[1]:
 		types = ["normal", "heuristic", "beamsearch"]
@@ -59,8 +57,8 @@ def main():
 
 	elif algorithm.lower() == algorithms[3]:
 		depthfs = DFS(game, archive)
-		maxDepth = checkPositive("How many steps deep would you like to search: ")
-		popAtMaxDepth = checkPositive("How much would you like to go back when that depth is reached: ")
+		maxDepth = pick.checkPositive("How many steps deep would you like to search: ")
+		popAtMaxDepth = pick.checkPositive("How much would you like to go back when that depth is reached: ")
 		depthfs.dfs(saveFile, maxDepth, popAtMaxDepth)
 
 def pickGame():

@@ -23,7 +23,7 @@ class Heuristic:
 
         return blocks
 
-    def positionScore(self, stateChangeable, stateSolution):
+    def positionScore(self, n, stateChangeable, stateSolution):
         """
         Calculates the score of the board compared to the solution board.
         For every distance difference of a car compared to it's position in the solution adds a penalty of 1.
@@ -31,6 +31,6 @@ class Heuristic:
         score = 0
 
         for i in range(self.board.nrOfCars):
-            score += abs(stateSolution[i] - stateChangeable[i])
+            score += abs(stateSolution[i] - stateChangeable[i])**n
 
         return score

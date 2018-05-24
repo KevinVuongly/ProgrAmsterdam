@@ -13,8 +13,8 @@ import scipy
 import scipy.stats
 
 
-game = Pick
-gameNumber = game.PickGame()
+game = Pick()
+gameNumber = game.pickGame()
 
 
 
