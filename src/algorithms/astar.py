@@ -12,7 +12,6 @@ class Astar:
 
         self.archive = archive
 
-        self.currentScore = 0
         self.parent = "beginning!"
 
     def astar(self, save):
@@ -24,20 +23,21 @@ class Astar:
         self.save = save
 
         weight, solution = self.initAStar()
+        currentScore = 0
 
         queue = PriorityQueue()
 
         while self.board.checkSolution() != 0:
             if str(self.board.changeable) not in self.archive.visitedStates.keys():
-                self.archive.visitedStates[str(self.board.changeable)] = [self.currentScore, self.parent]
+                self.archive.visitedStates[str(self.board.changeable)] = [currentScore, self.parent]
 
                 children, amountOfChildren = self.archive.manipulateChildren()
 
-                self.archive.addChildAStar(weight, queue, children, solution)
+                self.archive.addChildAStar(currentScore, weight, queue, children, solution)
 
-            [self.currentScore, [self.board.changeable, self.parent]] = list(queue.get())
+            [currentScore, [self.board.changeable, self.parent]] = list(queue.get())
 
-        self.archive.visitedStates[str(self.board.changeable)] = [self.currentScore, self.parent]
+        self.archive.visitedStates[str(self.board.changeable)] = [currentScore, self.parent]
 
         self.save.pathSolution(self.board.changeable, "AStar", True)
 

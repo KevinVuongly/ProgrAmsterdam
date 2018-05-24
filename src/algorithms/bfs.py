@@ -132,13 +132,13 @@ class BFS:
 
         if self.board.checkSolution() == 0:
             if self.type == "normal":
-                foldername = "BFS"
+                folderName = "BFS"
             elif self.type == "heuristic":
-                foldername = "BFSHeuristic"
+                folderName = "BFSHeuristic"
             elif self.type == "beamsearch":
-                foldername = "BFSBeamSearch"
+                folderName = "BFSBeamSearch"
 
-            self.save.pathSolution(self.board.changeable, foldername)
+            self.save.pathSolution(self.board.changeable, folderName)
 
             print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")
 
