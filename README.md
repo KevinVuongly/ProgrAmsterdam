@@ -7,21 +7,21 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 Software you need to install for this this project:
 
-'''
+```
 Python 3.6.x
-'''
+```
 
 requirements.txt contains all used modules in this project.
 
-'''
+```
 pip install -r requirements.txt
-'''
+```
 
 ## How to run the solver
 To run the solver, simply run the solver.py file.
-'''
+```
 python solver.py
-'''
+```
 
 The solver will ask for different types of input that you should follow in the following order:
 
