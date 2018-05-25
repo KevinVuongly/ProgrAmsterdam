@@ -11,7 +11,7 @@ from algorithms.astar import Astar
 from copy import copy, deepcopy
 import math
 
-def main():
+def solver():
 	pick = Pick()
 
 	firstgame = 1
@@ -76,4 +76,4 @@ def main():
 		depthfs.dfs(saveFile, maxDepth, popAtMaxDepth)
 
 if __name__ == "__main__":
-	main()
+	solver()
