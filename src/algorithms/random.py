@@ -9,16 +9,17 @@ class Random:
         """
         Takes all information of the board with it's state as the beginning of the game.
 
-
         Args:
             board (class): Containing all information of the game.
             archive (class): Containing the archive class.
             save (class): Containing the save class.
         """
         self.board = board
+
         self.archive = archive
-        self.save = save
         self.archive.visitedStates[str(self.board.changeable)] = "beginning!"
+
+        self.save = save
 
     def semiRandomSelection(self):
         """

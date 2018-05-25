@@ -50,6 +50,7 @@ class Astar:
         self.archive.visitedStates[str(self.board.changeable)] = [currentScore, self.parent]
 
         self.save.pathSolution(self.board.changeable, "AStar", astar=True)
+        self.save.saveSolution(self.board.changeable, "AStar")
 
         print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")
 

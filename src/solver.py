@@ -12,6 +12,8 @@ from copy import copy, deepcopy
 import math
 
 def solver():
+	""" Runs the solver. """
+
 	pick = Pick()
 
 	data = pick.pickGame()
@@ -37,14 +39,6 @@ def solver():
 				loadGame = BFS(game, archive, endPoint, saveFile)
 
 				solvedGame = loadGame.bfs(algoType.lower())
-
-				if algoType.lower() == types[0]:
-					saveFile.saveSolution(solvedGame, "BFS")
-				elif algoType.lower() == types[1]:
-					saveFile.saveSolution(solvedGame, "BFSheuristic")
-				elif algoType.lower() == types[2]:
-					saveFile.saveSolution(solvedGame, "BFSBeamSearch")
-
 				break
 
 	elif algorithm.lower() == algorithms[1]:
@@ -52,8 +46,6 @@ def solver():
 		loadGame = Astar(game, archive, endPoint, saveFile)
 
 		solvedGame = loadGame.astar()
-
-		saveFile.saveSolution(solvedGame, "Astar")
 
 	elif algorithm.lower() == algorithms[2]:
 		depthfs = DFS(game, archive)

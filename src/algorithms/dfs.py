@@ -3,68 +3,68 @@ from copy import copy, deepcopy
 import time
 
 class DFS:
-        def __init__(self, board, archive):
-            """
-            Takes all information of the board with it's state as the beginning of the game.
-            """
-            self.board = board
+    def __init__(self, board, archive):
+        """
+        Takes all information of the board with it's state as the beginning of the game.
+        """
+        self.board = board
 
-            self.archive = archive
-            self.archive.visitedStates[str(self.board.changeable)] = ["beginning!",1]
+        self.archive = archive
+        self.archive.visitedStates[str(self.board.changeable)] = ["beginning!",1]
 
 
-        def dfs(self, save, maxDepth, popAtMaxDepth):
-            """
-            Runs depth first search on the initialized board. The algorithm stops when
-            it finds a solution e.g. a state which the red car can move to the end.
-            """
+    def dfs(self, save, maxDepth, popAtMaxDepth):
+        """
+        Runs depth first search on the initialized board. The algorithm stops when
+        it finds a solution e.g. a state which the red car can move to the end.
+        """
 
-            self.save = save
-            self.maxDepth = maxDepth
-            self.popAtMaxDepth = popAtMaxDepth
-            depth = 0
+        self.save = save
+        self.maxDepth = maxDepth
+        self.popAtMaxDepth = popAtMaxDepth
+        depth = 0
 
-            stack = [self.board.changeable]
+        stack = [self.board.changeable]
 
-            print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Running algorithm...")
+        print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Running algorithm...")
 
-            while self.board.checkSolution() != 0:
+        while self.board.checkSolution() != 0:
 
-                children = self.board.createChildren()
+            children = self.board.createChildren()
 
-                childLevel = self.archive.visitedStates[str(self.board.changeable)][1] + 1
-                depth = childLevel
+            childLevel = self.archive.visitedStates[str(self.board.changeable)][1] + 1
+            depth = childLevel
 
-                amountOfChildren = len(children)
+            amountOfChildren = len(children)
 
-                childrenAvailable = False
+            childrenAvailable = False
 
-                for child in children:
-                    if str(child) not in self.archive.visitedStates.keys():
+            for child in children:
+                if str(child) not in self.archive.visitedStates.keys():
+                    stack.append(child)
+                    self.archive.addToDfsArchive(self.board.changeable, childLevel, child)
+                    childrenAvailable = True
+                    break
+                else:
+                    priorKeyLevel = self.archive.visitedStates[str(child)][1]
+                    if childLevel < priorKeyLevel:
                         stack.append(child)
                         self.archive.addToDfsArchive(self.board.changeable, childLevel, child)
                         childrenAvailable = True
                         break
                     else:
-                        priorKeyLevel = self.archive.visitedStates[str(child)][1]
-                        if childLevel < priorKeyLevel:
-                            stack.append(child)
-                            self.archive.addToDfsArchive(self.board.changeable, childLevel, child)
-                            childrenAvailable = True
-                            break
-                        else:
-                            continue
+                        continue
 
-                if childrenAvailable == False:
+            if childrenAvailable == False:
+                stack.pop()
+
+            if depth > self.maxDepth:
+                for i in range(0,popAtMaxDepth):
                     stack.pop()
 
-                if depth > self.maxDepth:
-                    for i in range(0,popAtMaxDepth):
-                        stack.pop()
+            self.board.changeable = stack[-1]
 
-                self.board.changeable = stack[-1]
+        self.save.pathSolution(self.board.changeable, "DFS", dfs=True)
+        self.save.saveSolution(self.board.changeable, "DFS")
 
-            self.save.pathSolution(self.board.changeable, "DFS", dfs=True)
-            self.save.saveSolution(self.board.changeable, "DFS")
-
-            print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")
+        print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")
