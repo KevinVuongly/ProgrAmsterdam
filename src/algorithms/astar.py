@@ -5,8 +5,13 @@ from queue import Queue, PriorityQueue
 
 class Astar:
     def __init__(self, board, archive, endpoint, save):
-        """
-        Takes all information of the board with it's state as the beginning of the game.
+        """ Takes all information of the board with it's state as the beginning of the game.
+
+        Args:
+            board (class): Containing all information of the game.
+            archive (class): Containing the archive class.
+            endpoint (class): Containing the endpoint class.
+            save (class): Containing the save class.
         """
         self.board = board
         self.archive = archive
@@ -17,8 +22,11 @@ class Astar:
 
     def astar(self):
         """ Runs A*-search on the initialized board.
+            The algorithm stops when it finds a solution e.g. a state
+            which the red car can move to the end, afterwards it visualizes the solution.
 
-        The algorithm stops when it finds a solution e.g. a state which the red car can move to the end.
+        Return:
+            The last state e.g. the last move of the solution.
         """
 
         solution = self.initAStar()
@@ -38,16 +46,22 @@ class Astar:
 
             [currentScore, [depth, self.board.changeable, self.parent]] = list(queue.get())
 
+        # Put the last move in the archive. Needed to create the path.
         self.archive.visitedStates[str(self.board.changeable)] = [currentScore, self.parent]
 
-        self.save.pathSolution(self.board.changeable, "AStar", True)
+        self.save.pathSolution(self.board.changeable, "AStar", astar=True)
 
         print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")
 
         return self.board.changeable
 
     def initAStar(self):
-        """ Asks for parameters needed for the algorithm to start."""
+        """ Asks for the endpoint needed for the algorithm to start.
+
+        Parameter:
+            solutionState(list): Will contain the endpoint. If the endpoint doesn't exist yet,
+                                 it will create a new endpoint through the random algorithm.
+        """
 
         solutionState = self.endpoint.findEndPoint()
 

@@ -3,19 +3,23 @@ import csv
 import random
 
 class ReadBoard:
-    """
-    Read the csv-file. The very first row is the gridsize of the given game.
-    Check game1.csv in the data folder to see how the csv-files are constructed.
+    """ Read the csv-file. The very first row is the gridsize of the given game.
+        Check game1.csv in the data folder to see how the csv-files are constructed.
     """
 
     def __init__(self, puzzle):
-        """Initialisation of the board's parameters.
+        """Initialization of the board's parameters.
 
-        Args:
-            gridSize (int): An integer for the size of the grid.
+        Initialization:
             changeable (list of ints): An int for the variable position of car i.
             fixed (list of ints): An int for the fixed position of car i.
+            direction (list of strings): A string for the direction of car i.
+                                         "v" if vertical, "h" if horizontal.
             length (list of ints): the length of car i.
+            gridSize (int): An integer for the size of the grid.
+            colors (list): The color of each car. Needed for the visualization.
+                           color[0] is the color the red car(i = 0), color[1] is the background color.
+                           color[1 + i] is the color of car i(i > 1) excluding the red car.
         """
 
         self.changeable = []

@@ -1,10 +1,10 @@
 from copy import copy, deepcopy
 
 class Board:
-    """A class that describes the orientation of the board and allows and checks moves."""
+    """ A class that describes the orientation of the board and allows and checks moves. """
 
     def __init__(self, gridSize, changeable, fixed, direction, length):
-        """Initialisation of the board's parameters.
+        """ Initialization of the board's parameters.
 
         Args:
             gridSize (int): An integer for the size of the grid.
@@ -29,6 +29,10 @@ class Board:
             vehicle (int): The number of the vehicle that is checked.
             change (int): The number of places you want the vehicle to move,
                           negative or positive, depending on direction.
+
+        Return:
+            0: Move is feasible
+            1: Move is illegal
         """
 
         newPos = self.changeable[vehicle] + change
@@ -62,6 +66,9 @@ class Board:
         """ Returns a grid that shows the occupation of an element.
 
         If an element is occupied it gets the value of 1. Else, 0.
+
+        Return:
+            occupiedMatrix (list of lists): The referred grid
         """
         occupiedMatrix = [[0 for x in range(self.gridSize)] for y in range(self.gridSize)]
 
@@ -75,9 +82,12 @@ class Board:
         return occupiedMatrix
 
     def checkPossibleMoves(self):
-        """ Checks all possible moves of a given state. """
-        possibleMovesArray = []
+        """ Creates all possible moves of a given state. Uses checkMove() to do that.
 
+        Return:
+            possibleMovesArray (list of lists): All possible moves that every car can make.
+        """
+        possibleMovesArray = []
 
         for j in range(self.nrOfCars):
             minMaxChange = self.gridSize - self.length[j] + 1
@@ -99,7 +109,16 @@ class Board:
         return possibleMovesArray
 
     def createChildren(self):
-        """ Creates the children for given board. """
+        """ Creates the children for given board.
+
+        Initialization:
+            children (list): Empty list e.g. doesn't contain the children yet.
+            posMoves (list of lists): Contains all possible moves every car can make.
+
+        Return:
+            children (list): The newly updated list containing all children of the
+                             given board.
+        """
         children = []
         posMoves = self.checkPossibleMoves()
 
@@ -109,10 +128,16 @@ class Board:
                     child = copy(self.changeable)
                     child[i] = child[i] + posMoves[i][j]
                     children.append(child)
+
         return children
 
     def checkSolution(self):
-        """ Checks if board is solved and returns 0 if so. """
+        """ Checks if board is in a solved state.
+
+        Return:
+            0: State is solved.
+            1: State is not solved.
+        """
         movesToEndblock = self.gridSize - self.changeable[0] - 2
         if self.checkMove(0,movesToEndblock) == 0:
             return 0

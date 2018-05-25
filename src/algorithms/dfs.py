@@ -23,7 +23,6 @@ class DFS:
             self.maxDepth = maxDepth
             self.popAtMaxDepth = popAtMaxDepth
             depth = 0
-            foldername = "DFS"
 
             stack = [self.board.changeable]
 
@@ -65,7 +64,7 @@ class DFS:
 
                 self.board.changeable = stack[-1]
 
-            self.save.pathSolutionDfs(self.board.changeable, foldername)
-            self.save.saveSolution(self.board.changeable, foldername)
+            self.save.pathSolution(self.board.changeable, "DFS", dfs=True)
+            self.save.saveSolution(self.board.changeable, "DFS")
 
             print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")

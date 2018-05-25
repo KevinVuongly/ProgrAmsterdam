@@ -39,9 +39,9 @@ def solver():
 				print("Please pick a correct type.")
 			else:
 				endPoint = EndPoint(deepcopy(game), deepcopy(archive), deepcopy(saveFile))
-				loadGame = BFS(game, archive, endPoint)
+				loadGame = BFS(game, archive, endPoint, saveFile)
 
-				solvedGame = loadGame.bfs(algoType.lower(), saveFile)
+				solvedGame = loadGame.bfs(algoType.lower())
 
 				if algoType.lower() == types[0]:
 					saveFile.saveSolution(solvedGame, "BFS")

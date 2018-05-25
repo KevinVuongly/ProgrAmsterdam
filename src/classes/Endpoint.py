@@ -2,7 +2,15 @@ from algorithms.random import Random
 import ast
 
 class EndPoint:
+    """ Class containing the creation of an endpoint(if needed). """
     def __init__(self, board, archive, save):
+        """ Takes all information of the board with it's state as the beginning of the game.
+
+            Args:
+                board (class): Containing all information of the game.
+                archive (class): Containing the archive class.
+                save (class): Containing the save class.
+        """
         self.board = board
         self.archive = archive
         self.save = save
@@ -10,6 +18,9 @@ class EndPoint:
     def findEndPoint(self):
         """ Looks for an endpoint in the solution folder. If there is no endpoint found,
             creates a new endpoint through the random algorithm.
+
+        Return:
+            solutionState (list): The referred endpoint.
         """
 
         try:
