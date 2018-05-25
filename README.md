@@ -31,7 +31,7 @@ The solver will ask for different types of input that you should follow in the f
 Depending on the algorithm it asks for extra input.
 When picking breadth-first search:
 - Breadth-first Search
-- Breadth-first search with a heuristic checking for the amount of cars in front of the red car(basically A*)
+- Breadth-first search with a heuristic checking for the amount of cars in front of the red car(basically best-first search per level)
 - Beam Search
 
 When picking Beam Search:
