@@ -4,26 +4,32 @@ from classes.ReadBoard import ReadBoard
 class Pick:
 	""" Contains all functions asking for input. """
 	def pickGame(self):
+		""" Checks if the input is a game that exists.
+			If the input is not feasible, asks for a new input.
+
+		Return:
+			gameNumber (int): If the game exists, returns the number of the game.
+		"""
 		firstgame = 1
 		lastgame = 7
 
 		while True:
 
-			value = input("Pick the game you want to solve for (1, 2, 3,... , {}): ".format(lastgame))
+			gameNumber = input("Pick the game you want to solve for (1, 2, 3,... , {}): ".format(lastgame))
 
 			try:
-				value = int(value)
+				gameNumber = int(gameNumber)
 			except:
 				print("Please pick an existing game.")
 
-			if isinstance(value, int):
+			if isinstance(gameNumber, int):
 
-				if not firstgame <= value <= lastgame:
+				if not firstgame <= gameNumber <= lastgame:
 					print("Please pick an existing game.")
 				else:
 					break
 
-		return value
+		return gameNumber
 
 	def pickNumber(self, text, errortext, min, max):
 		""" Checks if the input is an integer and if it's within feasible bounds.

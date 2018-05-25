@@ -179,6 +179,7 @@ class BFS:
                 folderName = "BFSBeamSearch"
 
             self.save.pathSolution(self.board.changeable, folderName)
+            self.save.saveSolution(self.board.changeable, folderName)
 
             print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")
 
