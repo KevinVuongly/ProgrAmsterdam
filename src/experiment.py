@@ -25,14 +25,14 @@ def main():
 	archive = Archive(game, heuristic)
 	saveFile = Save(gameNumber, game, archive, beginState.colors)
 
-	random = Random(game, archive)
+	random = Random(game, archive, saveFile)
 	
 	solutions = []
 
 	for i in range(0,3000):
 		newGame = deepcopy(random)
-		solution = newGame.semiRandomSelection()
-		solutions.append(solution)
+		solution, length = newGame.semiRandomSelection()
+		solutions.append(length)
 		print(i)
 
 	saveSolution(solutions, gameNumber)
