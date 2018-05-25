@@ -25,7 +25,7 @@ def main():
 	archive = Archive(game, heuristic)
 	saveFile = Save(gameNumber, game, archive, beginState.colors)
 
-	random = Random(game, archive)
+	random = Random(game, archive, saveFile)
 
 	solutions = []
 
@@ -37,7 +37,6 @@ def main():
 
 	saveSolution(solutions, gameNumber)
 
-
 def saveSolution(solutionState, game):
 	textfile = "experiment/game" + str(game) + "simulations.csv"
 
@@ -46,9 +45,6 @@ def saveSolution(solutionState, game):
 			newRow = str(row)
 			file.write(newRow)
 			file.write('\n')
-
-
-
 
 if __name__ == "__main__":
 	main()
