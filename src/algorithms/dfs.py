@@ -4,8 +4,12 @@ import time
 
 class DFS:
     def __init__(self, board, archive):
-        """
-        Takes all information of the board with it's state as the beginning of the game.
+        """ Takes all information of the board with it's state as the beginning of the game.
+
+        Args:
+            board (class): Containing all information of the game.
+            archive (class): Containing the archive class.
+            endpoint (class): Containing the endpoint class.
         """
         self.board = board
 
@@ -14,9 +18,14 @@ class DFS:
 
 
     def dfs(self, save, maxDepth, popAtMaxDepth):
-        """
-        Runs depth first search on the initialized board. The algorithm stops when
-        it finds a solution e.g. a state which the red car can move to the end.
+        """ Runs a depth-first-search on the initialized board.
+            The algorithm stops when it finds a solution e.g. a state
+            which the red car can move to the end, afterwards it saves the path to a csv file.
+
+        Args:
+            save (class): Containing the save class.e
+            maxDepth (int): Containing the max depth you want to search to
+            popAtMaxDepth (int): Containing how much you would like to pop from the stack  when max depth is reached
         """
 
         self.save = save

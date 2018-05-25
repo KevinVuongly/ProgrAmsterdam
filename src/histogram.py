@@ -21,8 +21,8 @@ file = "experiment/game" + str(gameNumber) + "simulations.csv"
 stat = ReadStates(file)
 x = stat.readStates()
 y = []
-for [jokem] in x:
-	y.append(jokem)
+for [state] in x:
+	y.append(state)
 
 
 
