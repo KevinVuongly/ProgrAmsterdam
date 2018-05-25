@@ -7,7 +7,7 @@ import numpy
 def main():
 
 	game = Pick()
-	gameNumber = game.pickGame()
+	gameNumber = game.pickGame() # Choose game
 
 
 	file = "data/game" + str(gameNumber) + ".csv"
@@ -26,6 +26,7 @@ def main():
 	print("The maximum statespace for game {} is {} spaces".format(gameNumber,states))
 
 def product(array):
+	""" Multiplies all elements in an array """ 
 	x = 1
 	for element in array:
 		x = x*element
@@ -36,6 +37,7 @@ def product(array):
 
 
 def statesInGrid(carsSpaces):
+	""" makes an array of the nr of states per collumn or row """
 	states = []
 	for rowCollumn in carsSpaces:
 		state = statesPerRowCollumn(rowCollumn)
@@ -46,6 +48,7 @@ def statesInGrid(carsSpaces):
 
 
 def statesPerRowCollumn(carsSpaces):
+	""" Calcutates the nr of states for a row or a collunn """
 	nrOfCars = carsSpaces[0]
 	freeSpaces = carsSpaces[1]
 	y = [freeSpaces]
@@ -61,6 +64,15 @@ def statesPerRowCollumn(carsSpaces):
 
 
 def spacesCars(direction, beginState):
+    """ Counts how many cars occupy a row or a collumn and calculates the free spaces in the row or collumn
+
+    Args:
+        direction (string): containing if you want to search a row or a collumn
+        beginstate (list): Containing the board state
+
+    Return:
+    	carsSpaces (list): A list with the amount of cars and the free spaces per row or collumn
+    """
 	carsSpaces = []
 	for i in range(beginState.gridSize):        # check per row
 		cars = 0

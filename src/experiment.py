@@ -25,18 +25,17 @@ def main():
 	archive = Archive(game, heuristic)
 	saveFile = Save(gameNumber, game, archive, beginState.colors)
 
-	random = Random(game, archive)
-	
+	random = Random(game, archive, saveFile)
+
 	solutions = []
 
-	for i in range(0,10000):
+	for i in range(0,3000):
 		newGame = deepcopy(random)
-		solution = newGame.semiRandomSelection()
+		lastMove, solution = newGame.semiRandomSelection()
 		solutions.append(solution)
 		print(i)
 
 	saveSolution(solutions, gameNumber)
-
 
 def saveSolution(solutionState, game):
 	textfile = "experiment/game" + str(game) + "simulations.csv"
@@ -46,9 +45,6 @@ def saveSolution(solutionState, game):
 			newRow = str(row)
 			file.write(newRow)
 			file.write('\n')
-
-
-
 
 if __name__ == "__main__":
 	main()

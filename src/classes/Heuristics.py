@@ -4,10 +4,29 @@ class Heuristic:
     """ A class that has all the heuristics made for the rush hour game"""
 
     def __init__(self, board):
+        """ Takes all information of the board with it's state as the beginning of the game.
+
+        Args:
+            board (class): Containing all information of the game.
+        """
+
         self.board = board
 
     def blockingRedCar(self, stateChangeable):
-        """ Checks how many cars are blocking the way of the red car."""
+        """ Checks how many cars are blocking the way of the red car.
+
+        Initalization:
+            blocks (int): Amount of blocks is 0 initially.
+            redCarSize (int): The carsize of the red car. The size is typically 2.
+            posToCheck (int): The maximum amount of cars that might be
+                              blocking the way of the red car.
+
+        Args:
+            stateChangeable (list): The current state of the game.
+
+        Return:
+            blocks (int): The real amount of cars blocking the way of the red car.
+        """
         blocks = 0
         redCarSize = self.board.length[0]
 
@@ -23,14 +42,30 @@ class Heuristic:
 
         return blocks
 
-    def positionScore(self, stateChangeable, stateSolution):
-        """
-        Calculates the score of the board compared to the solution board.
-        For every distance difference of a car compared to it's position in the solution adds a penalty of 1.
+    def positionScore(self, stateChangeable, stateSolution, astar=False):
+        """ Calculates the score of the given board compared to the solution board.
+            For every distance difference of a car compared to it's position in
+            the solution adds a penalty of 1.
+
+            If the algorithm used is an A*, the penalty is 1 regardless how far
+            the car is from it's end position. 
+
+        Args:
+            stateChangeable (list): The current state of the game.
+            stateSolution (list): The solution state of the game.
+
+        Return:
+            score (int): The score of the given board according to the heuristic.
         """
         score = 0
 
-        for i in range(self.board.nrOfCars):
-            score += abs(stateSolution[i] - stateChangeable[i])
+        if astar == False:
+            for i in range(self.board.nrOfCars):
+                score += abs(stateSolution[i] - stateChangeable[i])
+        else:
+            for i in range(self.board.nrOfCars):
+                toMove = abs(stateSolution[i] - stateChangeable[i])
+                if toMove > 0:
+                    score += 1
 
         return score

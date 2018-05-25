@@ -7,7 +7,20 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 
 class Save:
+    """ A class containing all save-actions when the game is solved for."""
     def __init__(self, gameNumber, board, archive, colors):
+        """ Initialization of the parameters.
+
+        Args:
+            gameNumber (int): The game that is solved for.
+            board (class): Containing all information of the (solved!) game.
+            archive (class): Containing the archive class, including the archive itself.
+            colors (list): The colors of all the cars.
+
+        Initialization:
+            endStateFolder: The folder where the last move will be saved in.
+        """
+
         self.gameNumber = gameNumber
         self.board = board
         self.archive = archive
@@ -16,8 +29,16 @@ class Save:
         self.endStateFolder = "solutions/endSolution/"
 
     def createGrid(self, changeable):
-        """
-        Creates a matrix representation of the board
+        """ Creates a matrix representation of the current state of the game.
+
+        Initialization:
+            grid (list of lists): An empty grid according to the gamesize.
+
+        Args:
+            changeable (list): The current state of the game.
+
+        Return:
+            grid (list of lists): The referred matrix representation.
         """
         grid = [["-" for x in range(self.board.gridSize)] for y in range(self.board.gridSize)]
 
@@ -43,8 +64,16 @@ class Save:
         return grid
 
     def visualize(self, changeable, move, folder):
-        """
-        Visualizes the current state of the board.
+        """ Visualizes the given state of the game.
+
+        Initialization:
+            boardGrid: Create the matrix representation of the current state of the game.
+            image: Initialize the image, which is empty at first-hand.
+
+        Args:
+            changeable (list): The current state of the game.
+            move (int): The amount of moves made to get to this state.
+            folder (string): The folder where the visualization has to be saved in
         """
         boardGrid = self.createGrid(changeable)
 
@@ -72,7 +101,15 @@ class Save:
         plt.close()
 
     def createFolder(self, gameType):
-        """ Creates a new folder for the solution to save in. """
+        """ Creates a new folder for the solution to save in.
+            If it already exists, re-creates it.
+
+        Args:
+            gameType (string): The algorithm that is used to solve the game.
+
+        Return:
+            folder (string): The created folder.
+        """
         folder = "solutions/" + str(gameType) + "/" + str(self.gameNumber)
 
         if os.path.exists(folder):
@@ -81,14 +118,28 @@ class Save:
 
         return folder
 
-    def pathSolution(self, solutionState, folderName, astar=False):
-        """ Visualizes the path. """
+    def pathSolution(self, solutionState, folderName, astar=False, dfs=False):
+        """ Creates then visualizes the path according to the algorithm.
+
+        Initalization:
+            path: The path of the solution, initially it only contains the ending.
+
+        Args:
+            solutionState (list): The end of the path, which is a solution of the game.
+            folderName (string): The algorithm that is used to solve the game,
+                                 used as the name for the folder.
+            astar (boolean): True if the A*-algorithm is used, false if not.
+            dfs (boolean): True if the depth-first search algorithm is used, false if not.
+        """
         self.path = [solutionState]
 
         child = copy(solutionState)
 
-        if astar == True:
-            self.createPathSolutionAStar(child)
+        if astar == True or dfs == True:
+            if astar == True:
+                self.createPathSolutionAStar(child)
+            else:
+                self.createPathSolutionDFS(child)
         else:
             self.createPathSolution(child)
 
@@ -97,20 +148,12 @@ class Save:
         for i in range(len(self.path)):
             self.visualize(self.path[i], i, folder)
 
-    def getPath(self, solutionState, foldername):
-        self.path = [solutionState]
-
-        child = copy(solutionState)
-        parent = self.archive.visitedStates[str(child)]
-
-        while self.archive.visitedStates[str(child)] != "beginning!":
-            self.path.insert(0, parent)
-
-            child = parent
-            parent = self.archive.visitedStates[str(child)]
-
     def createPathSolution(self, child):
-        """ Creates the path using the archive. """
+        """ Creates the path using the archive by updating self.path.
+
+        Args:
+            child (list): The initial child, which is the end of the path.
+        """
         parent = self.archive.visitedStates[str(child)]
 
         while parent != "beginning!":
@@ -121,8 +164,10 @@ class Save:
 
     def createPathSolutionAStar(self, child):
         """ Creates the path using the archive.
+            The A*-algorithm has it's own unique value layout for the archive.
 
-        A*-search has it's own unique value layout for the archive.
+        Args:
+            child (list): The initial child, which is the end of the path.
         """
         parent = self.archive.visitedStates[str(child)][1]
 
@@ -132,12 +177,13 @@ class Save:
             child = parent
             parent = self.archive.visitedStates[str(child)][1]
 
-    def pathSolutionDfs(self, solutionState, foldername):
-        """ Visualizes the path found through depth first search. """
-        self.path = [solutionState]
+    def createPathSolutionDFS(self, child):
+        """ Creates the path using the archive
+            The DFS-algorithm has it's own unique value layout for the archiveself.
 
-        child = copy(solutionState)
-
+        Args:
+            child (list): The initial child, which is the end of the path.
+        """
         parent = self.archive.visitedStates[str(child)][0]
 
         while self.archive.visitedStates[str(child)][0] != "beginning!":
@@ -146,13 +192,35 @@ class Save:
             child = parent
             parent = self.archive.visitedStates[str(child)][0]
 
-        folder = self.createFolder(foldername)
+    def getPath(self, solutionState):
+        """ Get's the path of the solution, needed for the experiments.
 
-        for i in range(len(self.path)):
-            self.visualize(self.path[i], i, folder)
+        Args:
+            solutionState (list): Last state of the solution e.g. last move.
+
+        Return:
+            path (list of lists): The path of the solution.
+        """
+        path = [solutionState]
+
+        child = copy(solutionState)
+        parent = self.archive.visitedStates[str(child)]
+
+        while self.archive.visitedStates[str(child)] != "beginning!":
+            path.insert(0, parent)
+
+            child = parent
+            parent = self.archive.visitedStates[str(child)]
+
+        return path
 
     def saveSolution(self, lastMove, gameType):
-        """ Saves the found solution into a .csv and the end solutionstate in a .txt. """
+        """ Saves the found solution into a .csv and the end solutionstate in a .txt.
+
+        Args:
+            lastMove (list): The last move made of the solution.
+            gameType (string): The algorithm that is used by the solver.
+        """
 
         filename = "solutions/" + str(gameType) + "/" + str(self.gameNumber)
 
@@ -167,8 +235,11 @@ class Save:
     def saveEndSolution(self, lastMove):
         """ Saves the end solutionSate in a .txt file. Reason to split this in it's own function
             is because the path isn't relevant for the random algorithm.
+
+        Args:
+        lastMove (list): The last move made of the solution.
         """
-        
+
         print()
         print("Saving the last move in {}.".format(self.endStateFolder))
 
