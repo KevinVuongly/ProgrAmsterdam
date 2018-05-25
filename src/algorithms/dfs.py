@@ -35,7 +35,7 @@ class DFS:
 
         stack = [self.board.changeable]
 
-        print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Running algorithm...")
+        print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Running algorithm...\n")
 
         while self.board.checkSolution() != 0:
 
@@ -76,4 +76,4 @@ class DFS:
         self.save.pathSolution(self.board.changeable, "DFS", dfs=True)
         self.save.saveSolution(self.board.changeable, "DFS")
 
-        print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")
+        print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.\n")

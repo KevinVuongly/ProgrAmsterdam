@@ -102,7 +102,7 @@ class BFS:
 
         self.endpoint = None
 
-        print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Running algorithm...")
+        print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Running algorithm...\n")
 
         return activeQueue, inactiveQueue
 
@@ -124,12 +124,12 @@ class BFS:
             try:
             	width = int(width)
             except:
-            	print("Please pick a feasible width.")
+            	print("Please pick a feasible width.\n")
 
             if isinstance(width, int):
 
             	if width < 0:
-            		print("Please pick a feasible width.")
+            		print("Please pick a feasible width.\n")
             	else:
             		break
 
@@ -181,7 +181,7 @@ class BFS:
             self.save.pathSolution(self.board.changeable, folderName)
             self.save.saveSolution(self.board.changeable, folderName)
 
-            print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")
+            print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.\n")
 
         else:
-            print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution not found.")
+            print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution not found. Please retry.\n")

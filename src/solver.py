@@ -33,7 +33,7 @@ def solver():
 			algoType = input("How do you want to use the breadth-first search algorithm?(normal, heuristic, beamSearch): ")
 
 			if algoType.lower() not in types:
-				print("Please pick a correct type.")
+				print("Please pick a correct type.\n")
 			else:
 				endPoint = EndPoint(deepcopy(game), deepcopy(archive), deepcopy(saveFile))
 				loadGame = BFS(game, archive, endPoint, saveFile)

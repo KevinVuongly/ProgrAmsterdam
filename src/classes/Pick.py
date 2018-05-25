@@ -20,12 +20,12 @@ class Pick:
 			try:
 				gameNumber = int(gameNumber)
 			except:
-				print("Please pick an existing game.")
+				print("Please pick an existing game.\n")
 
 			if isinstance(gameNumber, int):
 
 				if not firstgame <= gameNumber <= lastgame:
-					print("Please pick an existing game.")
+					print("Please pick an existing game.\n")
 				else:
 					break
 
@@ -47,17 +47,17 @@ class Pick:
 
 		while True:
 
-			value = input(text)
+			value = input(text + "\n")
 
 			try:
 				value = int(value)
 			except:
-				print(errortext)
+				print(errortext + "\n")
 
 			if isinstance(value, int):
 
 				if not min <= value <= max:
-					print(errortext)
+					print(errortext + "\n")
 				else:
 					break
 
@@ -79,7 +79,7 @@ class Pick:
 		while True:
 			algorithm = input("Pick which algorithm you want to use(BFS, Astar, DFS): ")
 			if algorithm.lower() not in algoList:
-				print("Please pick a correct algorithm.")
+				print("Please pick a correct algorithm.\n")
 			else:
 				file = "data/game" + str(gameNumber) + ".csv"
 				beginState = ReadBoard(file)

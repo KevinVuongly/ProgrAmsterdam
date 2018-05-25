@@ -24,24 +24,19 @@ class EndPoint:
         """
 
         try:
-            print()
-            print("Trying to find the file containing the endpoint in solutions/endSolution/..  ...")
+            print("Trying to find the file containing the endpoint in solutions/endSolution/..  ...\n")
 
             with open(self.save.endStateFolder + str(self.save.gameNumber) + ".txt", "r") as textfile:
         	    solutionState = textfile.readline()
             solutionState = ast.literal_eval(solutionState)
 
-            print("Endpoint found!")
-            print()
+            print("Endpoint found!\n")
         except:
-            print("Endpoint not found! Creating solution by running the random algorithm...")
-            print()
+            print("Endpoint not found! Creating solution by running the random algorithm...\n")
 
             random = Random(self.board, self.archive, self.save)
             solutionState = random.semiRandomSelection()
 
-            print()
-            print("Endpoint created! Ready for the algorithm.")
-            print()
+            print("Endpoint created! Ready for the algorithm.\n")
 
         return solutionState
