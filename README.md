@@ -1,5 +1,5 @@
 # ProgrAmsterdam - Rush Hour
-In this project we aim to find algorithms to solve the game named Rush Hour. This game is played on a grid/board. First of, we start with a 6 x 6 grid on which the game is played. Later versions of the game will include larger grids (9x9 and 12x12). On the grid there are cars and trucs. The cars take up 2 squares each and the trucks take up 3 squares each. Also all vehicles can only be moved within a straight line along the grid and they cannot be rotated. In this game the goal is to ride a red car out through the exit of the board. However there are other vehicles that obstruct the path which makes the puzzle harder. The goal is to move the vehicles around so that the exit path for the red car becomes clear and the red car can exit.
+In this project we aim to find algorithms to solve the game named Rush Hour. This game is played on a grid/board. First of, we start with a 6 x 6 grid on which the game is played. Later versions of the game will include larger grids (9x9 and 12x12). On the grid there are cars and trucks. The cars take up 2 squares each and the trucks take up 3 squares each. Also all vehicles can only be moved within a straight line along the grid and they cannot be rotated. In this game the goal is to ride a red car out through the exit of the board. However there are other vehicles that obstruct the path which makes the puzzle harder. The goal is to move the vehicles around so that the exit path for the red car becomes clear and the red car can exit.
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
@@ -36,6 +36,8 @@ When picking breadth-first search:
 
 When picking Beam Search:
 - Input for the beam width
+
+Be careful! Boards bigger than 6x6 tend to be unsolvable through brute-force. Instead pick either the A*-search or the beam search to solve those type of boards.
 
 ## Solutions
 If the solver finds a solution, the solution(as a visualization and in a .csv file) will be saved in the __/solutions/the used algorithm/..__ folder. Some algorithms that we've implemented need a destination point.
