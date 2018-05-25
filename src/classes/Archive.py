@@ -114,7 +114,7 @@ class Archive:
         """
 
         for i in range(len(childrenOfState)):
-            heuristicScore = self.heuristic.positionScore(childrenOfState[i], solution)
+            heuristicScore = self.heuristic.positionScore(childrenOfState[i], solution, True)
 
             prioQueue.put((level + heuristicScore, [level, childrenOfState[i], self.board.changeable]))
 

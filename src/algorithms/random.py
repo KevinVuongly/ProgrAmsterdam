@@ -50,4 +50,6 @@ class Random:
 
         print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")
 
-        return self.board.changeable
+        path = self.save.getPath(self.board.changeable)
+
+        return self.board.changeable, len(path)
