@@ -8,9 +8,8 @@ from plotly.tools import FigureFactory as FF
 from classes.Pick import *
 
 import numpy as np
-import pandas as pd
-import scipy
-import scipy.stats
+
+
 
 
 game = Pick()
