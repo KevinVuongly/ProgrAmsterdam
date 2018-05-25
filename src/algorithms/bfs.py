@@ -1,15 +1,16 @@
-import ast
 import time
 from copy import copy
 from queue import Queue, PriorityQueue
 
 class BFS:
-    def __init__(self, board, archive):
+    def __init__(self, board, archive, endpoint):
         """ Takes all information of the board with it's state as the beginning of the game. """
         self.board = board
 
         self.archive = archive
         self.archive.visitedStates[str(self.board.changeable)] = "beginning!"
+
+        self.endpoint = endpoint
 
     def bfs(self, type, save):
         """ Runs breadth first search on the initialized board.
@@ -99,10 +100,11 @@ class BFS:
             	else:
             		break
 
-        solution = input("Paste your solution state: ")
-        solution = ast.literal_eval(solution)
+        solutionState = self.endpoint.findEndPoint()
 
-        return width, solution
+        self.endpoint = None
+
+        return width, solutionState
 
     def activateQueue(self, typeAlgo, activeQueue, inactiveQueue):
         """ When the queue is empty, put the priorityQueue into the active queue. """

@@ -1,28 +1,27 @@
-import ast
+from algorithms.random import Random
 import time
-from copy import copy
+from copy import copy, deepcopy
 from queue import Queue, PriorityQueue
 
 class Astar:
-    def __init__(self, board, archive):
+    def __init__(self, board, archive, endpoint, save):
         """
         Takes all information of the board with it's state as the beginning of the game.
         """
         self.board = board
-
         self.archive = archive
+        self.endpoint = endpoint
+        self.save = save
 
         self.parent = "beginning!"
 
-    def astar(self, save):
+    def astar(self):
         """ Runs A*-search on the initialized board.
 
         The algorithm stops when it finds a solution e.g. a state which the red car can move to the end.
         """
 
-        self.save = save
-
-        weight, n, solution = self.initAStar()
+        solution = self.initAStar()
         currentScore = 0
 
         depth = 0
@@ -35,7 +34,7 @@ class Astar:
 
                 children, amountOfChildren = self.archive.manipulateChildren()
 
-                self.archive.addChildAStar(n, depth + 1, weight, queue, children, solution)
+                self.archive.addChildAStar(depth + 1, queue, children, solution)
 
             [currentScore, [depth, self.board.changeable, self.parent]] = list(queue.get())
 
@@ -49,25 +48,11 @@ class Astar:
 
     def initAStar(self):
         """ Asks for parameters needed for the algorithm to start."""
-        while True:
-            weightOfMove = input("How heavy do you want the move to count in the score? (Scale between [0, inf): ")
 
-            try:
-                weightOfMove = float(weightOfMove)
-            except:
-                print("Please pick a number within the given range")
+        solutionState = self.endpoint.findEndPoint()
 
-            if isinstance(weightOfMove, float):
-                if weightOfMove < 0:
-                    print("Please pick a number within the given range.")
-                else:
-                    break
-
-        n = self.archive.polynomial()
-
-        solutionState = input("Paste your solution state: ")
-        solutionState = ast.literal_eval(solutionState)
+        self.endpoint = None
 
         print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Running algorithm...")
 
-        return weightOfMove, n, solutionState
+        return solutionState

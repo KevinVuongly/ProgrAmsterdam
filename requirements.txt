@@ -1,8 +1,10 @@
-numpy
+numpy==1.13.3
 time
 csv
 copy
 random
 os
-matplotlib.pyplot
+matplotlib==2.1.0
 ast
+queue
+shutil

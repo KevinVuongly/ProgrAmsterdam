@@ -1,18 +1,18 @@
-
 from classes.Board import Board
+from classes.Save import Save
 from copy import copy, deepcopy
+import time
 import random
 
 class Random:
-    def __init__(self, board, archive):
+    def __init__(self, board, archive, save):
         """
         Takes all information of the board with it's state as the beginning of the game.
         """
         self.board = board
         self.archive = archive
+        self.save = save
         self.archive.visitedStates[str(self.board.changeable)] = "beginning!"
-
-
 
     def semiRandomSelection(self):
         """
@@ -20,8 +20,7 @@ class Random:
         until solved. If al possible moves are visited states, it goes back one move.
         """
 
-        foldername = "random"
-
+        print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Running algorithm...")
 
         while self.board.checkSolution() != 0:
 
@@ -39,26 +38,6 @@ class Random:
             else:
                 self.board.changeable = self.archive.visitedStates[str(self.board.changeable)]
 
-        path = self.pathSolution(self.board.changeable)
-        return len(path)
+        print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")
 
-    def pathSolution(self, solutionState):
-            """
-            Visualizes the path found through breadth first search.
-            """
-            path = [solutionState]
-
-            child = copy(solutionState)
-
-            parent = self.archive.visitedStates[str(child)]
-
-            while self.archive.visitedStates[str(child)] != "beginning!":
-                path.insert(0, parent)
-
-                child = parent
-                parent = self.archive.visitedStates[str(child)]
-
-            return path
-
-
-
+        return self.board.changeable

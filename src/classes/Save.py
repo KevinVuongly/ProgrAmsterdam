@@ -13,6 +13,8 @@ class Save:
         self.archive = archive
         self.colors = colors
 
+        self.endStateFolder = "solutions/endSolution/"
+
     def createGrid(self, changeable):
         """
         Creates a matrix representation of the board
@@ -151,6 +153,7 @@ class Save:
 
     def saveSolution(self, lastMove, gameType):
         """ Saves the found solution into a .csv and the end solutionstate in a .txt. """
+
         filename = "solutions/" + str(gameType) + "/" + str(self.gameNumber)
 
         with open(filename + ".csv", "w") as csvfile:
@@ -159,10 +162,15 @@ class Save:
             for row in self.path:
                 writer.writerow(row)
 
-        endStateFolder = "solutions/endSolution/"
+        self.saveEndSolution(lastMove)
 
-        if not os.path.exists(endStateFolder):
-            os.makedirs(endStateFolder)
+    def saveEndSolution(self, lastMove):
+        """ Saves the end solutionSate in a .txt file. Reason to split this in it's own function
+            is because the path isn't relevant for the random algorithm.
+        """
+        
+        print()
+        print("Saving the last move in {}.".format(self.endStateFolder))
 
-        with open(endStateFolder + str(self.gameNumber) + ".txt", "w") as textfile:
-    	    textfile.write("{}".format(lastMove))
+        with open(self.endStateFolder + str(self.gameNumber) + ".txt", "w") as textfile:
+            textfile.write("{}".format(lastMove))
