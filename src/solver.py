@@ -14,12 +14,7 @@ import math
 def solver():
 	pick = Pick()
 
-	firstgame = 1
-	lastgame = 7
-	initText = "Pick the game you want to solve for (1, 2, 3,... , {}): ".format(lastgame)
-	initErrorText = "Please pick an existing game."
-
-	data = pick.pickNumber(initText, initErrorText, firstgame, lastgame)
+	data = pick.pickGame()
 
 	algorithms = ["bfs", "astar", "dfs"]
 
