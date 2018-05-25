@@ -31,7 +31,7 @@ class BFS:
             if type = heuristic:
                 Runs breadth first search with blocking red car heuristic. Checks the amount of cars
                 blocking the way of the red car. Also keeps track of the level e.g. the amount of steps
-                it took to get to the given board state.
+                it took to get to the given board state. It's basically A*-search with a very weak heuristic.
             if type = beamsearch:
                 Uses breadth first search "beam search" according to the "positionScore" heuristic
                 in the heuristic class. See Heuristics.py for more information about the used heuristic.
