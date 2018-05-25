@@ -38,7 +38,7 @@ When picking Beam Search:
 - Input for the beam width
 
 ## Solutions
-If the solver finds a solution, the solution(as a visualization and in a .csv file) will be saved in the __/solutions/the used algorithm/the game number/..__ folder. Some algorithms that we've implemented need a destination point.
+If the solver finds a solution, the solution(as a visualization and in a .csv file) will be saved in the __/solutions/the used algorithm/..__ folder. Some algorithms that we've implemented need a destination point.
 Therefore the last move of a solution will be saved in __/solutions/endSolution__.
 
 ## Authors
