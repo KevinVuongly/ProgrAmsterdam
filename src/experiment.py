@@ -26,12 +26,12 @@ def main():
 	saveFile = Save(gameNumber, game, archive, beginState.colors)
 
 	random = Random(game, archive)
-	
+
 	solutions = []
 
 	for i in range(0,3000):
 		newGame = deepcopy(random)
-		solution = newGame.semiRandomSelection()
+		lastMove, solution = newGame.semiRandomSelection()
 		solutions.append(solution)
 		print(i)
 
