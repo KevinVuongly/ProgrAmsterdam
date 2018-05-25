@@ -55,7 +55,7 @@ class BFS:
             elif type == "heuristic":
                 self.archive.addChildBFSheuristic(standbyQueue, children, self.level)
             elif type == "beamsearch":
-                self.archive.addChildBeamSearch(1, standbyQueue, children, self.solution)
+                self.archive.addChildBeamSearch(standbyQueue, children, self.solution)
 
             if not queue.empty():
                 self.board.changeable = queue.get()

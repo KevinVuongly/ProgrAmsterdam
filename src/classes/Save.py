@@ -148,28 +148,6 @@ class Save:
         for i in range(len(self.path)):
             self.visualize(self.path[i], i, folder)
 
-    def getPath(self, solutionState):
-        """ Get's the path of the solution, needed for the experiments.
-
-        Args:
-            solutionState (list): Last state of the solution e.g. last move.
-
-        Return:
-            path (list of lists): The path of the solution.
-        """
-        path = [solutionState]
-
-        child = copy(solutionState)
-        parent = self.archive.visitedStates[str(child)]
-
-        while self.archive.visitedStates[str(child)] != "beginning!":
-            path.insert(0, parent)
-
-            child = parent
-            parent = self.archive.visitedStates[str(child)]
-
-        return path
-
     def createPathSolution(self, child):
         """ Creates the path using the archive by updating self.path.
 
@@ -213,6 +191,28 @@ class Save:
 
             child = parent
             parent = self.archive.visitedStates[str(child)][0]
+
+    def getPath(self, solutionState):
+        """ Get's the path of the solution, needed for the experiments.
+
+        Args:
+            solutionState (list): Last state of the solution e.g. last move.
+
+        Return:
+            path (list of lists): The path of the solution.
+        """
+        path = [solutionState]
+
+        child = copy(solutionState)
+        parent = self.archive.visitedStates[str(child)]
+
+        while self.archive.visitedStates[str(child)] != "beginning!":
+            path.insert(0, parent)
+
+            child = parent
+            parent = self.archive.visitedStates[str(child)]
+
+        return path
 
     def saveSolution(self, lastMove, gameType):
         """ Saves the found solution into a .csv and the end solutionstate in a .txt.
