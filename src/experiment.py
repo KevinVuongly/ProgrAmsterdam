@@ -29,7 +29,7 @@ def main():
 	
 	solutions = []
 
-	for i in range(0,10000):
+	for i in range(0,3000):
 		newGame = deepcopy(random)
 		solution = newGame.semiRandomSelection()
 		solutions.append(solution)
