@@ -30,7 +30,7 @@ class Random:
             The last state e.g. the last move of the solution.
         """
 
-        print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Running algorithm...")
+        print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Running algorithm...\n")
 
         while self.board.checkSolution() != 0:
 
@@ -48,7 +48,7 @@ class Random:
             else:
                 self.board.changeable = self.archive.visitedStates[str(self.board.changeable)]
 
-        print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")
+        print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.\n")
 
         path = self.save.getPath(self.board.changeable)
 
