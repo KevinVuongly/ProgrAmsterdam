@@ -52,7 +52,7 @@ class Astar:
         self.save.pathSolution(self.board.changeable, "AStar", astar=True)
         self.save.saveSolution(self.board.changeable, "AStar")
 
-        print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.")
+        print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.\n")
 
         return self.board.changeable
 
@@ -68,6 +68,6 @@ class Astar:
 
         self.endpoint = None
 
-        print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Running algorithm...")
+        print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Running algorithm...\n")
 
         return solutionState
