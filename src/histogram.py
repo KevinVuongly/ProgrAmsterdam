@@ -22,7 +22,8 @@ y = []
 for [state] in x:
 	y.append(state)
 
-num_bins = 10
-n, bins, patches = plt.hist(y, num_bins, normed=1, facecolor='blue', alpha=0.5)
+
+num_bins = 1000
+n, bins, patches = plt.hist(y, num_bins, normed=1, facecolor='blue', alpha=0.5, range = (0,7000))
 plt.title(r'Histogram of nr of moves for solution random algorithm: game %i' %gameNumber)
 plt.show()
