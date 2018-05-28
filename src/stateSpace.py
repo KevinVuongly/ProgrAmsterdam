@@ -5,6 +5,7 @@ import numpy
 
 
 def main():
+	""" Checks the states space for a given game """
 
 	game = Pick()
 	gameNumber = game.pickGame() # Choose game

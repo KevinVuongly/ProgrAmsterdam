@@ -10,7 +10,7 @@ from classes.Pick import *
 import numpy as np
 
 
-
+""" Creates a histogram, for the nr of steps per solution from random runs """
 
 game = Pick()
 gameNumber = game.pickGame()
