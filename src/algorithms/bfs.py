@@ -178,10 +178,10 @@ class BFS:
             elif self.type == "beamsearch":
                 folderName = "BFSBeamSearch"
 
+            print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.\n")
+
             self.save.pathSolution(self.board.changeable, folderName)
             self.save.saveSolution(self.board.changeable, folderName)
-
-            print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution found.\n")
 
         else:
             print ("[" + (time.strftime("%H:%M:%S")) + "]" + " Solution not found. Please retry.\n")
